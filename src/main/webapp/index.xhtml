@@ -3,6 +3,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:f="http://xmlns.jcp.org/jsf/core"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
       xmlns:p="http://primefaces.org/ui">
     <h:head>
         <title>TODO supply a title</title>
@@ -11,5 +12,12 @@
     <h:body>
         <h1>Hello Jsf</h1>
         <p><h:outputText value="This is a text for test Java ServerFaces"/></p>
+        <ui:repeat value="${productsBean.products}" var="product" >
+            <ul>
+                <li><strong>Id: </strong>${product.getId()}</li>
+                <li><strong>Id: </strong>${product.getName()}</li>
+                <li><strong>Id: </strong>${product.getPrice()}</li>
+            </ul>
+        </ui:repeat>
     </h:body>
 </html>

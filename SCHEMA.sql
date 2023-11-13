@@ -11,7 +11,7 @@ CREATE TABLE product(
     stock INT NOT NULL,
     unit VARCHAR(10) NOT NULL,
     expiration_date DATE NULL,
-    active BOOLEAN NOT NUL,
+    active BOOLEAN NOT NULL,
     CONSTRAINT pk_product_id PRIMARY KEY (id)
 );
 

@@ -1,4 +1,4 @@
-package com.edgq.shopsystem.utils;
+package com.edgq.utils;
 
 /**
  *
