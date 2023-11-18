@@ -10,16 +10,12 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import java.util.Date;
 import java.util.Objects;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.Setter;
-
+import lombok.Data;
 /**
  *
  * @author edwin
  */
-@Getter
-@Setter
+@Data
 @Entity
 @Table(name = "employee")
 public class Employee {
@@ -44,26 +40,13 @@ public class Employee {
     @OneToOne
     @JoinColumn(name = "user",columnDefinition = "id")
     private User user;
-
-    public Employee() {
-    }
     
-    @Builder
-    public Employee(Integer id, String name, String surname, Double salary, Date birthday, Integer age, String phoneNumber, String email, String address, Boolean active, User user) {
-        this.id = id;
-        this.name = name;
-        this.surname = surname;
-        this.salary = salary;
-        this.birthday = birthday;
-        this.age = age;
-        this.phoneNumber = phoneNumber;
-        this.email = email;
-        this.address = address;
-        this.active = active;
-        this.user = user;
-    }
+    @OneToOne(mappedBy = "employee")
+    private Sale sale;
     
-    
+    @OneToOne(mappedBy = "employee")
+    private Purchase purchase;
+       
     @Override
     public int hashCode() {
         int hash = 7;

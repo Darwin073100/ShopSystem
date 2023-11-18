@@ -8,16 +8,14 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 import java.util.Date;
 import java.util.Objects;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.Setter;
+import javax.persistence.OneToOne;
+import lombok.Data;
 
 /**
  *
  * @author edwin
  */
-@Getter
-@Setter
+@Data
 @Entity
 @Table(name = "customer")
 public class Customer {
@@ -39,7 +37,10 @@ public class Customer {
     @Column(name = "no_sales")
     private Integer noSales;
     private Boolean active;
-
+    
+    @OneToOne(mappedBy = "customer")
+    private Sale sale;
+    
     @Override
     public int hashCode() {
         int hash = 7;

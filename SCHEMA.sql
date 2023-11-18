@@ -87,8 +87,10 @@ CREATE TABLE sale_item(
     quantity INT NULL,
     total DOUBLE NOT NULL,
     CONSTRAINT pk_sale_item_id PRIMARY KEY (id),
-    CONSTRAINT fk_sale_item_product_product_id FOREIGN KEY(product_id) 
-        REFERENCES product (id)
+    CONSTRAINT fk_sale_item_product_product_id FOREIGN KEY(product_id)
+        REFERENCES product (id),
+    CONSTRAINT fk_sale_item_sale_sale_id FOREIGN KEY(sale_id)
+        REFERENCES  sale(id)
 );
 
 CREATE TABLE purchase(
@@ -113,5 +115,7 @@ CREATE TABLE purchase_item(
     total DOUBLE NOT NULL,
     CONSTRAINT pk_purchase_item_id PRIMARY KEY (id),
     CONSTRAINT fk_purchase_item_product_product_id FOREIGN KEY(product_id) 
-        REFERENCES product (id)
+        REFERENCES product (id),
+    CONSTRAINT fk_purchase_item_purchase_purchase_id FOREIGN KEY(purchase_id)
+        REFERENCES purchase(purchase_id)
 );

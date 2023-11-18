@@ -10,17 +10,15 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import java.util.Date;
 import java.util.Objects;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.Setter;
+import javax.persistence.OneToOne;
+import lombok.Data;
 
 /**
  *
  * @author edwin
  */
 
-@Getter
-@Setter
+@Data
 @Entity
 @Table(name = "product")
 public class Product {
@@ -37,6 +35,12 @@ public class Product {
     @Temporal(TemporalType.DATE)
     private Date expirationDate;
     private Boolean active;
+    
+    @OneToOne(mappedBy = "product")
+    private SaleItem saleItem;
+    
+    @OneToOne(mappedBy = "product")
+    private PurchaseItem purchaseItem;
 
     @Override
     public int hashCode() {

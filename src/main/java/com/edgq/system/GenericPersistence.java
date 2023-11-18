@@ -41,7 +41,7 @@ public abstract class GenericPersistence<T> implements CrudMethods<T>{
     
     @Override
     public List<T> findAll(){
-        return em.createNamedQuery("SELECT T FROM " + entityClass + " T")
+        return em.createNamedQuery("SELECT t FROM " + entityClass + " t")
                 .getResultList();
     }
     

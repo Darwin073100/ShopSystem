@@ -5,11 +5,15 @@
         <jta-data-source>jdbc/__shop_system</jta-data-source>
         <exclude-unlisted-classes>false</exclude-unlisted-classes>
         <shared-cache-mode>ENABLE_SELECTIVE</shared-cache-mode>
+    
+        <!-- Configuración de EclipseLink para eliminar y recrear tablas -->
         <properties>
-            <property name="eclipselink.jpa.uppercase-column-names" value="true"/>
-            <!--property name="javax.persistence.schema-generation.database.action" value="none"/-->
+            <property name="eclipselink.jpa.uppercase-column-names" value="false"/>
+            <property name="eclipselink.ddl-generation" value="none"/>
+            <property name="eclipselink.ddl-generation.output-mode" value="database"/>
+            <property name="eclipselink.logging.level" value="FINE"/>
         </properties>
-    </persistence-unit>
+    </persistence-unit>    
     <!--    <persistence-unit name="shop_system_unit">
         <description>Connection with MySQL</description>
         <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
@@ -24,4 +28,17 @@
         </properties>
     </persistence-unit>-->
     
+<!--    <persistence-unit name="shop_system_unit" transaction-type="JTA">
+        <jta-data-source>jdbc/__shop_system</jta-data-source>
+        <exclude-unlisted-classes>false</exclude-unlisted-classes>
+        <shared-cache-mode>ENABLE_SELECTIVE</shared-cache-mode>
+    
+         Cambia la propiedad de EclipseLink por la propiedad de Hibernate 
+        <properties>
+            <property name="hibernate.show_sql" value="true"/>
+            <property name="hibernate.format_sql" value="true"/>
+            <property name="hibernate.hbm2ddl.auto" value="create"/>
+            <property name="hibernate.dialect" value="org.hibernate.dialect.MySQLDialect"/>
+        </properties>
+    </persistence-unit>-->
 </persistence>

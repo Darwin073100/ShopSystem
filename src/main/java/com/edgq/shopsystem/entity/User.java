@@ -11,16 +11,13 @@ import javax.persistence.Id;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import java.util.Objects;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
 
 /**
  *
  * @author edwin
  */
-@Getter
-@Setter
+@Data
 @Entity
 @Table(name = "user")
 public class User {
