@@ -11,6 +11,7 @@ En este proyecto vamos a controlar distintas entidades y procesos, es simular un
 - Docker Compose
 - MySQL
 - Payara v5
+- Bootstrap v5
 
 ## Configuración para Payara 5
 - Descarga payara : [Payara Platform Community Edition – Payara Services Ltd](https://www.payara.fish/downloads/payara-platform-community-edition/http:// "Payara Platform Community Edition – Payara Services Ltd").
