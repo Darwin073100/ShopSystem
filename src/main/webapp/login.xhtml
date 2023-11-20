@@ -1,0 +1,79 @@
+<ui:composition template="/WEB-INF/Layouts/LoginLayout.xhtml"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:f="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:p="http://primefaces.org/ui">
+    <ui:define name="title">Login</ui:define>
+
+    <ui:define name="head">
+        <style>
+            body{
+                background: var(--color-purple-1);
+            }
+            form{
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+                height: 100vh;
+                width: 100%;
+            }
+            .login{
+                padding: 10px;
+                width: 300px;
+                height: 400px;
+                background: var(--color-purple-2);
+                display: flex;
+                flex-direction: column;
+                justify-content: space-evenly;
+                align-items: center;
+                border-radius: 4px;
+            }
+            .login-body{
+                width: 100%;
+                display: flex;
+                flex-direction: column;
+            }
+            
+            .login-body > *{
+                margin: 5px
+            }
+            
+            .login-footer{
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .login-footer > *{
+                text-decoration: none;
+                color: var(--color-white-1);
+                margin: 5px;
+                transition: color 0.6s;
+            }
+
+        </style>
+    </ui:define>
+
+    <ui:define name="body">
+        <main class="form">
+            <h:form>
+                <p:messages closable="true" id="message" showIcon="false" />
+                <div class="login">
+                    <div class="login-header">
+                        <h1 class="text-white">Bienvenido</h1>
+                    </div>
+                    <div class="login-body">
+                        <p:inputText value="#{sessionBean.email}" placeholder="Ingresa tu email" required="true" id="txtEmail" label="Email"/>
+                        <p:password value="#{sessionBean.password}" placeholder="Ingresa tu contraseña" required="true" id="txtPassword" label="Password"/>
+                        <p:commandButton value="Login" action="#{sessionBean.login()}" update="message" id="btnLogin" style="margin: 14px 0 14px 0 "/>
+                    </div>
+                    <div class="login-footer">
+                        <h:commandLink action="#" value="¿Perdiste tu contraseña?"/>
+                        <h:commandLink action="#" value="¿No tines una cuenta? Registrate"/>
+                    </div>
+                </div>
+            </h:form>
+        </main>
+    </ui:define>
+</ui:composition>

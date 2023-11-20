@@ -1,7 +1,11 @@
 * {
     margin: 0;
     padding: 0;
-    background: white;
 }
 
-
+:root{
+    --color-purple-1: #363062;
+    --color-purple-2: #4D4C7D;
+    --color-orange-1: #F99417;
+    --color-white-1: #F5F5F5;
+}
