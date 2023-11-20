@@ -1,6 +1,9 @@
 # Shop System
 En este proyecto vamos a controlar distintas entidades y procesos, es simular un sistema de administración, donde podamos tener **Empleados**, **Productos**, **Clientes**, **Proveedores**, entre otras entidades mas que se muestran en el diagrama mas adelante.
 
+## Diagrama ER
+![](./src/main/webapp/resources/assets/ShopSystem.jpg)
+
 ## Herramientas utilizadas
 - OpenJDK v11
 - Java EE v8

@@ -64,9 +64,12 @@
                         <h1 class="text-white">Bienvenido</h1>
                     </div>
                     <div class="login-body">
-                        <p:inputText value="#{sessionBean.email}" placeholder="Ingresa tu email" required="true" id="txtEmail" label="Email"/>
-                        <p:password value="#{sessionBean.password}" placeholder="Ingresa tu contraseña" required="true" id="txtPassword" label="Password"/>
-                        <p:commandButton value="Login" action="#{sessionBean.login()}" update="message" id="btnLogin" style="margin: 14px 0 14px 0 "/>
+                        <p:inputText value="#{sessionBean.email}" placeholder="Ingresa tu email" 
+                                     required="true" id="txtEmail" label="Email"/>
+                        <p:password value="#{sessionBean.password}" placeholder="Ingresa tu contraseña" 
+                                    required="true" id="txtPassword" label="Password"/>
+                        <p:commandButton value="Login" action="#{sessionBean.login()}" update="message" 
+                                         id="btnLogin" style="margin: 14px 0 14px 0 " styleClass="ui-button-secondary"/>
                     </div>
                     <div class="login-footer">
                         <h:commandLink action="#" value="¿Perdiste tu contraseña?"/>
