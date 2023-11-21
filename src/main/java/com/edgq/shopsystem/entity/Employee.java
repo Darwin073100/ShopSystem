@@ -21,24 +21,30 @@ import lombok.Data;
 public class Employee {
     
     @Id
+    @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-    @Column(length = 100)
+    @Column(name = "name", length = 100)
     private String name;
-    @Column(length = 150)
+    @Column(name = "surname", length = 150)
     private String surname;
+    @Column(name = "salary")
     private Double salary;
+    @Column(name = "birthday")
     private Date birthday;
+    @Column(name = "age")
     private Integer age;
     @Column(name = "phone_number")
     private String phoneNumber;
-    @Column(unique = true)
+    @Column(name = "email", unique = true)
     private String email;
-    @Column(nullable = true)
+    @Column(name = "address", nullable = true)
     private String address;
+    @Column(name = "active")
     private Boolean active;
+    
     @OneToOne
-    @JoinColumn(name = "user",columnDefinition = "id")
+    @JoinColumn(columnDefinition = "id")
     private User user;
     
     @OneToOne(mappedBy = "employee")

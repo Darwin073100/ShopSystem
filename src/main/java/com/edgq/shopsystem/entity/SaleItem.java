@@ -24,10 +24,10 @@ public class SaleItem {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     @ManyToOne
-    @JoinColumn(insertable = false, updatable = false)
+    @JoinColumn(insertable = false, updatable = false, referencedColumnName = "id")
     private Sale sale;
     @OneToOne
-    @JoinColumn(insertable = false, updatable = false)
+    @JoinColumn(insertable = false, updatable = false, referencedColumnName = "id")
     private Product product;
     private Integer quantity;
     private Double total;

@@ -27,10 +27,10 @@ public class Purchase {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     @OneToOne
-    @JoinColumn(insertable = false, updatable = false)
+    @JoinColumn(insertable = false, updatable = false, referencedColumnName = "id")
     private Employee employee;
     @OneToOne
-    @JoinColumn(insertable = false, updatable = false)
+    @JoinColumn(insertable = false, updatable = false, referencedColumnName = "id")
     private Provider provider;
     private Double total;
     @Temporal(TemporalType.DATE)

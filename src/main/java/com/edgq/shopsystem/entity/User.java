@@ -24,12 +24,13 @@ public class User {
     
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
     private Integer id;
     @Column(name = "user_name", length = 50)
     private String userName;
     @Column(name = "user_password", length = 100)
     private String userPassword;
-    @Column(length = 50)
+    @Column(name = "type", length = 50)
     @Enumerated(EnumType.STRING)
     private Type type;
     

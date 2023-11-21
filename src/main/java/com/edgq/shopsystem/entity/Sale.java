@@ -39,10 +39,10 @@ public class Sale {
     @Temporal(TemporalType.DATE)
     private Date date;
     @OneToOne
-    @JoinColumn
+    @JoinColumn(referencedColumnName = "id")
     private Employee employee;
     @OneToOne
-    @JoinColumn
+    @JoinColumn(referencedColumnName = "id")
     private Customer customer;
     
     @OneToMany(mappedBy = "sale")
