@@ -4,11 +4,7 @@ import com.edgq.shopsystem.entity.User;
 import com.edgq.shopsystem.service.UserService;
 import com.edgq.shopsystem.tools.FacesUtils;
 import java.io.Serializable;
-import java.sql.SQLException;
-import javax.ejb.EJBException;
 import javax.enterprise.context.SessionScoped;
-import javax.faces.application.FacesMessage;
-import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
 import lombok.Getter;
@@ -22,6 +18,8 @@ import lombok.Setter;
 @SessionScoped
 public class SessionBean implements Serializable{
     private static final String INCORRECTS_DATA = "¡Email o contraseña incorrecta!";
+    @Getter
+    private User userInSession = null;
     @Getter
     @Setter
     private String password;
@@ -38,7 +36,8 @@ public class SessionBean implements Serializable{
             u = service.findByEmail(email);
             if(u != null){
                 if(email.equals(u.getUserName()) && password.equals(u.getUserPassword())){
-                    return "home.xhtml?faces-redirect=true";
+                    userInSession = u;
+                    return "/pages/home.xhtml?faces-redirect=true";
                 } else {
                     System.out.println("Contraseña incorrecta");
                     FacesUtils.messageError(INCORRECTS_DATA, null);
