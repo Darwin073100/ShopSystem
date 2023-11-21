@@ -5,6 +5,7 @@ import com.edgq.shopsystem.service.UserService;
 import com.edgq.shopsystem.tools.FacesUtils;
 import java.io.Serializable;
 import javax.enterprise.context.SessionScoped;
+import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
 import lombok.Getter;
@@ -36,6 +37,7 @@ public class SessionBean implements Serializable{
             u = service.findByEmail(email);
             if(u != null){
                 if(email.equals(u.getUserName()) && password.equals(u.getUserPassword())){
+                    System.out.println("SessionBean.......");
                     userInSession = u;
                     return "/pages/home.xhtml?faces-redirect=true";
                 } else {
@@ -52,6 +54,15 @@ public class SessionBean implements Serializable{
             System.out.println(e.getClass().getName());
         }
         return null;
+    }
+    
+    public String logout(){
+        FacesContext.getCurrentInstance().getExternalContext().invalidateSession();
+        return "/login.xhtml?faces-redirect=true";
+    }
+    
+    public boolean isLogged(){
+        return userInSession != null ? true: false;
     }
     
 }
