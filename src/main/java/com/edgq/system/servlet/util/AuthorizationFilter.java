@@ -12,11 +12,12 @@ import javax.servlet.ServletResponse;
 import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 /**
  *
  * @author edwin
+ * - Esta clase sirve para filtrar las rutas, para que protegerlas y forzar al usuario a iniciar sesión,
+ *   que deba ingresar su usuario y contraseña.
  */
 @WebFilter(urlPatterns = "*.xhtml")
 public class AuthorizationFilter implements Filter {
@@ -37,21 +38,12 @@ public class AuthorizationFilter implements Filter {
         try {
             HttpServletResponse response = (HttpServletResponse) res;
             HttpServletRequest request = (HttpServletRequest) req;
-            HttpSession ses = request.getSession(false);
-            
-            System.out.println("Inicio-----------");
-            System.out.println(!session.isLogged());
-            System.out.println(!request.getRequestURI().endsWith("/login.xhtml"));
-            System.out.println(!request.getRequestURI().contains("/javax.faces.resources/"));
-            System.out.println("Fin-----------"); 
             
             if (!session.isLogged() && !request.getRequestURI().endsWith("/login.xhtml")
                     && !request.getRequestURI().contains("/javax.faces.resources/")) {
-                System.out.println("Filter...");
                 response.sendRedirect(request.getContextPath() + "/login.xhtml");
             } else {
                 chain.doFilter(req, res);
-                System.out.println("Normal...");
             }
         } catch (Exception e) {
             System.out.println(e.getMessage());

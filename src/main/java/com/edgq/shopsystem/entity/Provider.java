@@ -19,18 +19,22 @@ import lombok.Data;
 public class Provider {
     
     @Id
+    @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-    @Column(length = 100)
+    @Column(name = "name",length = 100)
     private String name;
-    @Column(length = 150)
+    @Column(name = "surname",length = 150)
     private String surname;
+    @Column(name = "age")
     private Integer age;
     @Column(name = "phone_number", length = 20)
     private String phoneNumber;
-    @Column(unique = true)
+    @Column(name = "email",unique = true)
     private String email;
+    @Column(name = "company")
     private String company;
+    @Column(name = "active")
     private Boolean active;
 
     @Override

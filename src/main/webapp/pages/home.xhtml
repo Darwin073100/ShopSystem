@@ -1,7 +1,7 @@
 <ui:composition template="../WEB-INF/Layouts/LoginLayout.xhtml" 
-    xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
-    xmlns:h="http://xmlns.jcp.org/jsf/html"
-    xmlns:p="http://primefaces.org/ui">
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:p="http://primefaces.org/ui">
     <ui:define name="title">Home</ui:define>
     <ui:define name="head">
         <style>
@@ -15,6 +15,33 @@
                 justify-content: space-between;
                 align-items: center;
             }
+            .height-nav-bar{
+                width: 120px;
+                display: flex;
+                flex-direction: column;
+                padding: 8px;
+                gap: 8px;
+                
+            }
+            .height-nav-bar-item{
+                width: 100px;
+                height: 100px;
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+                gap: 5px;
+                border: none;
+                border-radius: 50%;
+                background: var(--color-white-2);
+                padding: 4px;
+            }
+            .height-nav-bar-item:hover{
+                transition: background 0.5s;
+                background: var(--color-purple-2);
+                color: var(--color-white-1);
+                
+            }
         </style>
     </ui:define>
     <ui:define name="body">
@@ -23,11 +50,40 @@
                 <span>Shop System</span>
             </div>
             <div class="nav-bar-session">
-                <spam>#{sessionBean.userInSession.userName}(${sessionBean.userInSession.type})</spam>
                 <h:form>
-                    <h:commandButton value="Cerrar sesion" action="#{sessionBean.logout()}"/>
+                    <spam> <i class="pi pi-user"></i> #{sessionBean.userInSession.userName}(${sessionBean.userInSession.type}) </spam>
+                    <p:commandButton icon="pi pi-sign-in" action="#{sessionBean.logout()}" styleClass="rounded-button ui-button-warning"/>
                 </h:form>
             </div>
         </header>
+        <div class="container-body">
+            <h:form>
+                <div class="height-nav-bar">
+                    <button onclick="" class="height-nav-bar-item">
+                        <i class="pi pi-home" style="font-size: 1.5rem"></i>
+                        <span>Inicio</span>
+                    </button>
+                    <button onclick="" class="height-nav-bar-item">
+                        <i class="pi pi-shopping-cart" style="font-size: 1.5rem"></i>
+                        <span>Ventas</span>
+                    </button>
+                    <button onclick="" class="height-nav-bar-item">
+                        <i class="pi pi-shopping-bag" style="font-size: 1.5rem"></i>
+                        <span>Compras</span>
+                    </button>
+                    <button onclick="" class="height-nav-bar-item">
+                        <i class="pi pi-qrcode" style="font-size: 1.5rem"></i>
+                        <span>Productos</span>
+                    </button>
+                    <button onclick="" class="height-nav-bar-item">
+                        <i class="pi pi-user" style="font-size: 1.5rem"></i>
+                        <span>Empleados</span>
+                    </button>
+                </div>
+                <main>
+
+                </main>
+            </h:form>
+        </div>
     </ui:define>
 </ui:composition>

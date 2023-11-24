@@ -24,16 +24,21 @@ import lombok.Data;
 public class Product {
 
     @Id
+    @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
+    @Column(name = "name")
     private String name;
+    @Column(name = "price")
     private Double price;
+    @Column(name = "stock")
     private Integer stock;
-    @Column(length = 50)
+    @Column(name = "unit",length = 50)
     private String unit;
     @Column(name = "expiration_date")
     @Temporal(TemporalType.DATE)
     private Date expirationDate;
+    @Column(name = "active")
     private Boolean active;
     
     @OneToOne(mappedBy = "product")

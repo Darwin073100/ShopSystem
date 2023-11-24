@@ -6,6 +6,11 @@
 :root{
     --color-purple-1: #363062;
     --color-purple-2: #4D4C7D;
+    --color-blue-1: #00A9FF;
+    --color-blue-2: #89CFF3;
+    --color-blue-3: #A0E9FF;
+    --color-blue-4: #CDF5FD;
     --color-orange-1: #F99417;
     --color-white-1: #F5F5F5;
+    --color-white-2: #E0F4FF;
 }
