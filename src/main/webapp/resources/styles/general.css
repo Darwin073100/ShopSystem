@@ -4,6 +4,11 @@
 }
 
 :root{
+    --color-modal-1: rgb(0 0 0 / 50%);
+    --color-dark-1: #000000;
+    --color-dark-2: #333333;
+    --color-dark-3: #666666;
+    --color-dark-4: #cccccc;
     --color-purple-1: #363062;
     --color-purple-2: #4D4C7D;
     --color-blue-1: #00A9FF;

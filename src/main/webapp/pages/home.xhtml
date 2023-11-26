@@ -15,75 +15,155 @@
                 justify-content: space-between;
                 align-items: center;
             }
-            .height-nav-bar{
-                width: 120px;
+            
+            .nav-bar form{
                 display: flex;
-                flex-direction: column;
-                padding: 8px;
-                gap: 8px;
+                gap: 16px;
+                align-items: center;
+            }
+
+            .nav-bar-height-container{
+                top: 0;
+                right: 0;
+                position: fixed;
+                width: 100%;
+                height: 100vh;
+                z-index: 10;
+                display: none;
+                background: var(--color-modal-1);
+            }
+            .vertical-menu{
+                opacity: 100%;
+                width: 250px;
+                height: 100%;
+                background: var(--color-white-1);
+                box-shadow: var(--color-modal-1) 4px 0px 10px;
+                border-radius: 0 16px 16px 0;
+                color: var(--color-dark-3);
+            }
+            .vertical-menu-item-container{
                 
             }
-            .height-nav-bar-item{
+            
+            .vertical-menu-item{
+                display: flex;
+                align-items: center;
+                gap: 20px;
+                width: 100%;
+                border: none;
+                padding: 8px;
+                background: var(--color-white-1);
+                color: var(--color-dark-3);
+            }
+            
+            .vertical-menu-item:hover{
+                background-color: var(--color-purple-2);
+                color: var(--color-white-1);
+            }
+            
+            .section-close{
+                padding: 8px;
+                display: flex;
+                width: 100%;
+                justify-content: space-between;
+                border-bottom: 1px var(--color-dark-4) solid;
+            }
+            .vertical-menu-user-info{
+                padding: 16px 0 16px 0;
+            }
+            .vertical-menu-user-info .item-picture{
+                padding: 12px;
+                display: flex;
+                justify-content: center; 
+            }
+            
+            .vertical-menu-user-info div{
+                padding: 12px;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                justify-content: center; 
+            }
+            
+            .vertical-menu-user-info .picture-user{
                 width: 100px;
                 height: 100px;
-                display: flex;
-                flex-direction: column;
-                justify-content: center;
-                align-items: center;
-                gap: 5px;
-                border: none;
+                border: 2px var(--color-purple-2) solid;
                 border-radius: 50%;
-                background: var(--color-white-2);
-                padding: 4px;
             }
-            .height-nav-bar-item:hover{
-                transition: background 0.5s;
-                background: var(--color-purple-2);
-                color: var(--color-white-1);
-                
-            }
+
         </style>
     </ui:define>
     <ui:define name="body">
         <header class="nav-bar">
             <div class="nav-bar-sy">
+                <p:commandButton icon="pi pi-bars" styleClass="rounded-button ui-button-help" id="openMenu" 
+                                 style="background-color: var(--color-purple-1); border: var(--color-purple-1) 1px solid;"/>
                 <span>Shop System</span>
+                <div class="nav-bar-height-container" id="menu">
+                    <div class="vertical-menu">
+                        <div class="section-close">
+                            <h3>Menú</h3>
+                            <p:commandButton icon="pi pi-times" class="rounded-button ui-button-danger ui-button-outlined" id="close"/>
+                        </div>
+                        <div class="vertical-menu-user-info">
+                            <div class="item-picture">
+                                <h:graphicImage library="assets" name="user.svg" alt="user" class="picture-user"/>
+                            </div>
+                            <div>
+                                <h5>Edwin Garcia Quiterio</h5>
+                                <span>#{sessionBean.userInSession.userName} 
+                                    <span class="badge bg-danger">#{sessionBean.userInSession.type}</span> 
+                                </span>
+                            </div>
+                        </div>
+                        <div class="vertical-menu-item-container">
+                            <ui:repeat value="#{homeBean.menuItems}" var="item">
+                                <button class="vertical-menu-item">
+                                    <i class="pi #{item.getIcon()}"></i>
+                                    <span><h:outputText value="#{item.getValue()}" /></span>
+                                </button>
+                            </ui:repeat>
+                        </div>
+                    </div>
+                </div>
             </div>
             <div class="nav-bar-session">
                 <h:form>
-                    <spam> <i class="pi pi-user"></i> #{sessionBean.userInSession.userName}(${sessionBean.userInSession.type}) </spam>
-                    <p:commandButton icon="pi pi-sign-in" action="#{sessionBean.logout()}" styleClass="rounded-button ui-button-warning"/>
+                    <spam> <i class="pi pi-user"></i> #{sessionBean.userInSession.userName} <span class="badge bg-secondary">${sessionBean.userInSession.type}</span> </spam>
+                    <p:commandButton icon="pi pi-sign-in" action="#{sessionBean.logout()}" styleClass="rounded-button"
+                                     style="background-color: var(--color-purple-1); border: var(--color-purple-1) 1px solid;"/>
                 </h:form>
             </div>
         </header>
         <div class="container-body">
             <h:form>
-                <div class="height-nav-bar">
-                    <button onclick="" class="height-nav-bar-item">
-                        <i class="pi pi-home" style="font-size: 1.5rem"></i>
-                        <span>Inicio</span>
-                    </button>
-                    <button onclick="" class="height-nav-bar-item">
-                        <i class="pi pi-shopping-cart" style="font-size: 1.5rem"></i>
-                        <span>Ventas</span>
-                    </button>
-                    <button onclick="" class="height-nav-bar-item">
-                        <i class="pi pi-shopping-bag" style="font-size: 1.5rem"></i>
-                        <span>Compras</span>
-                    </button>
-                    <button onclick="" class="height-nav-bar-item">
-                        <i class="pi pi-qrcode" style="font-size: 1.5rem"></i>
-                        <span>Productos</span>
-                    </button>
-                    <button onclick="" class="height-nav-bar-item">
-                        <i class="pi pi-user" style="font-size: 1.5rem"></i>
-                        <span>Empleados</span>
-                    </button>
-                </div>
-                <main>
 
-                </main>
             </h:form>
         </div>
+        <script>
+            const openMenu = document.getElementById('openMenu');
+            const closeMenu = document.getElementById('close');
+            const menu = document.getElementById('menu');
+            let menuState = false;
+                       
+            function toggleMenu() {
+                menuState = !menuState;
+                if (!menuState) {
+                    menu.style.display = 'none';
+                } else {
+                    menu.style.display = 'block';
+                }
+            }
+
+            openMenu.addEventListener('click', () => {
+                toggleMenu();
+            })
+            
+            closeMenu.addEventListener('click', () => {
+                toggleMenu();
+            })
+
+        </script>
     </ui:define>
 </ui:composition>
