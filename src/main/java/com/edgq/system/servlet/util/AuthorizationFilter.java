@@ -12,6 +12,8 @@ import javax.servlet.ServletResponse;
 import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import lombok.Getter;
+import lombok.Setter;
 
 /**
  *
@@ -19,12 +21,13 @@ import javax.servlet.http.HttpServletResponse;
  * - Esta clase sirve para filtrar las rutas, para que protegerlas y forzar al usuario a iniciar sesión,
  *   que deba ingresar su usuario y contraseña.
  */
-@WebFilter(urlPatterns = "*.xhtml")
+@WebFilter(urlPatterns = {"*.xhtml","*.css","*.js","*.svg"})
 public class AuthorizationFilter implements Filter {
 
-    public AuthorizationFilter() {
-    }
-
+    @Getter
+    @Setter
+    private String path;
+    
     @Inject
     private SessionBean session;
 
@@ -38,6 +41,8 @@ public class AuthorizationFilter implements Filter {
         try {
             HttpServletResponse response = (HttpServletResponse) res;
             HttpServletRequest request = (HttpServletRequest) req;
+            path = request.getRequestURI();
+            System.out.println(path);
             
             if (!session.isLogged() && !request.getRequestURI().endsWith("/login.xhtml")
                     && !request.getRequestURI().contains("/javax.faces.resources/")) {

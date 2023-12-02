@@ -1,8 +1,10 @@
 package com.edgq.shopsystem.service;
 
+import com.edgq.shopsystem.entity.Employee;
 import com.edgq.shopsystem.entity.User;
 import com.edgq.system.GenericPersistence;
 import javax.ejb.Stateless;
+import javax.inject.Inject;
 
 /**
  *
@@ -14,11 +16,14 @@ public class UserService extends GenericPersistence<User>{
         super(User.class);
     }
     
-    public User findByEmail(String email) throws Exception{
+    @Inject
+    private EmployeeService employeeService;
+    
+    public User findByUserName(String userName) throws Exception{
         User user;
         try {
-            user = (User) em.createQuery("SELECT u FROM User u WHERE( u.userName = :email)")
-            .setParameter("email", email)
+            user = (User) em.createQuery("SELECT u FROM User u WHERE( u.userName = :userName)")
+            .setParameter("userName", userName)
             .getResultList()
             .get(0);
         } catch (Exception e) {
@@ -26,4 +31,9 @@ public class UserService extends GenericPersistence<User>{
         }
         return user;
     }
+    
+    public Employee findEmployeeWithUserByEmail(String email) throws Exception{
+        return employeeService.findByEmail(email);
+    }
+
 }

@@ -1,5 +1,6 @@
 package com.edgq.shopsystem.controller;
 
+import com.edgq.shopsystem.entity.Employee;
 import com.edgq.shopsystem.entity.User;
 import com.edgq.shopsystem.service.UserService;
 import com.edgq.shopsystem.tools.FacesUtils;
@@ -20,7 +21,7 @@ import lombok.Setter;
 public class SessionBean implements Serializable{
     private static final String INCORRECTS_DATA = "¡Email o contraseña incorrecta!";
     @Getter
-    private User userInSession = null;
+    private Employee userInSession = null;
     @Getter
     @Setter
     private String password;
@@ -32,13 +33,13 @@ public class SessionBean implements Serializable{
     private UserService service;
     
     public String login(){
-        User u = null;
+        Employee e = null;
         try {
-            u = service.findByEmail(email);
-            if(u != null){
-                if(email.equals(u.getUserName()) && password.equals(u.getUserPassword())){
+            e = service.findEmployeeWithUserByEmail(email);
+            if(e != null){
+                if(password.equals(e.getUser().getUserPassword())){
                     System.out.println("SessionBean.......");
-                    userInSession = u;
+                    userInSession = e;
                     return "/pages/home.xhtml?faces-redirect=true";
                 } else {
                     System.out.println("Contraseña incorrecta");
@@ -48,10 +49,10 @@ public class SessionBean implements Serializable{
                 System.out.println("El usuario es null");
                 FacesUtils.messageError(INCORRECTS_DATA, null);
             }
-        }catch (Exception e) {
+        }catch (Exception ex) {
             System.out.println("Error--bean--");
-            System.out.println(e.getMessage());
-            System.out.println(e.getClass().getName());
+            System.out.println(ex.getMessage());
+            System.out.println(ex.getClass().getName());
         }
         return null;
     }
