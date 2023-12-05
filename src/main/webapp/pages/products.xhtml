@@ -1,0 +1,14 @@
+<ui:composition template="../WEB-INF/Layouts/TemplateLayout.xhtml" 
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui">
+    <ui:define name="title-page">Productos</ui:define>
+    <ui:define name="head-page">
+        
+    </ui:define>
+    <ui:define name="body-page">
+        <ui:repeat value="#{productsBean.products}" var="product">
+            <span>#{product.getName()}</span>
+        </ui:repeat>
+    </ui:define>
+</ui:composition>

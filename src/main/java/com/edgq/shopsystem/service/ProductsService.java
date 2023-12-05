@@ -19,8 +19,13 @@ public class ProductsService extends GenericPersistence<Product> {
     
     @Override
     public List<Product> findAll(){
-        return em.createQuery("SELECT p FROM Product p", Product.class)
+        try {
+            return em.createQuery("SELECT p FROM Product p", Product.class)
                 .getResultList();
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            return null;
+        }
     }
     
 }

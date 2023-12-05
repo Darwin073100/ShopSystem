@@ -19,17 +19,22 @@ import lombok.Getter;
  */
 @Named
 @ViewScoped
-public class HomeBean implements Serializable {
+public class MainBean implements Serializable {
     
     @Getter
     private List<MenuItem> menuItems = new ArrayList<>();
     
     @PostConstruct
     public void init(){
-        menuItems.add(new MenuItem("Inicio","pi-home",null));
+        menuItems.add(new MenuItem("Inicio","pi-home","./home.xhtml?faces-redirect=true"));
+        menuItems.add(new MenuItem("Productos","pi-check","./products.xhtml?faces-redirect=true"));
         menuItems.add(new MenuItem("Ventas","pi-shopping-cart",null));
         menuItems.add(new MenuItem("Compras","pi-shopping-bag",null));
         menuItems.add(new MenuItem("Clientes","pi-user-plus",null));
         menuItems.add(new MenuItem("Usuarios","pi-users",null));
+    }
+    
+    public String redirect(String route){
+        return route;
     }
 }

@@ -44,10 +44,11 @@
                 color: var(--color-dark-3);
             }
             .vertical-menu-item-container{
-
+                width: 100%;
             }
 
             .vertical-menu-item{
+                text-decoration: none;
                 display: flex;
                 align-items: center;
                 gap: 20px;
@@ -93,7 +94,7 @@
                 border: 2px var(--color-purple-2) solid;
                 border-radius: 50%;
             }
-            
+
             @media ( max-width:400px ) {
                 .nav-bar-session{
                     display: none;
@@ -125,14 +126,17 @@
                                 </span>
                             </div>
                         </div>
-                        <div class="vertical-menu-item-container">
-                            <ui:repeat value="#{homeBean.menuItems}" var="item">
-                                <button class="vertical-menu-item">
-                                    <i class="pi #{item.getIcon()}"></i>
-                                    <span><h:outputText value="#{item.getValue()}" /></span>
-                                </button>
-                            </ui:repeat>
-                        </div>
+
+                        <h:form style="display: flex;width: 100%;">
+                            <div class="vertical-menu-item-container">
+                                <ui:repeat value="#{mainBean.menuItems}" var="item">
+                                    <h:commandLink class="vertical-menu-item" action="#{mainBean.redirect(item.getAction())}">
+                                        <i class="pi #{item.getIcon()}"></i>
+                                        <span><h:outputText value="#{item.getValue()}" /></span>
+                                    </h:commandLink>
+                                </ui:repeat>
+                            </div>
+                        </h:form>
                     </div>
                 </div>
             </div>
