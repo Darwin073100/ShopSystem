@@ -1,14 +1,74 @@
 <ui:composition template="../WEB-INF/Layouts/TemplateLayout.xhtml" 
                 xmlns:h="http://xmlns.jcp.org/jsf/html"
                 xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
-                xmlns:p="http://primefaces.org/ui">
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:f="http://xmlns.jcp.org/jsf/core">
     <ui:define name="title-page">Productos</ui:define>
     <ui:define name="head-page">
-        
+        <style>
+            .form-desktop{
+                padding: 20px;
+            }
+            .product-options{
+                display: flex;
+                justify-content: space-between;
+                gap: 8px;
+                width: 100%;
+            }
+            .product-options > *{
+                width: 50%;
+            }
+        </style>
     </ui:define>
     <ui:define name="body-page">
-        <ui:repeat value="#{productsBean.products}" var="product">
-            <span>#{product.getName()}</span>
-        </ui:repeat>
+        
+        <h:form class="form-desktop">
+            <p:commandButton value="Agregar" />
+            <p:dataTable value="#{productsBean.products}" var="product" >
+                <p:column>
+                    <f:facet name="header">
+                        <h:outputText value="Nombre"/>
+                    </f:facet>
+                    <h:outputText value="#{product.getName()}"/>
+                </p:column>
+                <p:column>
+                    <f:facet name="header">
+                        <h:outputText value="Precio" />
+                    </f:facet>
+                    <h:outputText value="#{product.getPrice()}" />
+                </p:column>
+                <p:column>
+                    <f:facet name="header">
+                        <h:outputText value="Existencias" />
+                    </f:facet>
+                    <h:outputText value="#{product.getStock()}" />
+                </p:column>
+                <p:column>
+                    <f:facet name="header">
+                        <h:outputText value="Unidad" />
+                    </f:facet>
+                    <h:outputText value="#{product.getUnit()}"  />
+                </p:column>
+                <p:column>
+                    <f:facet name="header">
+                        <h:outputText value="Caducidad" />
+                    </f:facet>
+                    <h:outputText value="#{product.getExpirationDate()}" />
+                </p:column>
+                <p:column>
+                    <f:facet name="header">
+                        <h:outputText value="Opciones" />
+                    </f:facet>
+                    <div class="product-options">
+                        <h:commandLink styleClass="btn btn-warning">
+                            <i class="pi pi-check"></i>
+                        </h:commandLink>
+                        <h:commandLink styleClass="btn btn-danger">
+                            <i class="pi pi-check"></i>
+                        </h:commandLink>
+                    </div>
+                </p:column>
+            </p:dataTable>
+        </h:form>
     </ui:define>
 </ui:composition>
