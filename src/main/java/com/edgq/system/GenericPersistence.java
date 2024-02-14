@@ -14,7 +14,6 @@ public abstract class GenericPersistence<T> implements CrudMethods<T>{
     
     @PersistenceContext(unitName = Constants.PERSISTENCE_UNIT)
     protected EntityManager em;
-//    protected EntityManager em;
     
     private final Class<T> entityClass;
     private String TABLE_NAME = "";

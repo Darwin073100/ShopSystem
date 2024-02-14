@@ -17,7 +17,6 @@ import lombok.Data;
  *
  * @author edwin
  */
-@Data
 @Entity
 @Table(name = "user")
 public class User {
@@ -37,6 +36,59 @@ public class User {
     @OneToOne(mappedBy = "user")
     private Employee employee;
 
+    public User() {
+    }
+
+    public User(Integer id, String userName, String userPassword, Type type, Employee employee) {
+        this.id = id;
+        this.userName = userName;
+        this.userPassword = userPassword;
+        this.type = type;
+        this.employee = employee;
+    }
+
+    
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public String getUserName() {
+        return userName;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
+    }
+
+    public String getUserPassword() {
+        return userPassword;
+    }
+
+    public void setUserPassword(String userPassword) {
+        this.userPassword = userPassword;
+    }
+
+    public Type getType() {
+        return type;
+    }
+
+    public void setType(Type type) {
+        this.type = type;
+    }
+
+    public Employee getEmployee() {
+        return employee;
+    }
+
+    public void setEmployee(Employee employee) {
+        this.employee = employee;
+    }
+
+    
     @Override
     public int hashCode() {
         int hash = 7;

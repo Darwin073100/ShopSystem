@@ -159,11 +159,9 @@
 
             function toggleMenu() {
                 menuState = !menuState;
-                if (!menuState) {
-                    menu.style.display = 'none';
-                } else {
+                !menuState ? 
+                    menu.style.display = 'none': 
                     menu.style.display = 'block';
-                }
             }
 
             openMenu.addEventListener('click', () => {

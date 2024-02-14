@@ -11,14 +11,12 @@ import javax.persistence.TemporalType;
 import java.util.Date;
 import java.util.Objects;
 import javax.persistence.OneToOne;
-import lombok.Data;
 
 /**
  *
  * @author edwin
  */
 
-@Data
 @Entity
 @Table(name = "product")
 public class Product {
@@ -31,14 +29,16 @@ public class Product {
     private String name;
     @Column(name = "price")
     private Double price;
+    @Column(name = "description")
+    private String description;
     @Column(name = "stock")
     private Integer stock;
     @Column(name = "unit",length = 50)
     private String unit;
-    @Column(name = "expiration_date")
+    @Column(name = "expiration_date", nullable = true)
     @Temporal(TemporalType.DATE)
     private Date expirationDate;
-    @Column(name = "active")
+    @Column(name = "active",nullable = true)
     private Boolean active;
     
     @OneToOne(mappedBy = "product")
@@ -47,6 +47,106 @@ public class Product {
     @OneToOne(mappedBy = "product")
     private PurchaseItem purchaseItem;
 
+    public Product() {
+    }
+
+    public Product(Integer id, String name, Double price, String description, Integer stock, String unit, Date expirationDate, Boolean active, SaleItem saleItem, PurchaseItem purchaseItem) {
+        this.id = id;
+        this.name = name;
+        this.price = price;
+        this.description = description;
+        this.stock = stock;
+        this.unit = unit;
+        this.expirationDate = expirationDate;
+        this.active = active;
+        this.saleItem = saleItem;
+        this.purchaseItem = purchaseItem;
+    }
+
+
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public Double getPrice() {
+        return price;
+    }
+
+    public void setPrice(Double price) {
+        this.price = price;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    
+    public Integer getStock() {
+        return stock;
+    }
+
+    public void setStock(Integer stock) {
+        this.stock = stock;
+    }
+
+    public String getUnit() {
+        return unit;
+    }
+
+    public void setUnit(String unit) {
+        this.unit = unit;
+    }
+
+    public Date getExpirationDate() {
+        return expirationDate;
+    }
+
+    public void setExpirationDate(Date expirationDate) {
+        this.expirationDate = expirationDate;
+    }
+
+    public Boolean getActive() {
+        return active;
+    }
+
+    public void setActive(Boolean active) {
+        this.active = active;
+    }
+
+    public SaleItem getSaleItem() {
+        return saleItem;
+    }
+
+    public void setSaleItem(SaleItem saleItem) {
+        this.saleItem = saleItem;
+    }
+
+    public PurchaseItem getPurchaseItem() {
+        return purchaseItem;
+    }
+
+    public void setPurchaseItem(PurchaseItem purchaseItem) {
+        this.purchaseItem = purchaseItem;
+    }
+
+    
     @Override
     public int hashCode() {
         int hash = 5;
