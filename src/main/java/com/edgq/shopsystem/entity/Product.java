@@ -38,7 +38,7 @@ public class Product {
     @Column(name = "expiration_date", nullable = true)
     @Temporal(TemporalType.DATE)
     private Date expirationDate;
-    @Column(name = "active",nullable = true)
+    @Column(name = "active")
     private Boolean active;
     
     @OneToOne(mappedBy = "product")

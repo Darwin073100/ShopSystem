@@ -85,7 +85,7 @@
             <h:form id="formSaveProduct">
                 <h:panelGrid columns="2" >
                         <h:outputLabel value="Nombre"/>
-                        <p:inputText style="margin: 10px" value="${productsBean.product.name}" label="Nombre"/>
+                        <p:inputText style="margin: 10px" value="${productsBean.product.name}" label="Nombre" required="true"/>
 
                         <h:outputLabel value="Precio"/>
                         <p:inputNumber style="margin: 10px;" required="true" label="Precio"
@@ -114,7 +114,7 @@
                 </h:panelGrid>
                 <h:panelGrid columns="2" style="margin-top: 10px">
                     <p:commandButton value="Cancelar" styleClass="ui-button-secondary" style="margin-right: 8px " oncomplete="PF('saveProduct').hide();"/>
-                    <p:commandButton value="Guardar" action="${productsBean.save()}" update="@this :formDesktop" />
+                    <p:commandButton value="Guardar" action="${productsBean.save()}" update="@this :formDesktop" oncomplete="PF('saveProduct').hide();" />
                 </h:panelGrid>
             </h:form>
         </p:dialog>
@@ -144,7 +144,7 @@
                         <p:inputText style="margin: 10px" value="${productsBean.productUpdate.unit}"/>
 
                         <h:outputLabel value="Caducidad"/>
-                        <p:calendar style="margin: 10px" value="${productsBean.productUpdate.expirationDate}">
+                        <p:calendar style="margin: 10px" value="${productsBean.productUpdate.expirationDate}" pattern="yyyy/MM/dd">
                             <f:convertDateTime pattern="yyyy/MM/dd" />
                         </p:calendar>
 
@@ -152,7 +152,7 @@
                 <h:panelGrid columns="2" style="margin-top: 10px">
                     <p:commandButton value="Cancelar" styleClass="ui-button-secondary" oncomplete="PF('updateProduct').hide();"
                                      style="margin-right: 8px "/>
-                    <p:commandButton value="Guardar" action="#{productsBean.updated()}"/>
+                    <p:commandButton value="Guardar" action="#{productsBean.updated()}" update="@this :formDesktop" oncomplete="PF('updateProduct').hide();"/>
                 </h:panelGrid>
             </h:form>
         </p:dialog>
@@ -167,7 +167,8 @@
                     </div> 
                     <div class="modal-footer">
                         <p:commandButton value="Cancelar" styleClass="ui-button-secondary" style="margin-right: 10px;" oncomplete="PF('deleteProduct').hide();"/>
-                        <p:commandButton value="Eliminar" styleClass="ui-button-danger" oncomplete="PF('deleteProduct').hide();" action="#{productsBean.delete()}"/>
+                        <p:commandButton value="Eliminar" styleClass="ui-button-danger" oncomplete="PF('deleteProduct').hide();" 
+                                         action="#{productsBean.delete()}" update="@this :formDesktop"/>
                     </div>
                 </div>
             </h:form>
