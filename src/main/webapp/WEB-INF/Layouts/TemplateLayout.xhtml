@@ -8,7 +8,7 @@
     <ui:define name="head">
         <style>
             .nav-bar{
-                background: var(--color-purple-1);
+                background: var(--color-primary-1);
                 color: var(--color-white-1);
                 padding: 4px;
                 height: 50px;
@@ -36,11 +36,10 @@
             }
             .vertical-menu{
                 opacity: 100%;
-                width: 250px;
+                min-width: 225px;
                 height: 100%;
                 background: var(--color-white-1);
                 box-shadow: var(--color-modal-1) 4px 0px 10px;
-                border-radius: 0 16px 16px 0;
                 color: var(--color-dark-3);
             }
             .vertical-menu-item-container{
@@ -60,7 +59,7 @@
             }
 
             .vertical-menu-item:hover{
-                background-color: var(--color-purple-2);
+                background-color: var(--color-primary-2);
                 color: var(--color-white-1);
             }
 
@@ -91,8 +90,13 @@
             .vertical-menu-user-info .picture-user{
                 width: 100px;
                 height: 100px;
-                border: 2px var(--color-purple-2) solid;
+                border: 2px var(--color-primary-2) solid;
                 border-radius: 50%;
+            }
+            
+            .out-click{
+                width: 100%;
+                height: 100%;
             }
 
             @media ( max-width:400px ) {
@@ -120,7 +124,7 @@
                                 <h:graphicImage library="assets" name="user.svg" alt="user" class="picture-user"/>
                             </div>
                             <div class="user-information-session" >
-                                <h5>#{sessionBean.userInSession.name} #{sessionBean.userInSession.surname}</h5>
+                                <h5 class="text-center">#{sessionBean.userInSession.name} #{sessionBean.userInSession.surname}</h5>
                                 <span>#{sessionBean.userInSession.user.userName} 
                                     <span class="badge bg-danger">#{sessionBean.userInSession.user.type}</span> 
                                 </span>
@@ -138,6 +142,7 @@
                             </div>
                         </h:form>
                     </div>
+                    <div class="out-click" id="outClick"></div>
                 </div>
             </div>
             <div class="nav-bar-session">
@@ -155,22 +160,19 @@
             const openMenu = document.getElementById('openMenu');
             const closeMenu = document.getElementById('close');
             const menu = document.getElementById('menu');
+            const outClick = document.getElementById('outClick');
             let menuState = false;
 
             function toggleMenu() {
                 menuState = !menuState;
                 !menuState ? 
                     menu.style.display = 'none': 
-                    menu.style.display = 'block';
+                    menu.style.display = 'flex';
             }
 
-            openMenu.addEventListener('click', () => {
-                toggleMenu();
-            })
-
-            closeMenu.addEventListener('click', () => {
-                toggleMenu();
-            })
+            openMenu.addEventListener('click', () => toggleMenu());
+            closeMenu.addEventListener('click', () => toggleMenu());
+            outClick.addEventListener('click',()=> toggleMenu());
 
         </script>
     </ui:define>

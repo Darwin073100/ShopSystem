@@ -6,19 +6,54 @@
 :root{
     --color-modal-1: rgb(0 0 0 / 50%);
     --color-dark-1: #000000;
-    --color-dark-2: #333333;
+    --color-dark-2: #474747;
     --color-dark-3: #666666;
+    --color-dark-3: #999999;
     --color-dark-4: #cccccc;
-    --color-purple-1: #363062;
-    --color-purple-2: #4D4C7D;
-    --color-blue-1: #00A9FF;
+    --color-primary-1: #0B60B0;
+    --color-primary-2: #3475e0;
+    --color-primary-3: #00A9FF;
     --color-blue-2: #89CFF3;
     --color-blue-3: #A0E9FF;
     --color-blue-4: #CDF5FD;
-    --color-white-1: #F5F5F5;
+    --color-white-1: #ffffff;
     --color-white-2: #E0F4FF;
     --color-orange-1: #F99417;
     --color-red-1: #6B240C;
     --color-red-2: #B06161;
     --color-red-3: #DC8686;
+}
+
+.shop-button-rounded-danger{
+    display: flex;
+    justify-content: center;
+    text-decoration: none;
+    align-items: center;
+    color: var(--color-red-2);
+    width: 25px;
+    height: 25px;
+    padding: 4px;
+    border: 1px var(--color-red-2) solid;
+    border-radius: 50%;
+}
+.shop-button-rounded-danger:hover{
+    color: var(--color-white-1);
+    background-color: var(--color-red-2);
+}
+
+.shop-button-rounded-primary{
+    display: flex;
+    justify-content: center;
+    text-decoration: none;
+    align-items: center;
+    color: var(--color-primary-2);
+    width: 25px;
+    height: 25px;
+    padding: 4px;
+    border: 1px var(--color-primary-2) solid;
+    border-radius: 50%;
+}
+.shop-button-rounded-primary:hover{
+    color: var(--color-white-1);
+    background-color: var(--color-primary-2);
 }

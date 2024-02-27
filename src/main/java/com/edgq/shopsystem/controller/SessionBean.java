@@ -1,7 +1,6 @@
 package com.edgq.shopsystem.controller;
 
 import com.edgq.shopsystem.entity.Employee;
-import com.edgq.shopsystem.entity.User;
 import com.edgq.shopsystem.service.UserService;
 import com.edgq.shopsystem.tools.FacesUtils;
 import java.io.Serializable;
@@ -40,7 +39,7 @@ public class SessionBean implements Serializable{
                 if(password.equals(e.getUser().getUserPassword())){
                     System.out.println("SessionBean.......");
                     userInSession = e;
-                    return "/pages/home.xhtml?faces-redirect=true";
+                    return "/pages/Home.xhtml?faces-redirect=true";
                 } else {
                     System.out.println("Contraseña incorrecta");
                     FacesUtils.messageError(INCORRECTS_DATA, null);
@@ -59,7 +58,7 @@ public class SessionBean implements Serializable{
     
     public String logout(){
         FacesContext.getCurrentInstance().getExternalContext().invalidateSession();
-        return "/login.xhtml?faces-redirect=true";
+        return "/Login.xhtml?faces-redirect=true";
     }
     
     public boolean isLogged(){

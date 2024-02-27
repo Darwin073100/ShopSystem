@@ -1,6 +1,5 @@
 package com.edgq.shopsystem.design;
 
-import lombok.Builder;
 import lombok.Data;
 
 /**

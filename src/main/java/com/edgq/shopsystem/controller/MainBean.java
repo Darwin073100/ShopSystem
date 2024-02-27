@@ -26,9 +26,9 @@ public class MainBean implements Serializable {
     
     @PostConstruct
     public void init(){
-        menuItems.add(new MenuItem("Inicio","pi-home","./home.xhtml?faces-redirect=true"));
-        menuItems.add(new MenuItem("Productos","pi-check","./products.xhtml?faces-redirect=true"));
-        menuItems.add(new MenuItem("Ventas","pi-shopping-cart",null));
+        menuItems.add(new MenuItem("Inicio","pi-home","./Home.xhtml?faces-redirect=true"));
+        menuItems.add(new MenuItem("Productos","pi-check","./Products.xhtml?faces-redirect=true"));
+        menuItems.add(new MenuItem("Ventas","pi-shopping-cart","./SaleCar.xhtml?faces-redirect=true"));
         menuItems.add(new MenuItem("Compras","pi-shopping-bag",null));
         menuItems.add(new MenuItem("Clientes","pi-user-plus",null));
         menuItems.add(new MenuItem("Usuarios","pi-users",null));

@@ -44,9 +44,9 @@ public class AuthorizationFilter implements Filter {
             path = request.getRequestURI();
             System.out.println(path);
             
-            if (!session.isLogged() && !request.getRequestURI().endsWith("/login.xhtml")
+            if (!session.isLogged() && !request.getRequestURI().endsWith("/Login.xhtml")
                     && !request.getRequestURI().contains("/javax.faces.resources/")) {
-                response.sendRedirect(request.getContextPath() + "/login.xhtml");
+                response.sendRedirect(request.getContextPath() + "/Login.xhtml");
             } else {
                 chain.doFilter(req, res);
             }
