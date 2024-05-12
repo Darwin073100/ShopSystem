@@ -13,6 +13,9 @@
     --color-primary-1: #0B60B0;
     --color-primary-2: #3475e0;
     --color-primary-3: #00A9FF;
+    --color-info-1: #304D30;
+    --color-info-2: #65B741;
+    --color-info-3: #C1F2B0;
     --color-blue-2: #89CFF3;
     --color-blue-3: #A0E9FF;
     --color-blue-4: #CDF5FD;
@@ -24,6 +27,9 @@
     --color-red-3: #DC8686;
 }
 
+body{
+    height: 100vh;
+}
 .shop-button-rounded-danger{
     display: flex;
     justify-content: center;
