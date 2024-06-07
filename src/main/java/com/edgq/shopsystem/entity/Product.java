@@ -27,6 +27,8 @@ public class Product {
     private Integer id;
     @Column(name = "name")
     private String name;
+    @Column(name = "var_code")
+    private String varCode;
     @Column(name = "price")
     private Double price;
     @Column(name = "description")
@@ -50,9 +52,10 @@ public class Product {
     public Product() {
     }
 
-    public Product(Integer id, String name, Double price, String description, Integer stock, String unit, Date expirationDate, Boolean active, SaleItem saleItem, PurchaseItem purchaseItem) {
+    public Product(Integer id, String name, String varCode, Double price, String description, Integer stock, String unit, Date expirationDate, Boolean active, SaleItem saleItem, PurchaseItem purchaseItem) {
         this.id = id;
         this.name = name;
+        this.varCode = varCode;
         this.price = price;
         this.description = description;
         this.stock = stock;
@@ -79,6 +82,14 @@ public class Product {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getVarCode() {
+        return varCode;
+    }
+
+    public void setVarCode(String varCode) {
+        this.varCode = varCode;
     }
 
     public Double getPrice() {

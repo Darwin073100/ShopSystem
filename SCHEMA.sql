@@ -12,6 +12,7 @@ CREATE TABLE product(
     unit VARCHAR(10) NOT NULL,
     expiration_date DATE NULL,
     active BOOLEAN DEFAULT TRUE NOT NULL,
+    var_code VARCHAR(100) NOT NULL,
     CONSTRAINT pk_product_id PRIMARY KEY (id)
 );
 
@@ -69,10 +70,10 @@ CREATE TABLE employee(
 CREATE TABLE sale(
     id INT AUTO_INCREMENT NOT NULL,
     employee_id INT NOT NULL,
-    customer_id INT NOT NULL,
+    customer_id INT NULL,
     total DOUBLE NOT NULL,
     pay_method CHAR(1) NOT NULL,
-    date DATETIME NOT NULL,
+    date DATETIME DEFAULT CURRENT_TIMESTAMP NOT NULL,
     CONSTRAINT pk_sale_id PRIMARY KEY (id),
     CONSTRAINT fk_sale_employee_id FOREIGN KEY (employee_id) 
         REFERENCES employee (id),
@@ -117,5 +118,5 @@ CREATE TABLE purchase_item(
     CONSTRAINT fk_purchase_item_product_product_id FOREIGN KEY(product_id) 
         REFERENCES product (id),
     CONSTRAINT fk_purchase_item_purchase_purchase_id FOREIGN KEY(purchase_id)
-        REFERENCES purchase(purchase_id)
+        REFERENCES purchase(id)
 );

@@ -1,0 +1,185 @@
+<ui:composition template="../WEB-INF/Layouts/TemplateLayout.xhtml"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:p="http://primefaces.org/ui">
+    <ui:define name="title-page">Sale Car</ui:define>
+    <ui:define name="head-page">
+        <h:outputStylesheet library="styles" name="SaleCar.css"/>
+        <style>
+            
+            /*Estilos generales*/
+
+            .shop-button-primary{
+                text-decoration: none;
+                background: var(--color-white-1);
+                border:none;
+                border-radius: 4px;
+                padding: 4px;
+                color: var(--color-dark-1);
+                opacity: 70%;
+                box-shadow: 0px 0px 3px var(--color-dark-2);
+            }
+            .shop-button-danger{
+                text-decoration: none;
+                background: var(--color-white-1);
+                border:none;
+                border-radius: 4px;
+                padding: 4px;
+                color: var(--color-red-1);
+                opacity: 70%;
+                box-shadow: 0px 0px 3px var(--color-red-1);
+            }
+            .sale-ca-counter-products{
+                display: flex;
+                gap:10px;
+                align-items: center;
+            }
+            
+            .sale-car-detail-footer{
+                padding: 10px 0 10px 0;
+                width: 100%;
+                bottom: 10px;
+                right: 4px;
+            }
+
+        </style>
+    </ui:define>
+    <ui:define name="body-page">
+        <div class="sale-car-container" id="saleCarContainer">
+            <div class="sale-car-options" id="saleCarDesktopOptions">
+                <div class="sale-car-options-search-product">
+                    <h3 >Buscar productos</h3>
+                    <div class="sale-car-options-search-product-shearch">
+                        <div class="sale-car-options-search-product-shearch-input">
+                            <h:commandLink class="search-button">
+                                <i class="pi pi-search"></i>
+                            </h:commandLink>
+                            <h:inputText id="inputSearch" onfocus="true"/>
+                        </div>
+                    </div>
+                    <div class="sale-car-options-search-product-options">
+                        <h:commandLink class="sale-option-item">
+                            <i class="pi pi-plus" style="font-size: 1.5rem"></i>
+                            <span>Agregar producto</span>
+                        </h:commandLink>
+                        <h:commandLink class="sale-option-item">
+                            <i class="pi pi-search" style="font-size: 1.5rem"></i>
+                            <span>Buscar producto</span>
+                        </h:commandLink>
+                        <h:commandLink class="sale-option-item">
+                            <i class="pi pi-user-plus" style="font-size: 1.5rem" ></i>
+                            <span>Agregar cliente</span>
+                        </h:commandLink>
+                        <h:commandLink class="sale-option-item">
+                            <i class="pi pi-print" style="font-size: 1.5rem" ></i>
+                            <span>Checar impresora</span>
+                        </h:commandLink>
+                    </div>
+                </div>
+                <div class="print-secction-state">
+                    <div>
+                        <strong><i class="pi pi-print"></i></strong>
+                        <span><strong>Impresora termina</strong></span>
+                    </div>
+                    <div class="print-state">
+                        <i class="pi pi-check" style="font-size: 12px;"></i>
+                        <span>Conectada</span>
+                    </div>
+                </div>
+            </div>
+            <div class="sale-car-details">
+                <div class="sale-car-detail-header">
+                    <h3 >Venta</h3>
+                    <div class="sale-car-detail-header-options">
+                        <h:commandButton value="Nueva venta" class="shop-button-primary" />
+                        <h:commandButton value="Borrar todo" class="shop-button-danger" />
+                    </div>
+                </div>
+                <div class="sale-car-detail-body">
+                    <div class="sale-car-detail-body-customer">
+                        <div class="sale-car-detail-body-customer-group">
+                            <h:graphicImage library="assets" name="user.svg"/>
+                            <div class="sale-car-detail-body-customer-detail">
+                                <span><strong>Edwin Garcia Quiterio</strong></span>
+                                <span class="class">5 Compras</span>
+                            </div>
+                        </div>
+                        <div>
+                            <p:commandButton styleClass="rounded-button ui-button-danger" icon="pi pi-times" />
+                        </div>
+                    </div>
+                    <hr/>
+                    <div class="sale-car-detail-body-product">
+                        <div class="sale-car-detail-body-product-group">
+                            <h:graphicImage library="assets" name="coca.png"/>
+                            <div class="sale-car-detail-body-product-detail">
+                                <div class="sale-car-product-name">
+                                    <span><strong>Coca Cola 400ML</strong></span>
+                                    <span class="class">50$</span>
+                                </div>
+                                <div class="sale-car-product-dinamic-info">
+                                    <div class="sale-ca-counter-products">
+                                        <h:commandLink style="" class="shop-button-rounded-danger">
+                                            <i class="pi pi-minus"></i>
+                                        </h:commandLink>
+                                        <p:inputNumber decimalPlaces="0"/>
+                                        <h:commandLink style="" class="shop-button-rounded-primary">
+                                            <i class="pi pi-plus"></i>
+                                        </h:commandLink>
+                                    </div>
+                                    <span class="class">50$</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div>
+                            <h:commandLink style="" class="shop-button-rounded-danger">
+                                <i class="pi pi-times"></i>
+                            </h:commandLink>
+                        </div>
+                    </div>
+                    <div class="sale-car-detail-body-product">
+                        <div class="sale-car-detail-body-product-group">
+                            <h:graphicImage library="assets" name="fanta.png"/>
+                            <div class="sale-car-detail-body-product-detail">
+                                <div class="sale-car-product-name">
+                                    <span><strong>Fanta 1L</strong></span>
+                                    <span class="class">50$</span>
+                                </div>
+                                <div class="sale-car-product-dinamic-info">
+                                    <div class="sale-ca-counter-products">
+                                        <h:commandLink style="" class="shop-button-rounded-danger">
+                                            <i class="pi pi-minus"></i>
+                                        </h:commandLink>
+                                        <p:inputNumber decimalPlaces="0"/>
+                                        <h:commandLink style="" class="shop-button-rounded-primary">
+                                            <i class="pi pi-plus"></i>
+                                        </h:commandLink>
+                                    </div>
+                                    <span class="class">100$</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div>
+                            <h:commandLink style="" class="shop-button-rounded-danger">
+                                <i class="pi pi-times"></i>
+                            </h:commandLink>
+                        </div>
+                    </div>
+                </div>
+                <div class="sale-car-detail-footer">
+                    <div style="width: 280px;">
+                        <span>Subtotal:</span>
+                        <span>200$</span>
+                    </div>
+                    <p:commandButton value="Cobrar $2000" style="width: 280px; font-size: 30px;"/>
+                </div>
+            </div>
+        </div>
+
+        <script>
+            const inputSearch = document.getElementById('inputSearch');
+            const saleCarContainer = document.getElementById('saleCarContainer');
+            inputSearch.placeholder = "Clic e introduce el código";
+        </script>
+    </ui:define>
+</ui:composition>

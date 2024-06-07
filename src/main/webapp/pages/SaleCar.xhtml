@@ -1,178 +1,301 @@
 <ui:composition template="../WEB-INF/Layouts/TemplateLayout.xhtml"
                 xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
                 xmlns:h="http://xmlns.jcp.org/jsf/html"
-                xmlns:p="http://primefaces.org/ui">
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:f="http://xmlns.jcp.org/jsf/core">
     <ui:define name="title-page">Sale Car</ui:define>
     <ui:define name="head-page">
-        <h:outputStylesheet library="styles" name="SaleCar.css"/>
+        <!--<h:outputStylesheet library="styles" name="SaleCar.css"/>-->
         <style>
-            
-            /*Estilos generales*/
+            /*Estilos generales de la pagina Sale Car*/
+            .sale{
+                margin-top: 20px;
+                display: flex;
+                justify-content: center;
+                gap: 20px;
+                width:100%;
+                height: 100%;
+            }
 
-            .shop-button-primary{
-                text-decoration: none;
+            .sale-item{
                 background: var(--color-white-1);
-                border:none;
-                border-radius: 4px;
-                padding: 4px;
-                color: var(--color-dark-1);
-                opacity: 70%;
-                box-shadow: 0px 0px 3px var(--color-dark-2);
+                width: 48%;
+                padding: 10px;
+                border-radius: 8px;
             }
-            .shop-button-danger{
-                text-decoration: none;
+
+            .sale-car-options-search-product-shearch{
+                display: flex;
+                flex-direction: column;
+                gap: 10px;
+            }
+            .sale-car-options-search-product-shearch-input{
+                display: flex;
+                align-items: center;
+                gap: 10px;
+                width: 100%;
+                box-shadow: 0px 0px 4px var(--color-dark-3);
+                border-radius: 4px;
+                background: white;
+                input{
+                    border: none;
+                    outline-style: none;
+                    background: transparent;
+                    width: 100%;
+                }
+
+            }
+
+            .sale-car-options-search-product-options{
+                margin-top: 20px;
+                width: 100%;
+                display: grid;
+                gap:20px;
+                grid-template-columns: repeat(auto-fill, 180px);
+                justify-content: center;
+                align-items: center;
+            }
+
+            /*Estilo del boton buscar producto*/
+            .search-button{
+                transition: background 0.3s;
+                display: flex;
+                align-items: center;
                 background: var(--color-white-1);
-                border:none;
-                border-radius: 4px;
-                padding: 4px;
-                color: var(--color-red-1);
-                opacity: 70%;
-                box-shadow: 0px 0px 3px var(--color-red-1);
+                border-radius: 4px 0 0 4px;
+                color: var(--color-dark-3);
+                padding: 12px 16px 12px 16px;
+                text-decoration: none;
             }
+
+            .search-button:hover{
+                background: var(--color-primary-2);
+                color: white;
+            }
+
+            /*Estilos de la lista de productos en el carrito de ventas*/
+            .sale-car-detail-body-product-group{
+                display: flex;
+                align-items: center;
+                gap:10px;
+            }
+            .sale-car-detail-body-product-detail{
+                display: flex;
+                gap: 10px;
+            }
+            .sale-car-detail-body-product-detail
+            .sale-car-product-dinamic-info{
+                display: flex;
+                align-items: center;
+                gap:10px;
+            }
+            .sale-car-detail-body-product-detail input{
+                width: 100px;
+            }
+            .sale-car-detail-body-product-detail span{
+                display: block;
+                opacity: 70%;
+            }
+
+            .sale-car-detail-body-product{
+                height: 100%;
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                gap: 10px;
+                width: 100%;
+            }
+            .sale-car-detail-body-product img{
+                width: 40px;
+                height: 40px;
+                border-radius: 50%;
+            }
+
+            .sale-car-product-name{
+                width: 150px;
+            }
+
             .sale-ca-counter-products{
                 display: flex;
                 gap:10px;
                 align-items: center;
             }
-            
-            .sale-car-detail-footer{
-                padding: 10px 0 10px 0;
+
+            .sale-details-inputs{
                 width: 100%;
-                bottom: 10px;
-                right: 4px;
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
             }
 
+            .sale-detail-input{
+                width: 50%;
+                display: flex;
+            }
+            .sale-general-detail{
+                margin-top: 10px;
+                display: flex;
+                flex-direction: column;
+                gap: 8px;
+            }
+            .sale-item-detail{
+                display: flex;
+                width: 100%;
+                justify-content: space-between;
+                align-items: center;
+                color: white;
+                /*background: var(--color-primary-2);*/
+                background: #03AED2;
+                border-radius: 4px;
+                padding: 2px;
+            }
+
+            .sale-item-detail span:nth-child(2){
+                background: #FDDE55;
+                color: var(--color-dark-1);
+                padding: 4px;
+                border-radius: 12px;
+            }
+
+            .sale-item-detail:nth-child(4) span:nth-child(2){
+                background: transparent;
+            }
         </style>
     </ui:define>
     <ui:define name="body-page">
-        <div class="sale-car-container" id="saleCarContainer">
-            <div class="sale-car-options" id="saleCarDesktopOptions">
-                <div class="sale-car-options-search-product">
-                    <h3 >Buscar productos</h3>
-                    <div class="sale-car-options-search-product-shearch">
-                        <div class="sale-car-options-search-product-shearch-input">
-                            <h:commandLink class="search-button">
-                                <i class="pi pi-search"></i>
-                            </h:commandLink>
-                            <h:inputText id="inputSearch" onfocus="true"/>
+        <div class="sale">
+            <div class=" sale-item sale-details">
+                <h3>Detalle de la venta</h3>
+                <div class="sale-details-inputs">
+                    <div class="sale-detail-input">
+                        <h:form class="field col-12 md:col-4">
+                            <p:outputLabel for="selectOneMenuIcon" value="Cliente:" />
+                            <h:panelGroup styleClass="ui-inputgroup">
+                                <h:panelGroup id="icon6" styleClass="ui-inputgroup-addon">
+                                    <i class="pi pi-user"/>
+                                </h:panelGroup>
+                                <p:selectOneMenu id="icon" value="${saleCarBean.customerSelected}" var="item" style="width: 80%">
+                                    <f:selectItems value="#{saleCarBean.customers}" var="item" itemLabel="${item.name}"
+                                                   itemValue="${item.name}" />
+                                    <p:column><i class="pi pi-user" /> ${item.name} </p:column>
+
+                                    <p:ajax update="@this:@parent:@parent:icon6:icon" />
+                                </p:selectOneMenu>
+                            </h:panelGroup>
+                        </h:form>
+
+                        <div class="field col-12 md:col-4">
+                            <p:outputLabel value="Lo atiende:" />
+                            <div class="frm-input"><strong style="font-size: 24px">${sessionBean.userInSession.name} ${sessionBean.userInSession.surname}</strong></div>
                         </div>
                     </div>
-                    <div class="sale-car-options-search-product-options">
-                        <h:commandLink class="sale-option-item">
-                            <i class="pi pi-plus" style="font-size: 1.5rem"></i>
-                            <span>Agregar producto</span>
-                        </h:commandLink>
-                        <h:commandLink class="sale-option-item">
-                            <i class="pi pi-search" style="font-size: 1.5rem"></i>
-                            <span>Buscar producto</span>
-                        </h:commandLink>
-                        <h:commandLink class="sale-option-item">
-                            <i class="pi pi-user-plus" style="font-size: 1.5rem" ></i>
-                            <span>Agregar cliente</span>
-                        </h:commandLink>
-                        <h:commandLink class="sale-option-item">
-                            <i class="pi pi-print" style="font-size: 1.5rem" ></i>
-                            <span>Checar impresora</span>
-                        </h:commandLink>
+                    <div class="sale-detail-input">
+                        <div class="field col-12 md:col-4">
+                            <p:outputLabel for="selectOneMenuIcon" value="Metodo de pago:" />
+                            <h:panelGroup styleClass="ui-inputgroup">
+                                <h:panelGroup id="icon1" styleClass="ui-inputgroup-addon">
+                                    <i class="pi pi-credit-card"/>
+                                </h:panelGroup>
+                                <p:selectOneMenu id="selectOneMenuIcon" value="${saleCarBean.payMethodSelected}" var="item" style="width: 80%">
+                                    <f:selectItems value="#{saleCarBean.payMethodDetails}" var="item" itemLabel="${item.detail}"
+                                                   itemValue="${item.detail}" />
+                                    <p:column><i class="pi ${item.icon}" /> ${item.detail} </p:column>
+
+                                    <p:ajax update="@parent:@parent:icon1" />
+                                </p:selectOneMenu>
+                            </h:panelGroup>
+                        </div>
+
+                        <div class="field col-12 md:col-4">
+                            <p:outputLabel for="selectOneMenuIconCustomer" value="Comprobante:" />
+                            <h:panelGroup styleClass="ui-inputgroup">
+                                <h:panelGroup id="iconCustomer" styleClass="ui-inputgroup-addon">
+                                    <i class="pi pi-print"/>
+                                </h:panelGroup>
+                                <p:selectOneMenu id="selectOneMenuIconCustomer" value="#{saleCarBean.ticketDetail}" style="width: 80%">
+                                    <f:selectItems value="#{saleCarBean.ticketDetails}" var="item" itemLabel="${item.detail}"
+                                                   itemValue="${item.detail}" />
+                                    <p:column><i class="pi ${item.icon}" /> ${item.detail} </p:column>
+
+                                    <p:ajax update="@parent:@parent:iconCustomer" />
+                                </p:selectOneMenu>
+                            </h:panelGroup>
+                        </div>
                     </div>
-                </div>
-                <div class="print-secction-state">
-                    <div>
-                        <strong><i class="pi pi-print"></i></strong>
-                        <span><strong>Impresora termina</strong></span>
+                </div>  
+                <div class="sale-general-detail">
+                    <div class="sale-item-detail">
+                        <span>SubTotal</span>
+                        <span>$1000</span>
                     </div>
-                    <div class="print-state">
-                        <i class="pi pi-check" style="font-size: 12px;"></i>
-                        <span>Conectada</span>
+                    <div class="sale-item-detail">
+                        <span>IVA %</span>
+                        <span>$160</span>
                     </div>
+                    <div class="sale-item-detail">
+                        <span>Total</span>
+                        <span>$1160</span>
+                    </div>
+                    <div class="sale-item-detail">
+                        <span>Pagó</span>
+                        <p:inputNumber placeholder="Ingresa la cantidad" value="1200"/>
+                    </div>
+                    <div class="sale-item-detail">
+                        <span>Cambio</span>
+                        <span>$40</span>
+                    </div>
+                    <h:form>
+                        <p:commandButton value="Cancelar venta" styleClass="ui-button-danger" update="saleCarList"
+                                         icon="pi pi-trash" style="margin-right: 8px;" action="${saleCarBean.trashSaleCar()}"/>
+                        <p:commandButton value="Realizar venta" icon="pi pi-check" action="${saleCarBean.createSaleCarInitial()}"/>
+                    </h:form>
                 </div>
             </div>
-            <div class="sale-car-details">
-                <div class="sale-car-detail-header">
-                    <h3 >Venta</h3>
-                    <div class="sale-car-detail-header-options">
-                        <h:commandButton value="Nueva venta" class="shop-button-primary" />
-                        <h:commandButton value="Borrar todo" class="shop-button-danger" />
-                    </div>
-                </div>
-                <div class="sale-car-detail-body">
-                    <div class="sale-car-detail-body-customer">
-                        <div class="sale-car-detail-body-customer-group">
-                            <h:graphicImage library="assets" name="user.svg"/>
-                            <div class="sale-car-detail-body-customer-detail">
-                                <span><strong>Edwin Garcia Quiterio</strong></span>
-                                <span class="class">5 Compras</span>
-                            </div>
-                        </div>
-                        <div>
-                            <p:commandButton styleClass="rounded-button ui-button-danger" icon="pi pi-times" />
-                        </div>
-                    </div>
-                    <hr/>
-                    <div class="sale-car-detail-body-product">
-                        <div class="sale-car-detail-body-product-group">
-                            <h:graphicImage library="assets" name="coca.png"/>
-                            <div class="sale-car-detail-body-product-detail">
-                                <div class="sale-car-product-name">
-                                    <span><strong>Coca Cola 400ML</strong></span>
-                                    <span class="class">50$</span>
-                                </div>
-                                <div class="sale-car-product-dinamic-info">
-                                    <div class="sale-ca-counter-products">
-                                        <h:commandLink style="" class="shop-button-rounded-danger">
-                                            <i class="pi pi-minus"></i>
-                                        </h:commandLink>
-                                        <p:inputNumber decimalPlaces="0"/>
-                                        <h:commandLink style="" class="shop-button-rounded-primary">
-                                            <i class="pi pi-plus"></i>
-                                        </h:commandLink>
+            <div class="sale-item sale-car">
+                <h3>Productos</h3>
+                <div class="sale-car-options-search-product-shearch">
+                    <h:form class="sale-car-options-search-product-shearch-input">
+                        <h:commandLink class="search-button" action="${saleCarBean.findProductByVarCode()}">
+                            <i class="pi pi-search"></i>
+                        </h:commandLink>
+                        <h:inputText id="inputSearch" value="${saleCarBean.varCodeInput}" 
+                                     valueChangeListener="${saleCarBean.setInputVarCode}">
+                            <f:ajax event="change"/>
+                        </h:inputText>
+                    </h:form>
+
+                    <ui:repeat id="saleCarList" value="${saleCarBean.saleCar}" var="item">
+                        <div class="sale-car-detail-body-product">
+                            <div class="sale-car-detail-body-product-group">
+                                <h:graphicImage library="assets" name="fanta.png"/>
+                                <div class="sale-car-detail-body-product-detail">
+                                    <div class="sale-car-product-name">
+                                        <span><strong>${item.name}</strong></span>
+                                        <span class="class">${item.price}$</span>
                                     </div>
-                                    <span class="class">50$</span>
-                                </div>
-                            </div>
-                        </div>
-                        <div>
-                            <h:commandLink style="" class="shop-button-rounded-danger">
-                                <i class="pi pi-times"></i>
-                            </h:commandLink>
-                        </div>
-                    </div>
-                    <div class="sale-car-detail-body-product">
-                        <div class="sale-car-detail-body-product-group">
-                            <h:graphicImage library="assets" name="fanta.png"/>
-                            <div class="sale-car-detail-body-product-detail">
-                                <div class="sale-car-product-name">
-                                    <span><strong>Fanta 1L</strong></span>
-                                    <span class="class">50$</span>
-                                </div>
-                                <div class="sale-car-product-dinamic-info">
-                                    <div class="sale-ca-counter-products">
-                                        <h:commandLink style="" class="shop-button-rounded-danger">
-                                            <i class="pi pi-minus"></i>
-                                        </h:commandLink>
-                                        <p:inputNumber decimalPlaces="0"/>
-                                        <h:commandLink style="" class="shop-button-rounded-primary">
-                                            <i class="pi pi-plus"></i>
-                                        </h:commandLink>
+                                    <div class="sale-car-product-dinamic-info">
+                                        <div class="sale-ca-counter-products">
+                                            <h:commandLink style="" class="shop-button-rounded-danger">
+                                                <i class="pi pi-minus"></i>
+                                            </h:commandLink>
+                                            <p:inputNumber decimalPlaces="0"/>
+                                            <h:commandLink style="" class="shop-button-rounded-primary">
+                                                <i class="pi pi-plus"></i>
+                                            </h:commandLink>
+                                        </div>
+                                        <span class="class">100$</span>
                                     </div>
-                                    <span class="class">100$</span>
                                 </div>
                             </div>
+                            <div>
+                                <h:commandLink style="" class="shop-button-rounded-danger">
+                                    <i class="pi pi-times"></i>
+                                </h:commandLink>
+                            </div>
                         </div>
-                        <div>
-                            <h:commandLink style="" class="shop-button-rounded-danger">
-                                <i class="pi pi-times"></i>
-                            </h:commandLink>
-                        </div>
-                    </div>
+                    </ui:repeat>
                 </div>
-                <div class="sale-car-detail-footer">
-                    <div style="width: 280px;">
-                        <span>Subtotal:</span>
-                        <span>200$</span>
-                    </div>
-                    <p:commandButton value="Cobrar $2000" style="width: 280px; font-size: 30px;"/>
-                </div>
+
             </div>
         </div>
 
