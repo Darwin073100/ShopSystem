@@ -168,21 +168,21 @@
                 <h3>Detalle de la venta</h3>
                 <div class="sale-details-inputs">
                     <div class="sale-detail-input">
-                        <h:form class="field col-12 md:col-4">
-                            <p:outputLabel for="selectOneMenuIcon" value="Cliente:" />
-                            <h:panelGroup styleClass="ui-inputgroup">
-                                <h:panelGroup id="icon6" styleClass="ui-inputgroup-addon">
+                        <div id="formCarCustomer" class="field col-12 md:col-4">
+                            <p:outputLabel value="Cliente:" />
+                            <h:form id="selectCustomer" styleClass="ui-inputgroup">
+                                <h:panelGroup id="iconCostumer" styleClass="ui-inputgroup-addon">
                                     <i class="pi pi-user"/>
                                 </h:panelGroup>
-                                <p:selectOneMenu id="icon" value="${saleCarBean.customerSelected}" var="item" style="width: 80%">
+                                <p:selectOneMenu id="selectOneMenuIconCustomer" value="${saleCarBean.customerSelected}" var="item" style="width: 80%">
                                     <f:selectItems value="#{saleCarBean.customers}" var="item" itemLabel="${item.name}"
-                                                   itemValue="${item.name}" />
+                                                   itemValue="${item.id}" />
                                     <p:column><i class="pi pi-user" /> ${item.name} </p:column>
 
-                                    <p:ajax update="@this:@parent:@parent:icon6:icon" />
+                                    <p:ajax listener="#{saleCarBean.createSaleCarInitial()}" process=":selectCustomer:selectOneMenuIconCustomer" />
                                 </p:selectOneMenu>
-                            </h:panelGroup>
-                        </h:form>
+                            </h:form>
+                        </div>
 
                         <div class="field col-12 md:col-4">
                             <p:outputLabel value="Lo atiende:" />
@@ -191,12 +191,12 @@
                     </div>
                     <div class="sale-detail-input">
                         <div class="field col-12 md:col-4">
-                            <p:outputLabel for="selectOneMenuIcon" value="Metodo de pago:" />
+                            <p:outputLabel for="selectOneMenuIconPayMethod" value="Metodo de pago:" />
                             <h:panelGroup styleClass="ui-inputgroup">
                                 <h:panelGroup id="icon1" styleClass="ui-inputgroup-addon">
                                     <i class="pi pi-credit-card"/>
                                 </h:panelGroup>
-                                <p:selectOneMenu id="selectOneMenuIcon" value="${saleCarBean.payMethodSelected}" var="item" style="width: 80%">
+                                <p:selectOneMenu id="selectOneMenuIconPayMethod" value="${saleCarBean.payMethodSelected}" var="item" style="width: 80%">
                                     <f:selectItems value="#{saleCarBean.payMethodDetails}" var="item" itemLabel="${item.detail}"
                                                    itemValue="${item.detail}" />
                                     <p:column><i class="pi ${item.icon}" /> ${item.detail} </p:column>
@@ -207,17 +207,17 @@
                         </div>
 
                         <div class="field col-12 md:col-4">
-                            <p:outputLabel for="selectOneMenuIconCustomer" value="Comprobante:" />
+                            <p:outputLabel for="selectOneMenuIconTicked" value="Comprobante:" />
                             <h:panelGroup styleClass="ui-inputgroup">
-                                <h:panelGroup id="iconCustomer" styleClass="ui-inputgroup-addon">
+                                <h:panelGroup id="iconTicked" styleClass="ui-inputgroup-addon">
                                     <i class="pi pi-print"/>
                                 </h:panelGroup>
-                                <p:selectOneMenu id="selectOneMenuIconCustomer" value="#{saleCarBean.ticketDetail}" style="width: 80%">
+                                <p:selectOneMenu id="selectOneMenuIconTicked" value="#{saleCarBean.ticketDetail}" style="width: 80%">
                                     <f:selectItems value="#{saleCarBean.ticketDetails}" var="item" itemLabel="${item.detail}"
                                                    itemValue="${item.detail}" />
                                     <p:column><i class="pi ${item.icon}" /> ${item.detail} </p:column>
 
-                                    <p:ajax update="@parent:@parent:iconCustomer" />
+                                    <p:ajax update="@parent:@parent:iconTicked" />
                                 </p:selectOneMenu>
                             </h:panelGroup>
                         </div>
@@ -244,11 +244,11 @@
                         <span>Cambio</span>
                         <span>$40</span>
                     </div>
-                    <h:form>
+                    <div>
                         <p:commandButton value="Cancelar venta" styleClass="ui-button-danger" update="saleCarList"
-                                         icon="pi pi-trash" style="margin-right: 8px;" action="${saleCarBean.trashSaleCar()}"/>
-                        <p:commandButton value="Realizar venta" icon="pi pi-check" action="${saleCarBean.createSaleCarInitial()}"/>
-                    </h:form>
+                                         icon="pi pi-trash" style="margin-right: 8px;" action="#{saleCarBean.trashSaleCar()}"/>
+                        <p:commandButton value="Realizar venta" icon="pi pi-check" action="#{saleCarBean.createSaleCarInitial()}"/>
+                    </div>
                 </div>
             </div>
             <div class="sale-item sale-car">

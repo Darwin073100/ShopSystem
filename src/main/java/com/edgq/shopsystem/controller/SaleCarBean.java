@@ -85,6 +85,9 @@ public class SaleCarBean implements Serializable {
     public void findAllCustomer() {
         try {
             customers = customerService.findAll();
+            if (customers != null && !customers.isEmpty()) {
+                customerSelected = customers.get(0); // Selecciona el primer cliente por defecto, si es necesario
+            }
         } catch (Exception e) {
             customers = null;
         }
@@ -106,9 +109,13 @@ public class SaleCarBean implements Serializable {
         productService.productExtractIds(saleCar);
         //System.out.println(productService.findProductByVarCode(varCodeInput));
     }
-    
-    public void createSaleCarInitial(){
-        System.out.println(customerSelected.toString());
+
+    public void createSaleCarInitial() {
+        if (customerSelected != null) {
+            System.out.println(customerSelected.toString());
+        } else {
+            System.err.println("No se ha seleccionado ningun Customer");
+        }
         //saleService.save(new Sale(0, 0.0, PayMethod.E, new Date(), session.getUserInSession(), customerSelected, null));
     }
 //    public void findProductByVarCode(){

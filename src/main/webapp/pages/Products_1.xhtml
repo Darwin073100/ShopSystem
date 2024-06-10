@@ -1,0 +1,178 @@
+<ui:composition template="../WEB-INF/Layouts/TemplateLayout.xhtml" 
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <ui:define name="title-page">Productos</ui:define>
+    <ui:define name="head-page">
+        <style>
+            .form-desktop{
+                padding: 20px;
+            }
+            .product-options{
+                display: flex;
+                justify-content: space-between;
+                gap: 8px;
+                width: 100%;
+            }
+            .product-options > *{
+                width: 50%;
+            }
+        </style>
+    </ui:define>
+    <ui:define name="body-page">
+        <h:form class="form-desktop" id="formDesktop">
+            <p:commandButton icon="pi pi-plus" value="Agregar" type="button" onclick="PF('saveProduct').show()"/>
+            <p:messages id="messages" showSummary="true" closable="true" />
+            <p:dataTable value="#{productsBean.products}" var="product" >
+                <p:column>
+                    <f:facet name="header">
+                        <h:outputText value="Nombre"/>
+                    </f:facet>
+                    <h:outputText value="#{product.getName()}"/>
+                </p:column>
+                <p:column>
+                    <f:facet name="header">
+                        <h:outputText value="Precio" />
+                    </f:facet>
+                    <h:outputText value="#{product.getPrice()}" />
+                </p:column>
+                <p:column>
+                    <f:facet name="header">
+                        <h:outputText value="Descripción"/>
+                    </f:facet>
+                    <h:outputText value="#{product.getDescription()}"/>
+                </p:column>
+                <p:column>
+                    <f:facet name="header">
+                        <h:outputText value="Existencias" />
+                    </f:facet>
+                    <h:outputText value="#{product.getStock()}" />
+                </p:column>
+                <p:column>
+                    <f:facet name="header">
+                        <h:outputText value="Unidad" />
+                    </f:facet>
+                    <h:outputText value="#{product.getUnit()}"  />
+                </p:column>
+                <p:column>
+                    <f:facet name="header">
+                        <h:outputText value="Caducidad" />
+                    </f:facet>
+                    <h:outputText value="#{product.getExpirationDate()}" >
+                        <f:convertDateTime pattern="dd/MM/yyyy"/>
+                    </h:outputText>
+                </p:column>
+                <p:column>
+                    <f:facet name="header">
+                        <h:outputText value="Opciones" />
+                    </f:facet>
+                    <div class="product-options">
+                        <p:commandButton styleClass="ui-button-warning" icon="pi pi-pencil" oncomplete="PF('updateProduct').show();" process="@this" 
+                                         action="#{productsBean.fieldsUpdate(product)}" style="width: 100%" update=":formUpdateProduct">
+                        </p:commandButton>
+                        <p:commandButton styleClass="ui-button-danger" icon="pi pi-trash" oncomplete="PF('deleteProduct').show();" process="@this"
+                                         action="#{productsBean.fieldsDelete(product)}" style="width: 100%" update=":formDeleteProduct">
+                        </p:commandButton>
+                        
+                    </div>
+                </p:column>
+            </p:dataTable>
+        </h:form>
+        
+        <!-- Modal para registrar productos-->
+        <p:dialog header="Registro de productos" widgetVar="saveProduct" modal="true">
+            <h:form id="formSaveProduct">
+                <h:panelGrid columns="2" >
+                        <h:outputLabel value="Nombre"/>
+                        <p:inputText style="margin: 10px" value="${productsBean.product.name}" label="Nombre" required="true"/>
+
+                        <h:outputLabel value="Precio"/>
+                        <p:inputNumber style="margin: 10px;" required="true" label="Precio"
+                                       value="${productsBean.product.price}">
+                            <f:converter converterId="javax.faces.Double" />
+                         </p:inputNumber>
+                        
+                        <h:outputLabel value="Descripción"/>
+                        <p:inputText style="margin: 10px" value="${productsBean.product.description}" label="Descripción"/>
+
+
+                        <h:outputLabel value="Existencias"/>
+                        <p:inputText style="margin: 10px;" required="true" label="Existencias"
+                                       value="${productsBean.product.stock}">
+                            <f:converter converterId="javax.faces.Integer" />
+                        </p:inputText>
+
+                        <h:outputLabel value="Unidad"/>
+                        <p:inputText style="margin: 10px" value="${productsBean.product.unit}" label="Unidad"/>
+
+                        <h:outputLabel value="Caducidad"/>
+                        <p:calendar style="margin: 10px" value="${productsBean.product.expirationDate}" label="Caducidad" pattern="yyyy/MM/dd">
+                            <f:convertDateTime pattern="yyyy/MM/dd"/>
+                        </p:calendar>
+
+                </h:panelGrid>
+                <h:panelGrid columns="2" style="margin-top: 10px">
+                    <p:commandButton value="Cancelar" styleClass="ui-button-secondary" style="margin-right: 8px " oncomplete="PF('saveProduct').hide();"/>
+                    <p:commandButton value="Guardar" action="${productsBean.save()}" update="@this :formDesktop" oncomplete="PF('saveProduct').hide();" />
+                </h:panelGrid>
+            </h:form>
+        </p:dialog>
+        
+        <!-- Modal para registrar productos-->
+        <p:dialog header="Actualizar producto" widgetVar="updateProduct" modal="true">
+            <h:form id="formUpdateProduct" >
+                <h:panelGrid columns="2" >
+                        <h:outputLabel value="Nombre"/>
+                        <p:inputText style="margin: 10px" value="${productsBean.productUpdate.name}">
+                           
+                        </p:inputText>
+
+                        <h:outputLabel value="Precio"/>
+                        <p:inputNumber style="margin: 10px;" required="true"
+                                       value="${productsBean.productUpdate.price}">
+                            <f:converter converterId="javax.faces.Double" />
+                         </p:inputNumber>
+
+                        <h:outputLabel value="Existencias"/>
+                        <p:inputNumber style="margin: 10px;" required="true"
+                                       value="${productsBean.productUpdate.stock}">
+                            <f:converter converterId="javax.faces.Integer" />
+                        </p:inputNumber>
+
+                        <h:outputLabel value="Unidad"/>
+                        <p:inputText style="margin: 10px" value="${productsBean.productUpdate.unit}"/>
+
+                        <h:outputLabel value="Caducidad"/>
+                        <p:calendar style="margin: 10px" value="${productsBean.productUpdate.expirationDate}" pattern="yyyy/MM/dd">
+                            <f:convertDateTime pattern="yyyy/MM/dd" />
+                        </p:calendar>
+
+                </h:panelGrid>
+                <h:panelGrid columns="2" style="margin-top: 10px">
+                    <p:commandButton value="Cancelar" styleClass="ui-button-secondary" oncomplete="PF('updateProduct').hide();"
+                                     style="margin-right: 8px "/>
+                    <p:commandButton value="Guardar" action="#{productsBean.updated()}" update="@this :formDesktop" oncomplete="PF('updateProduct').hide();"/>
+                </h:panelGrid>
+            </h:form>
+        </p:dialog>
+        
+        <p:dialog header="Dialogo de confirmación" widgetVar="deleteProduct" modal="true">
+            <h:form id="formDeleteProduct">
+                <div class="delete-box">
+                    <div class="modal-body">
+                        <h4>¿Estas seguro que deseas eliminar el producto
+                            <h:outputText value=" (#{productsBean.productDelete.name})" style="color:red;"/>?
+                        </h4>
+                    </div> 
+                    <div class="modal-footer">
+                        <p:commandButton value="Cancelar" styleClass="ui-button-secondary" style="margin-right: 10px;" oncomplete="PF('deleteProduct').hide();"/>
+                        <p:commandButton value="Eliminar" styleClass="ui-button-danger" oncomplete="PF('deleteProduct').hide();" 
+                                         action="#{productsBean.delete()}" update="@this :formDesktop"/>
+                    </div>
+                </div>
+            </h:form>
+        </p:dialog>
+        
+    </ui:define>
+</ui:composition>
