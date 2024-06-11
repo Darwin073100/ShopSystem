@@ -166,22 +166,23 @@
         <div class="sale">
             <div class=" sale-item sale-details">
                 <h3>Detalle de la venta</h3>
-                <div class="sale-details-inputs">
+                <h:form class="sale-details-inputs">
                     <div class="sale-detail-input">
                         <div id="formCarCustomer" class="field col-12 md:col-4">
                             <p:outputLabel value="Cliente:" />
-                            <h:form id="selectCustomer" styleClass="ui-inputgroup">
+                            <div id="selectCustomer" styleClass="ui-inputgroup">
                                 <h:panelGroup id="iconCostumer" styleClass="ui-inputgroup-addon">
                                     <i class="pi pi-user"/>
                                 </h:panelGroup>
-                                <p:selectOneMenu id="selectOneMenuIconCustomer" value="${saleCarBean.customerSelected}" var="item" style="width: 80%">
+                                <p:selectOneMenu id="selectOneMenuIconCustomer" value="${saleCarBean.idCustomerSelected}" style="width: 80%">
                                     <f:selectItems value="#{saleCarBean.customers}" var="item" itemLabel="${item.name}"
                                                    itemValue="${item.id}" />
                                     <p:column><i class="pi pi-user" /> ${item.name} </p:column>
 
-                                    <p:ajax listener="#{saleCarBean.createSaleCarInitial()}" process=":selectCustomer:selectOneMenuIconCustomer" />
+                                    <f:ajax execute="selectOneMenuIconCustomer" render="costumerTest" />
                                 </p:selectOneMenu>
-                            </h:form>
+                                <p:outputLabel id="costumerTest" value="#{saleCarBean.idCustomerSelected}"/>
+                            </div>
                         </div>
 
                         <div class="field col-12 md:col-4">
@@ -222,7 +223,7 @@
                             </h:panelGroup>
                         </div>
                     </div>
-                </div>  
+                </h:form>  
                 <div class="sale-general-detail">
                     <div class="sale-item-detail">
                         <span>SubTotal</span>
@@ -244,11 +245,11 @@
                         <span>Cambio</span>
                         <span>$40</span>
                     </div>
-                    <div>
+                    <h:form>
                         <p:commandButton value="Cancelar venta" styleClass="ui-button-danger" update="saleCarList"
                                          icon="pi pi-trash" style="margin-right: 8px;" action="#{saleCarBean.trashSaleCar()}"/>
                         <p:commandButton value="Realizar venta" icon="pi pi-check" action="#{saleCarBean.createSaleCarInitial()}"/>
-                    </div>
+                    </h:form>
                 </div>
             </div>
             <div class="sale-item sale-car">

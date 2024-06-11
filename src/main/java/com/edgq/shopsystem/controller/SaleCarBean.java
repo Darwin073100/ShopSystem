@@ -41,6 +41,7 @@ public class SaleCarBean implements Serializable {
     private SaleService saleService;
     @Inject
     private SessionBean session;
+    
     @Getter
     @Setter
     private Sale saleCarDB;
@@ -70,23 +71,21 @@ public class SaleCarBean implements Serializable {
     @Setter
     private TicketDetail ticketDetail;
 
+    @Getter
+    @Setter
+    private int idCustomerSelected;
+    
     @PostConstruct
     public void init() {
         findAllCustomer();
-        payMethodDetails.add(new PayMethodDetail(1, PayMethod.E, "pi-wallet", "Efectivo"));
-        payMethodDetails.add(new PayMethodDetail(2, PayMethod.D, "pi-money-bill", "Débito"));
-        payMethodDetails.add(new PayMethodDetail(3, PayMethod.C, "pi-money-bill", "Crédito"));
-
-        ticketDetails.add(new TicketDetail(1, Ticket.S, "pi-file-excel", "S/C"));
-        ticketDetails.add(new TicketDetail(2, Ticket.I, "pi-print", "Impreso"));
-        ticketDetails.add(new TicketDetail(3, Ticket.E, "pi-envelope", "Correo"));
+        initValues();
     }
 
     public void findAllCustomer() {
         try {
             customers = customerService.findAll();
             if (customers != null && !customers.isEmpty()) {
-                customerSelected = customers.get(0); // Selecciona el primer cliente por defecto, si es necesario
+                idCustomerSelected = customers.get(0).getId(); // Selecciona el primer cliente por defecto, si es necesario
             }
         } catch (Exception e) {
             customers = null;
@@ -107,32 +106,36 @@ public class SaleCarBean implements Serializable {
             saleCar.add(p);
         }
         productService.productExtractIds(saleCar);
-        //System.out.println(productService.findProductByVarCode(varCodeInput));
     }
 
+    
     public void createSaleCarInitial() {
-        if (customerSelected != null) {
-            System.out.println(customerSelected.toString());
+        if (idCustomerSelected > 0) {
+            customerSelected.setId(idCustomerSelected);
+            System.out.println("Usuario con id: "+idCustomerSelected);
         } else {
             System.err.println("No se ha seleccionado ningun Customer");
         }
-        //saleService.save(new Sale(0, 0.0, PayMethod.E, new Date(), session.getUserInSession(), customerSelected, null));
+        saleService.save(new Sale(0, 0.0, PayMethod.E, new Date(), session.getUserInSession(), customerSelected, null));
     }
-//    public void findProductByVarCode(){
-//        Product p;
-//        p = productService.findProductByVarCode(varCodeInput);
-//        if(!p.equals(null)){
-//            saleCar.add(p);
-//        }
-//        productService.productExtractIds(saleCar);
-//        //System.out.println(productService.findProductByVarCode(varCodeInput));
-//    }
+
 
     public void trashSaleCar() {
         System.out.println("------------CLEAN SALE CAR-------------");
         saleCar = new ArrayList<>();
         varCodeInput = "";
         System.out.println("---------------------------------------");
+    }
+
+    // Inicializa valores para el constructor
+    private void initValues() {
+        payMethodDetails.add(new PayMethodDetail(1, PayMethod.E, "pi-wallet", "Efectivo"));
+        payMethodDetails.add(new PayMethodDetail(2, PayMethod.D, "pi-money-bill", "Débito"));
+        payMethodDetails.add(new PayMethodDetail(3, PayMethod.C, "pi-money-bill", "Crédito"));
+
+        ticketDetails.add(new TicketDetail(1, Ticket.S, "pi-file-excel", "S/C"));
+        ticketDetails.add(new TicketDetail(2, Ticket.I, "pi-print", "Impreso"));
+        ticketDetails.add(new TicketDetail(3, Ticket.E, "pi-envelope", "Correo"));    
     }
 
 }
