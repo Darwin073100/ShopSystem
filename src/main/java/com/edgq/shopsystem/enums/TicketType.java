@@ -1,6 +1,6 @@
 package com.edgq.shopsystem.enums;
 
-public enum Ticket {
+public enum TicketType {
     //S: Sin comprobante
     S,
     //I: Comprobante impreso

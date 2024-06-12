@@ -1,22 +1,20 @@
 package com.edgq.shopsystem.entity;
 
-import com.edgq.shopsystem.enums.PayMethod;
 import java.util.Date;
 import java.util.List;
-import java.util.Objects;
-import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import com.edgq.shopsystem.entity.Ticket;
+import com.edgq.shopsystem.entity.PayMethod;
+import java.util.Objects;
+import javax.persistence.OneToMany;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -38,9 +36,6 @@ public class Sale {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     private Double total;
-    @Column(name = "pay_method")
-    @Enumerated(EnumType.STRING)
-    private PayMethod payMethod;
     @Temporal(TemporalType.DATE)
     private Date date;
     @OneToOne
@@ -49,19 +44,26 @@ public class Sale {
     @OneToOne
     @JoinColumn(referencedColumnName = "id")
     private Customer customer;
+    @OneToOne
+    @JoinColumn(referencedColumnName = "id")
+    private Ticket ticket;
+    @OneToOne
+    @JoinColumn(referencedColumnName = "id")
+    private PayMethod payMethod; 
     
     @OneToMany(mappedBy = "sale")
     private List<SaleItem> items;
 
     @Override
     public int hashCode() {
-        int hash = 7;
-        hash = 29 * hash + Objects.hashCode(this.id);
-        hash = 29 * hash + Objects.hashCode(this.total);
-        hash = 29 * hash + Objects.hashCode(this.payMethod);
-        hash = 29 * hash + Objects.hashCode(this.date);
-        hash = 29 * hash + Objects.hashCode(this.employee);
-        hash = 29 * hash + Objects.hashCode(this.customer);
+        int hash = 5;
+        hash = 61 * hash + Objects.hashCode(this.id);
+        hash = 61 * hash + Objects.hashCode(this.total);
+        hash = 61 * hash + Objects.hashCode(this.date);
+        hash = 61 * hash + Objects.hashCode(this.employee);
+        hash = 61 * hash + Objects.hashCode(this.customer);
+        hash = 61 * hash + Objects.hashCode(this.ticket);
+        hash = 61 * hash + Objects.hashCode(this.payMethod);
         return hash;
     }
 
@@ -77,9 +79,6 @@ public class Sale {
             return false;
         }
         final Sale other = (Sale) obj;
-        if (!Objects.equals(this.payMethod, other.payMethod)) {
-            return false;
-        }
         if (!Objects.equals(this.id, other.id)) {
             return false;
         }
@@ -92,12 +91,20 @@ public class Sale {
         if (!Objects.equals(this.employee, other.employee)) {
             return false;
         }
-        return Objects.equals(this.customer, other.customer);
+        if (!Objects.equals(this.customer, other.customer)) {
+            return false;
+        }
+        if (!Objects.equals(this.ticket, other.ticket)) {
+            return false;
+        }
+        return Objects.equals(this.payMethod, other.payMethod);
     }
 
     @Override
     public String toString() {
-        return "Sale{" + "id=" + id + ", total=" + total + ", payMethod=" + payMethod + ", date=" + date + ", employee=" + employee + ", customer=" + customer + '}';
+        return "Sale{" + "id=" + id + ", total=" + total + ", date=" + date + ", employee=" + employee + ", customer=" + customer + ", ticked=" + ticket + ", pay_method=" + payMethod + '}';
     }
+
+    
     
 }

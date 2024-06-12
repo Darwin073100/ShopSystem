@@ -1,6 +1,6 @@
 package com.edgq.shopsystem.tools;
 
-import com.edgq.shopsystem.enums.Ticket;
+import com.edgq.shopsystem.enums.TicketType;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -11,7 +11,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class TicketDetail {
     private int id;
-    private Ticket ticket;
+    private TicketType ticket;
     private String icon;
     private String detail;
 }

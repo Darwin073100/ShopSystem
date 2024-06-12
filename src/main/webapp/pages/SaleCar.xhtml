@@ -174,14 +174,14 @@
                                 <h:panelGroup id="iconCostumer" styleClass="ui-inputgroup-addon">
                                     <i class="pi pi-user"/>
                                 </h:panelGroup>
-                                <p:selectOneMenu id="selectOneMenuIconCustomer" value="${saleCarBean.idCustomerSelected}" style="width: 80%">
+                                <p:selectOneMenu id="selectOneMenuIconCustomer" value="${saleCarBean.customerIdSelected}" style="width: 80%">
                                     <f:selectItems value="#{saleCarBean.customers}" var="item" itemLabel="${item.name}"
                                                    itemValue="${item.id}" />
                                     <p:column><i class="pi pi-user" /> ${item.name} </p:column>
 
                                     <f:ajax execute="selectOneMenuIconCustomer" render="costumerTest" />
                                 </p:selectOneMenu>
-                                <p:outputLabel id="costumerTest" value="#{saleCarBean.idCustomerSelected}"/>
+                                <p:outputLabel id="costumerTest" value="#{saleCarBean.customerIdSelected}"/>
                             </div>
                         </div>
 
@@ -197,12 +197,12 @@
                                 <h:panelGroup id="icon1" styleClass="ui-inputgroup-addon">
                                     <i class="pi pi-credit-card"/>
                                 </h:panelGroup>
-                                <p:selectOneMenu id="selectOneMenuIconPayMethod" value="${saleCarBean.payMethodSelected}" var="item" style="width: 80%">
-                                    <f:selectItems value="#{saleCarBean.payMethodDetails}" var="item" itemLabel="${item.detail}"
-                                                   itemValue="${item.detail}" />
-                                    <p:column><i class="pi ${item.icon}" /> ${item.detail} </p:column>
+                                <p:selectOneMenu id="selectOneMenuIconPayMethod" value="${saleCarBean.payMethodIdSelected}" var="item" style="width: 80%">
+                                    <f:selectItems value="#{saleCarBean.payMethods}" var="item" itemLabel="${item.detail}"
+                                                   itemValue="${item.id}" />
+                                    <p:column><i class="pi" /> ${item.detail} </p:column>
 
-                                    <p:ajax update="@parent:@parent:icon1" />
+                                    <f:ajax execute="selectOneMenuIconPayMethod" />
                                 </p:selectOneMenu>
                             </h:panelGroup>
                         </div>
@@ -213,12 +213,12 @@
                                 <h:panelGroup id="iconTicked" styleClass="ui-inputgroup-addon">
                                     <i class="pi pi-print"/>
                                 </h:panelGroup>
-                                <p:selectOneMenu id="selectOneMenuIconTicked" value="#{saleCarBean.ticketDetail}" style="width: 80%">
-                                    <f:selectItems value="#{saleCarBean.ticketDetails}" var="item" itemLabel="${item.detail}"
-                                                   itemValue="${item.detail}" />
-                                    <p:column><i class="pi ${item.icon}" /> ${item.detail} </p:column>
+                                <p:selectOneMenu id="selectOneMenuIconTicked" value="#{saleCarBean.ticketIdSelected}" style="width: 80%">
+                                    <f:selectItems value="#{saleCarBean.tickets}" var="item" itemLabel="${item.detail}"
+                                                   itemValue="${item.id}" />
+                                    <p:column><i class="pi" /> ${item.detail} </p:column>
 
-                                    <p:ajax update="@parent:@parent:iconTicked" />
+                                    <f:ajax execute="selectOneMenuIconTicked" render="costumerTest" />
                                 </p:selectOneMenu>
                             </h:panelGroup>
                         </div>

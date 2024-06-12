@@ -1,21 +1,18 @@
 package com.edgq.shopsystem.controller;
 
 import com.edgq.shopsystem.entity.Customer;
-import com.edgq.shopsystem.entity.Employee;
+import com.edgq.shopsystem.entity.PayMethod;
 import com.edgq.shopsystem.entity.Product;
 import com.edgq.shopsystem.entity.Sale;
-import com.edgq.shopsystem.enums.PayMethod;
-import com.edgq.shopsystem.enums.Ticket;
+import com.edgq.shopsystem.entity.Ticket;
 import com.edgq.shopsystem.service.CustomerService;
+import com.edgq.shopsystem.service.PayMethodService;
 import com.edgq.shopsystem.service.ProductsService;
-import com.edgq.shopsystem.service.SaleItemService;
 import com.edgq.shopsystem.service.SaleService;
-import com.edgq.shopsystem.tools.PayMethodDetail;
-import com.edgq.shopsystem.tools.TicketDetail;
+import com.edgq.shopsystem.service.TicketService;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.faces.event.ValueChangeEvent;
@@ -41,6 +38,10 @@ public class SaleCarBean implements Serializable {
     private SaleService saleService;
     @Inject
     private SessionBean session;
+    @Inject
+    private TicketService ticketService;
+    @Inject
+    private PayMethodService payMethodService;
     
     @Getter
     @Setter
@@ -51,9 +52,8 @@ public class SaleCarBean implements Serializable {
     @Getter
     @Setter
     private String varCodeInput;
-    @Getter
-    @Setter
-    private String paymethodINput;
+
+
     @Getter
     @Setter
     private List<Customer> customers;
@@ -61,31 +61,42 @@ public class SaleCarBean implements Serializable {
     @Setter
     private Customer customerSelected = new Customer();
     @Getter
-    private List<PayMethodDetail> payMethodDetails = new ArrayList<>();
-    @Getter
-    private List<TicketDetail> ticketDetails = new ArrayList<>();
     @Setter
-    @Getter
-    private PayMethodDetail payMethodSelected;
+    private List<Ticket> tickets;
     @Getter
     @Setter
-    private TicketDetail ticketDetail;
+    private Ticket ticketSelected = new Ticket();
+    @Getter
+    @Setter
+    private List<PayMethod> payMethods;
+    @Getter
+    @Setter
+    private PayMethod payMethodSelected = new PayMethod();
 
     @Getter
     @Setter
-    private int idCustomerSelected;
+    private int customerIdSelected;
+    
+    @Getter
+    @Setter
+    private int payMethodIdSelected;
+    
+    @Getter
+    @Setter
+    private int ticketIdSelected;
     
     @PostConstruct
     public void init() {
         findAllCustomer();
-        initValues();
+        tickets = ticketService.findAll();
+        payMethods = payMethodService.findAll();
     }
 
     public void findAllCustomer() {
         try {
             customers = customerService.findAll();
             if (customers != null && !customers.isEmpty()) {
-                idCustomerSelected = customers.get(0).getId(); // Selecciona el primer cliente por defecto, si es necesario
+                customerIdSelected = customers.get(0).getId(); // Selecciona el primer cliente por defecto, si es necesario
             }
         } catch (Exception e) {
             customers = null;
@@ -110,13 +121,17 @@ public class SaleCarBean implements Serializable {
 
     
     public void createSaleCarInitial() {
-        if (idCustomerSelected > 0) {
-            customerSelected.setId(idCustomerSelected);
-            System.out.println("Usuario con id: "+idCustomerSelected);
+        if (customerIdSelected > 0 && ticketIdSelected > 0 && payMethodIdSelected > 0) {
+            customerSelected.setId(customerIdSelected);
+            ticketSelected.setId(ticketIdSelected);
+            payMethodSelected.setId(payMethodIdSelected);
+            System.out.println("Usuario con id: "+customerIdSelected);
+            System.out.println("Ticket con id: "+ticketIdSelected);
+            System.out.println("PayMethod con id: "+payMethodIdSelected);
         } else {
             System.err.println("No se ha seleccionado ningun Customer");
         }
-        saleService.save(new Sale(0, 0.0, PayMethod.E, new Date(), session.getUserInSession(), customerSelected, null));
+        //saleService.save(new Sale(0, 0.0, PayMethod.E, new Date(), session.getUserInSession(), customerSelected, null));
     }
 
 
@@ -125,17 +140,6 @@ public class SaleCarBean implements Serializable {
         saleCar = new ArrayList<>();
         varCodeInput = "";
         System.out.println("---------------------------------------");
-    }
-
-    // Inicializa valores para el constructor
-    private void initValues() {
-        payMethodDetails.add(new PayMethodDetail(1, PayMethod.E, "pi-wallet", "Efectivo"));
-        payMethodDetails.add(new PayMethodDetail(2, PayMethod.D, "pi-money-bill", "Débito"));
-        payMethodDetails.add(new PayMethodDetail(3, PayMethod.C, "pi-money-bill", "Crédito"));
-
-        ticketDetails.add(new TicketDetail(1, Ticket.S, "pi-file-excel", "S/C"));
-        ticketDetails.add(new TicketDetail(2, Ticket.I, "pi-print", "Impreso"));
-        ticketDetails.add(new TicketDetail(3, Ticket.E, "pi-envelope", "Correo"));    
     }
 
 }

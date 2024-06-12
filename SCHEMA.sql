@@ -67,18 +67,37 @@ CREATE TABLE employee(
         REFERENCES user(id) 
 );
 
+CREATE TABLE pay_method(
+    id INT AUTO_INCREMENT NOT NULL,
+    method CHAR(1) NOT NULL,
+    detail VARCHAR(50) NOT NULL,
+    CONSTRAINT pk_pay_method_id PRIMARY KEY (id)
+);
+
+CREATE TABLE ticket(
+    id INT AUTO_INCREMENT NOT NULL,
+    method CHAR(1) NOT NULL,
+    detail VARCHAR(50) NOT NULL,
+    CONSTRAINT pk_ticket_id PRIMARY KEY (id)
+);
+
 CREATE TABLE sale(
     id INT AUTO_INCREMENT NOT NULL,
     employee_id INT NOT NULL,
     customer_id INT NULL,
     total DOUBLE NOT NULL,
-    pay_method CHAR(1) NOT NULL,
+    pay_method_id INT NOT NULL,
+    ticket_id INT NOT NULL,
     date DATETIME DEFAULT CURRENT_TIMESTAMP NOT NULL,
     CONSTRAINT pk_sale_id PRIMARY KEY (id),
     CONSTRAINT fk_sale_employee_id FOREIGN KEY (employee_id) 
         REFERENCES employee (id),
     CONSTRAINT fk_sale_customer_id FOREIGN KEY (customer_id)
-        REFERENCES customer (id)
+        REFERENCES customer (id),
+	CONSTRAINT fk_sale_pay_method_id FOREIGN KEY (pay_method_id)
+		REFERENCES pay_method (id),
+	CONSTRAINT fk_sale_ticket_id FOREIGN KEY (ticket_id)
+		REFERENCES ticket (id)
 );
 
 CREATE TABLE sale_item(
