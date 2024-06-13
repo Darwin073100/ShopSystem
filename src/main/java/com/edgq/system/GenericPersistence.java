@@ -24,8 +24,10 @@ public abstract class GenericPersistence<T> implements CrudMethods<T>{
     }
     
     @Override
-    public void save(T entity){
+    public T save(T entity){
         em.persist(entity);
+        em.flush();
+        return entity;
     }
     
     @Override

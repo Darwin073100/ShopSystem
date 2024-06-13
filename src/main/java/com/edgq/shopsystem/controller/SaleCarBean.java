@@ -5,6 +5,7 @@ import com.edgq.shopsystem.entity.PayMethod;
 import com.edgq.shopsystem.entity.Product;
 import com.edgq.shopsystem.entity.Sale;
 import com.edgq.shopsystem.entity.Ticket;
+import com.edgq.shopsystem.enums.PayMethodType;
 import com.edgq.shopsystem.service.CustomerService;
 import com.edgq.shopsystem.service.PayMethodService;
 import com.edgq.shopsystem.service.ProductsService;
@@ -13,6 +14,7 @@ import com.edgq.shopsystem.service.TicketService;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.faces.event.ValueChangeEvent;
@@ -88,8 +90,9 @@ public class SaleCarBean implements Serializable {
     @PostConstruct
     public void init() {
         findAllCustomer();
-        tickets = ticketService.findAll();
-        payMethods = payMethodService.findAll();
+        findAllTickets();
+        findAllPayMethods();
+        
     }
 
     public void findAllCustomer() {
@@ -100,6 +103,28 @@ public class SaleCarBean implements Serializable {
             }
         } catch (Exception e) {
             customers = null;
+        }
+    }
+    
+    public void findAllTickets(){
+        try {
+            tickets = ticketService.findAll();
+            if(tickets != null && !tickets.isEmpty()){
+                ticketIdSelected = tickets.get(0).getId();
+            }
+        } catch (Exception e) {
+            tickets = null;
+        }
+    }
+    
+    public void findAllPayMethods(){
+        try {
+            payMethods = payMethodService.findAll();
+            if(payMethods != null && !payMethods.isEmpty()){
+                payMethodIdSelected= payMethods.get(0).getId();
+            }
+        } catch (Exception e) {
+            payMethods = null;
         }
     }
 
@@ -125,13 +150,10 @@ public class SaleCarBean implements Serializable {
             customerSelected.setId(customerIdSelected);
             ticketSelected.setId(ticketIdSelected);
             payMethodSelected.setId(payMethodIdSelected);
-            System.out.println("Usuario con id: "+customerIdSelected);
-            System.out.println("Ticket con id: "+ticketIdSelected);
-            System.out.println("PayMethod con id: "+payMethodIdSelected);
         } else {
             System.err.println("No se ha seleccionado ningun Customer");
         }
-        //saleService.save(new Sale(0, 0.0, PayMethod.E, new Date(), session.getUserInSession(), customerSelected, null));
+        saleCarDB = saleService.save(new Sale(0, 0.0, new Date(), session.getUserInSession(), customerSelected, ticketSelected, payMethodSelected, null));
     }
 
 

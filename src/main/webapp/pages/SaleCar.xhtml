@@ -169,7 +169,7 @@
                 <h:form class="sale-details-inputs">
                     <div class="sale-detail-input">
                         <div id="formCarCustomer" class="field col-12 md:col-4">
-                            <p:outputLabel value="Cliente:" />
+                            <p:outputLabel for="selectOneMenuIconCustomer" value="Cliente:" />
                             <div id="selectCustomer" styleClass="ui-inputgroup">
                                 <h:panelGroup id="iconCostumer" styleClass="ui-inputgroup-addon">
                                     <i class="pi pi-user"/>
@@ -179,9 +179,8 @@
                                                    itemValue="${item.id}" />
                                     <p:column><i class="pi pi-user" /> ${item.name} </p:column>
 
-                                    <f:ajax execute="selectOneMenuIconCustomer" render="costumerTest" />
+                                    <f:ajax execute="selectOneMenuIconCustomer" />
                                 </p:selectOneMenu>
-                                <p:outputLabel id="costumerTest" value="#{saleCarBean.customerIdSelected}"/>
                             </div>
                         </div>
 
