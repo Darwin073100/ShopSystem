@@ -4,11 +4,13 @@ import com.edgq.shopsystem.entity.Customer;
 import com.edgq.shopsystem.entity.PayMethod;
 import com.edgq.shopsystem.entity.Product;
 import com.edgq.shopsystem.entity.Sale;
+import com.edgq.shopsystem.entity.SaleItem;
 import com.edgq.shopsystem.entity.Ticket;
 import com.edgq.shopsystem.enums.PayMethodType;
 import com.edgq.shopsystem.service.CustomerService;
 import com.edgq.shopsystem.service.PayMethodService;
 import com.edgq.shopsystem.service.ProductsService;
+import com.edgq.shopsystem.service.SaleItemService;
 import com.edgq.shopsystem.service.SaleService;
 import com.edgq.shopsystem.service.TicketService;
 
@@ -39,6 +41,8 @@ public class SaleCarBean implements Serializable {
     @Inject
     private SaleService saleService;
     @Inject
+    private SaleItemService saleItemService;
+    @Inject
     private SessionBean session;
     @Inject
     private TicketService ticketService;
@@ -47,7 +51,8 @@ public class SaleCarBean implements Serializable {
     
     @Getter
     @Setter
-    private Sale saleCarDB;
+    private Sale saleCarActive;
+    
     @Getter
     @Setter
     private List<Product> saleCar = new ArrayList<>();
@@ -86,6 +91,10 @@ public class SaleCarBean implements Serializable {
     @Getter
     @Setter
     private int ticketIdSelected;
+    
+    @Setter
+    @Getter
+    private List<SaleItem> saleItems;
     
     @PostConstruct
     public void init() {
@@ -138,6 +147,7 @@ public class SaleCarBean implements Serializable {
     public void findProductByVarCode() {
         Product p;
         p = productService.findProductByVarCode(varCodeInput);
+        System.out.println(saleItemService.searchItemWithProductByBarCode(varCodeInput));
         if (!p.equals(null)) {
             saleCar.add(p);
         }
@@ -153,7 +163,7 @@ public class SaleCarBean implements Serializable {
         } else {
             System.err.println("No se ha seleccionado ningun Customer");
         }
-        saleCarDB = saleService.save(new Sale(0, 0.0, new Date(), session.getUserInSession(), customerSelected, ticketSelected, payMethodSelected, null));
+        saleCarActive = saleService.save(new Sale(0, 0.0, new Date(), session.getUserInSession(), customerSelected, ticketSelected, payMethodSelected, null));
     }
 
 
