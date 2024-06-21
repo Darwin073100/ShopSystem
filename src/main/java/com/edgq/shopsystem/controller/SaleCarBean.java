@@ -1,6 +1,7 @@
 package com.edgq.shopsystem.controller;
 
 import com.edgq.shopsystem.entity.Customer;
+import com.edgq.shopsystem.entity.Employee;
 import com.edgq.shopsystem.entity.PayMethod;
 import com.edgq.shopsystem.entity.Product;
 import com.edgq.shopsystem.entity.Sale;
@@ -34,6 +35,8 @@ import lombok.Setter;
 @ViewScoped
 public class SaleCarBean implements Serializable {
 
+    private final int INITIAL_PRODUCT_QUANTITY = 1;
+
     @Inject
     private CustomerService customerService;
     @Inject
@@ -48,18 +51,17 @@ public class SaleCarBean implements Serializable {
     private TicketService ticketService;
     @Inject
     private PayMethodService payMethodService;
-    
+
     @Getter
     @Setter
     private Sale saleCarActive;
-    
+
     @Getter
     @Setter
     private List<Product> saleCar = new ArrayList<>();
     @Getter
     @Setter
     private String varCodeInput;
-
 
     @Getter
     @Setter
@@ -83,25 +85,25 @@ public class SaleCarBean implements Serializable {
     @Getter
     @Setter
     private int customerIdSelected;
-    
+
     @Getter
     @Setter
     private int payMethodIdSelected;
-    
+
     @Getter
     @Setter
     private int ticketIdSelected;
-    
+
     @Setter
     @Getter
     private List<SaleItem> saleItems;
-    
+
     @PostConstruct
     public void init() {
         findAllCustomer();
         findAllTickets();
         findAllPayMethods();
-        
+
     }
 
     public void findAllCustomer() {
@@ -114,23 +116,23 @@ public class SaleCarBean implements Serializable {
             customers = null;
         }
     }
-    
-    public void findAllTickets(){
+
+    public void findAllTickets() {
         try {
             tickets = ticketService.findAll();
-            if(tickets != null && !tickets.isEmpty()){
+            if (tickets != null && !tickets.isEmpty()) {
                 ticketIdSelected = tickets.get(0).getId();
             }
         } catch (Exception e) {
             tickets = null;
         }
     }
-    
-    public void findAllPayMethods(){
+
+    public void findAllPayMethods() {
         try {
             payMethods = payMethodService.findAll();
-            if(payMethods != null && !payMethods.isEmpty()){
-                payMethodIdSelected= payMethods.get(0).getId();
+            if (payMethods != null && !payMethods.isEmpty()) {
+                payMethodIdSelected = payMethods.get(0).getId();
             }
         } catch (Exception e) {
             payMethods = null;
@@ -144,17 +146,38 @@ public class SaleCarBean implements Serializable {
         System.err.println(varCodeInput);
     }
 
-    public void findProductByVarCode() {
+    public void findProductByVarCode(Employee employeeSelected) {
         Product p;
+        SaleItem si;
+        // Busca un producto y se asigna a una referencia (p)
         p = productService.findProductByVarCode(varCodeInput);
-        System.out.println(saleItemService.searchItemWithProductByBarCode(varCodeInput));
-        if (!p.equals(null)) {
-            saleCar.add(p);
+        //System.out.println(saleItemService.searchItemWithProductByBarCode(varCodeInput));
+        if (p != null) {
+            if (saleCarActive != null) {
+                // Busca un item que tenga el producto antes ya consultado
+                si = saleItemService.searchItemWithProductByBarCode(varCodeInput);
+                if (si != null) {
+                    saleItemService.modifiedQuantity(si.getId());
+                    saleItems = saleItemService.searchSaleItemBySaleId(saleCarActive.getId());
+                } else {
+                    saleItemService.save(new SaleItem(1, saleCarActive, p, INITIAL_PRODUCT_QUANTITY, p.getPrice()));
+                    saleItems = saleItemService.searchSaleItemBySaleId(saleCarActive.getId());
+                }
+            } else {
+                createSaleCarInitial();
+                // Busca un item que tenga el producto antes ya consultado
+                si = saleItemService.searchItemWithProductByBarCode(varCodeInput);
+                if (si != null) {
+                    saleItemService.modifiedQuantity(si.getId());
+                    saleItems = saleItemService.searchSaleItemBySaleId(saleCarActive.getId());
+                } else {
+                    saleItemService.save(new SaleItem(1, saleCarActive, p, INITIAL_PRODUCT_QUANTITY, p.getPrice()));
+                    saleItems = saleItemService.searchSaleItemBySaleId(saleCarActive.getId());
+                }
+            }
         }
-        productService.productExtractIds(saleCar);
     }
 
-    
     public void createSaleCarInitial() {
         if (customerIdSelected > 0 && ticketIdSelected > 0 && payMethodIdSelected > 0) {
             customerSelected.setId(customerIdSelected);
@@ -165,7 +188,6 @@ public class SaleCarBean implements Serializable {
         }
         saleCarActive = saleService.save(new Sale(0, 0.0, new Date(), session.getUserInSession(), customerSelected, ticketSelected, payMethodSelected, null));
     }
-
 
     public void trashSaleCar() {
         System.out.println("------------CLEAN SALE CAR-------------");

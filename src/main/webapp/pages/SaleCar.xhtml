@@ -255,7 +255,7 @@
                 <h3>Productos</h3>
                 <div class="sale-car-options-search-product-shearch">
                     <h:form class="sale-car-options-search-product-shearch-input">
-                        <h:commandLink class="search-button" action="${saleCarBean.findProductByVarCode()}">
+                        <h:commandLink class="search-button" action="${saleCarBean.findProductByVarCode(sessionBean.userInSession)}">
                             <i class="pi pi-search"></i>
                         </h:commandLink>
                         <h:inputText id="inputSearch" value="${saleCarBean.varCodeInput}" 
@@ -264,26 +264,26 @@
                         </h:inputText>
                     </h:form>
 
-                    <ui:repeat id="saleCarList" value="${saleCarBean.saleCar}" var="item">
+                    <ui:repeat id="saleCarList" value="${saleCarBean.saleItems}" var="item">
                         <div class="sale-car-detail-body-product">
                             <div class="sale-car-detail-body-product-group">
                                 <h:graphicImage library="assets" name="fanta.png"/>
                                 <div class="sale-car-detail-body-product-detail">
                                     <div class="sale-car-product-name">
-                                        <span><strong>${item.name}</strong></span>
-                                        <span class="class">${item.price}$</span>
+                                        <span><strong>${item.product.name}</strong></span>
+                                        <span class="class">${item.product.price}$</span>
                                     </div>
                                     <div class="sale-car-product-dinamic-info">
                                         <div class="sale-ca-counter-products">
                                             <h:commandLink style="" class="shop-button-rounded-danger">
                                                 <i class="pi pi-minus"></i>
                                             </h:commandLink>
-                                            <p:inputNumber decimalPlaces="0"/>
+                                            <p:inputNumber decimalPlaces="0" value="#{item.quantity}"/>
                                             <h:commandLink style="" class="shop-button-rounded-primary">
                                                 <i class="pi pi-plus"></i>
                                             </h:commandLink>
                                         </div>
-                                        <span class="class">100$</span>
+                                        <span class="class">item.total$</span>
                                     </div>
                                 </div>
                             </div>

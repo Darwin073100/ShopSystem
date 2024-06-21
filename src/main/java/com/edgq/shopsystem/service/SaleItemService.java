@@ -28,6 +28,16 @@ public class SaleItemService extends GenericPersistence<SaleItem> {
         }
     }
     
+    public Boolean modifiedQuantity(int saleItemId){
+        try{
+            em.createQuery("UPDATE SaleItem si SET si.quantity=+1 WHERE(si.id= :saleItemId)",SaleItem.class)
+                    .setParameter("saleItemId", saleItemId);
+            return true;
+        }catch(Exception e){
+            return false;
+        }
+    }
+    
     // Buscar todos los items de una venta en espesifica, por el ID de la venta
     public List<SaleItem> searchSaleItemBySaleId(int id){
         try {
@@ -38,8 +48,6 @@ public class SaleItemService extends GenericPersistence<SaleItem> {
         } catch (Exception e) {
             return null;
         }
-    }
-    
-    
+    }    
     
 }
