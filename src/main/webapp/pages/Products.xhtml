@@ -86,6 +86,9 @@
                 <h:panelGrid columns="2" >
                         <h:outputLabel value="Nombre"/>
                         <p:inputText style="margin: 10px" value="${productsBean.product.name}" label="Nombre" required="true"/>
+                        
+                        <h:outputLabel value="Codigo de barra"/>
+                        <p:inputText style="margin: 10px" value="${productsBean.product.varCode}" label="Codigo de barra" required="true"/>
 
                         <h:outputLabel value="Precio"/>
                         <p:inputNumber style="margin: 10px;" required="true" label="Precio"

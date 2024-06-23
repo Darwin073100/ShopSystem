@@ -30,6 +30,9 @@ CREATE TABLE customer(
     CONSTRAINT pk_customer_id PRIMARY KEY (id)
 );
 
+INSERT INTO customer(`id`, `name`, `suername`, `birthday`, `age`, `phone_number`, `email`, `address`, `no_sales`, `active`) 
+VALUES(DEFAULT, 'All', 'Generic', '2000-07-31', null, null, null, null, 0, TRUE);
+
 CREATE TABLE provider(
     id INT AUTO_INCREMENT NOT NULL,
     name VARCHAR(100) NOT NULL,
@@ -74,6 +77,13 @@ CREATE TABLE pay_method(
     CONSTRAINT pk_pay_method_id PRIMARY KEY (id)
 );
 
+INSERT INTO pay_method (`id`, `method`, `detail`) 
+VALUES(DEFAULT, 'E', 'Efectivo');
+INSERT INTO pay_method (`id`, `method`, `detail`) 
+VALUES(DEFAULT, 'D', 'Debito');
+INSERT INTO pay_method (`id`, `method`, `detail`) 
+VALUES(DEFAULT, 'C', 'Credito');
+
 CREATE TABLE ticket(
     id INT AUTO_INCREMENT NOT NULL,
     method CHAR(1) NOT NULL,
@@ -81,12 +91,19 @@ CREATE TABLE ticket(
     CONSTRAINT pk_ticket_id PRIMARY KEY (id)
 );
 
+INSERT INTO ticket (`id`, `method`, `detail`) 
+VALUEs(DEFAULT, 'S', 'S/C');
+INSERT INTO ticket (`id`, `method`, `detail`) 
+VALUEs(DEFAULT, 'I', 'Impreso');
+INSERT INTO ticket (`id`, `method`, `detail`) 
+VALUEs(DEFAULT, 'E', 'Correo electrónico');
+
 CREATE TABLE sale(
     id INT AUTO_INCREMENT NOT NULL,
     employee_id INT NOT NULL,
     customer_id INT NULL,
     total DOUBLE NOT NULL,
-    pay_method_id INT NOT NULL,
+    paymethod_id INT NOT NULL,
     ticket_id INT NOT NULL,
     date DATETIME DEFAULT CURRENT_TIMESTAMP NOT NULL,
     CONSTRAINT pk_sale_id PRIMARY KEY (id),

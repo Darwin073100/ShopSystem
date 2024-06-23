@@ -47,6 +47,7 @@ public class ProductsBean implements Serializable {
     
     public void save() {        
         try {
+            this.product.setActive(true);
             this.service.save(product);
             products.add(product);
             FacesUtils.messageInfo("Producto registrado", "Producto registrado");
