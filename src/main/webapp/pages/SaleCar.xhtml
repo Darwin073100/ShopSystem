@@ -223,7 +223,7 @@
                         </div>
                     </div>
                 </h:form>  
-                <div class="sale-general-detail">
+                <h:form class="sale-general-detail">
                     <div class="sale-item-detail">
                         <span>SubTotal</span>
                         <span>$1000</span>
@@ -244,25 +244,26 @@
                         <span>Cambio</span>
                         <span>$40</span>
                     </div>
-                    <h:form>
-                        <p:commandButton value="Cancelar venta" styleClass="ui-button-danger" update="saleCarList"
+                    <div>
+                        <p:commandButton value="Cancelar venta" styleClass="ui-button-danger" update="saleCarItemList:saleCarList"
                                          icon="pi pi-trash" style="margin-right: 8px;" />
                         <p:commandButton value="Realizar venta" icon="pi pi-check" action="#{saleCarBean.createSaleCarInitial()}"/>
-                    </h:form>
-                </div>
+                    </div>
+                </h:form>
             </div>
-            <div class="sale-item sale-car">
+            <h:form id="saleCarItemList" class="sale-item sale-car">
                 <h3>Productos</h3>
                 <div class="sale-car-options-search-product-shearch">
-                    <h:form class="sale-car-options-search-product-shearch-input">
+                    <div class="sale-car-options-search-product-shearch-input">
                         <h:commandLink class="search-button" action="${saleCarBean.findProductByVarCode()}">
                             <i class="pi pi-search"></i>
+                            <f:ajax execute="@form" render="@form" />
                         </h:commandLink>
                         <h:inputText id="inputSearch" value="${saleCarBean.varCodeInput}" 
                                      valueChangeListener="${saleCarBean.setInputVarCode}">
-                            <f:ajax event="change"/>
+                            <f:ajax event="change" />
                         </h:inputText>
-                    </h:form>
+                    </div>
 
                     <ui:repeat id="saleCarList" value="${saleCarBean.saleItems}" var="item">
                         <div class="sale-car-detail-body-product">
@@ -295,8 +296,7 @@
                         </div>
                     </ui:repeat>
                 </div>
-
-            </div>
+            </h:form>
         </div>
 
         <script>

@@ -146,49 +146,39 @@ public class SaleCarBean implements Serializable {
     }
 
     public void findProductByVarCode() {
-        Product productSearched;
-        SaleItem saleItemSearched;
+        Product productSearched = null;
+        SaleItem saleItemSearched = null;
+        
         // Busca un producto y se asigna a una referencia (productSearched)
         productSearched = productService.findProductByVarCode(varCodeInput);
-        //System.out.println(saleItemService.searchItemWithProductByBarCode(varCodeInput));
+
         if (productSearched != null) {
-            System.out.println("Producto encontrador............");
+            
+            // Si hay una venta se agrega el item a esa venta, caso contrario se crea la venta y se agrega el item
             if (saleCarActive != null) {
-                // Busca un item que tenga el producto antes ya consultado
-                saleItemSearched = saleItemService.searchItemWithProductByBarCode(varCodeInput, saleCarActive.getId());
-                if (saleItemSearched != null) {
-                    System.out.println("saleItemSearched es diferente de NULL");
-                    System.out.println(saleItemSearched);
-                    int beforeQuantity = saleItemSearched.getQuantity();
-                    int afterQuantity = beforeQuantity + 1;
-                    saleItemSearched.setQuantity(afterQuantity);
-                    saleItemService.update(saleItemSearched);
-                    saleItems = saleItemService.searchSaleItemBySaleId(saleCarActive.getId());
-                } else {
-                    addItemToSale(saleCarActive.getId(), productSearched.getId(), productSearched.getPrice());
-                    saleItems = saleItemService.searchSaleItemBySaleId(saleCarActive.getId());
-                }
+                addItemToSale(saleItemSearched, productSearched);
             } else {
                 createSaleCarInitial();
-                // Busca un item que tenga el producto antes ya consultado
-                saleItemSearched = saleItemService.searchItemWithProductByBarCode(varCodeInput, saleCarActive.getId());
-                if (saleItemSearched != null) {
-                    System.out.println("saleItemSearched es diferente de NULL");
-                    System.out.println(saleItemSearched);
-                    int beforeQuantity = saleItemSearched.getQuantity();
-                    int afterQuantity = beforeQuantity + 1;
-                    saleItemSearched.setQuantity(afterQuantity);
-                    saleItemService.update(saleItemSearched);
-                    saleItems = saleItemService.searchSaleItemBySaleId(saleCarActive.getId());
-                } else {
-                    System.out.println("saleItemSearched es igual a NULL");
-                    addItemToSale(saleCarActive.getId(), productSearched.getId(), productSearched.getPrice());
-                    saleItems = saleItemService.searchSaleItemBySaleId(saleCarActive.getId());
-                }
+                addItemToSale(saleItemSearched, productSearched);
             }
         }
     }
 
+    public void addItemToSale(SaleItem saleItemSearched, Product productSearched) {
+        // Busca un item que tenga el producto antes ya consultado
+        saleItemSearched = saleItemService.searchItemWithProductByBarCode(varCodeInput, saleCarActive.getId());
+        if (saleItemSearched != null) {
+            int beforeQuantity = saleItemSearched.getQuantity();
+            int afterQuantity = beforeQuantity + 1;
+            saleItemSearched.setQuantity(afterQuantity);
+            saleItemService.update(saleItemSearched);
+            saleItems = saleItemService.searchSaleItemBySaleId(saleCarActive.getId());
+        } else {
+            saleItemService.saveNativeSql(saleCarActive.getId(), productSearched.getId(), productSearched.getPrice());
+            saleItems = saleItemService.searchSaleItemBySaleId(saleCarActive.getId());
+        }
+    }
+    
 //    public void addItemToSale(int saleId, int productId, double productPrice, int quantity) {
 //        Product p = new Product();
 //        p.setId(productId);
@@ -204,9 +194,6 @@ public class SaleCarBean implements Serializable {
 //        saleItem = saleItemService.save(saleItem);
 //        System.out.println("Item:::::::" + saleItem);
 //    }
-    public void addItemToSale(int saleId, int productId, double productPrice) {
-        saleItemService.saveNativeSql(saleId, productId, productPrice);
-    }
 
     public void createSaleCarInitial() {
         if (customerIdSelected > 0 && ticketIdSelected > 0 && payMethodIdSelected > 0) {
@@ -222,8 +209,7 @@ public class SaleCarBean implements Serializable {
 
     public void trashSaleCar() {
         System.out.println("------------CLEAN SALE CAR-------------");
-        saleCar = new ArrayList<>();
-        varCodeInput = "";
+        init();
         System.out.println("---------------------------------------");
     }
 

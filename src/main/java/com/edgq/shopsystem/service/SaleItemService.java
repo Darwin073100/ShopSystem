@@ -62,6 +62,17 @@ public class SaleItemService extends GenericPersistence<SaleItem> {
             return false;
         }
     }
+    
+    @Override
+    public void update(SaleItem entity){
+        try {
+            double newTotal = entity.getQuantity() * entity.getProduct().getPrice();
+            entity.setTotal(newTotal);
+            em.merge(entity);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 
     // Buscar todos los items de una venta en espesifica, por el ID de la venta
     public List<SaleItem> searchSaleItemBySaleId(int id) {
