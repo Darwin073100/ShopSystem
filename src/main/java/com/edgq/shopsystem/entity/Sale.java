@@ -14,6 +14,7 @@ import javax.persistence.TemporalType;
 import com.edgq.shopsystem.entity.Ticket;
 import com.edgq.shopsystem.entity.PayMethod;
 import java.util.Objects;
+import javax.persistence.CascadeType;
 import javax.persistence.OneToMany;
 
 import lombok.AllArgsConstructor;
@@ -39,19 +40,19 @@ public class Sale {
     @Temporal(TemporalType.DATE)
     private Date date;
     @OneToOne
-    @JoinColumn(referencedColumnName = "id")
+    @JoinColumn(name = "employee_id", referencedColumnName = "id")
     private Employee employee;
     @OneToOne
-    @JoinColumn(referencedColumnName = "id")
+    @JoinColumn(name = "customer_id", referencedColumnName = "id")
     private Customer customer;
     @OneToOne
-    @JoinColumn(referencedColumnName = "id")
+    @JoinColumn(name="ticket_id", referencedColumnName = "id")
     private Ticket ticket;
     @OneToOne
-    @JoinColumn(referencedColumnName = "id")
+    @JoinColumn(name = "paymethod_id", referencedColumnName = "id")
     private PayMethod payMethod; 
     
-    @OneToMany(mappedBy = "sale")
+    @OneToMany(mappedBy = "sale", cascade = CascadeType.ALL, orphanRemoval = false)
     private List<SaleItem> items;
 
     @Override

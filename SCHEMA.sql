@@ -26,12 +26,12 @@ CREATE TABLE customer(
     email VARCHAR(250) NULL,
     address TEXT NULL,
     no_sales INT NULL,
-    active BOOLEAN NOT NULL,
+    active BOOLEAN DEFAULT TRUE NOT NULL,
     CONSTRAINT pk_customer_id PRIMARY KEY (id)
 );
 
 INSERT INTO customer(`id`, `name`, `suername`, `birthday`, `age`, `phone_number`, `email`, `address`, `no_sales`, `active`) 
-VALUES(DEFAULT, 'All', 'Generic', '2000-07-31', null, null, null, null, 0, TRUE);
+VALUES(DEFAULT, 'All', 'Generic', '2000-07-31', null, null, null, null, 0, DEFAULT);
 
 CREATE TABLE provider(
     id INT AUTO_INCREMENT NOT NULL,

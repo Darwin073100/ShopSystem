@@ -246,7 +246,7 @@
                     </div>
                     <h:form>
                         <p:commandButton value="Cancelar venta" styleClass="ui-button-danger" update="saleCarList"
-                                         icon="pi pi-trash" style="margin-right: 8px;" action="#{saleCarBean.trashSaleCar()}"/>
+                                         icon="pi pi-trash" style="margin-right: 8px;" />
                         <p:commandButton value="Realizar venta" icon="pi pi-check" action="#{saleCarBean.createSaleCarInitial()}"/>
                     </h:form>
                 </div>
@@ -255,7 +255,7 @@
                 <h3>Productos</h3>
                 <div class="sale-car-options-search-product-shearch">
                     <h:form class="sale-car-options-search-product-shearch-input">
-                        <h:commandLink class="search-button" action="${saleCarBean.findProductByVarCode(sessionBean.userInSession)}">
+                        <h:commandLink class="search-button" action="${saleCarBean.findProductByVarCode()}">
                             <i class="pi pi-search"></i>
                         </h:commandLink>
                         <h:inputText id="inputSearch" value="${saleCarBean.varCodeInput}" 
@@ -283,7 +283,7 @@
                                                 <i class="pi pi-plus"></i>
                                             </h:commandLink>
                                         </div>
-                                        <span class="class">item.total$</span>
+                                        <span class="class">#{item.total}$</span>
                                     </div>
                                 </div>
                             </div>

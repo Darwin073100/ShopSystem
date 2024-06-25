@@ -7,7 +7,6 @@ import com.edgq.shopsystem.entity.Product;
 import com.edgq.shopsystem.entity.Sale;
 import com.edgq.shopsystem.entity.SaleItem;
 import com.edgq.shopsystem.entity.Ticket;
-import com.edgq.shopsystem.enums.PayMethodType;
 import com.edgq.shopsystem.service.CustomerService;
 import com.edgq.shopsystem.service.PayMethodService;
 import com.edgq.shopsystem.service.ProductsService;
@@ -110,7 +109,7 @@ public class SaleCarBean implements Serializable {
         try {
             customers = customerService.findAll();
             if (customers != null && !customers.isEmpty()) {
-                customerIdSelected = customers.get(0).getId(); // Selecciona el primer cliente por defecto, si es necesario
+                customerIdSelected = customers.get(0).getId(); // Selecciona el primer cliente por defecto, saleItemSearched es necesario
             }
         } catch (Exception e) {
             customers = null;
@@ -146,36 +145,67 @@ public class SaleCarBean implements Serializable {
         System.err.println(varCodeInput);
     }
 
-    public void findProductByVarCode(Employee employeeSelected) {
-        Product p;
-        SaleItem si;
-        // Busca un producto y se asigna a una referencia (p)
-        p = productService.findProductByVarCode(varCodeInput);
+    public void findProductByVarCode() {
+        Product productSearched;
+        SaleItem saleItemSearched;
+        // Busca un producto y se asigna a una referencia (productSearched)
+        productSearched = productService.findProductByVarCode(varCodeInput);
         //System.out.println(saleItemService.searchItemWithProductByBarCode(varCodeInput));
-        if (p != null) {
+        if (productSearched != null) {
+            System.out.println("Producto encontrador............");
             if (saleCarActive != null) {
                 // Busca un item que tenga el producto antes ya consultado
-                si = saleItemService.searchItemWithProductByBarCode(varCodeInput);
-                if (si != null) {
-                    saleItemService.modifiedQuantity(si.getId());
+                saleItemSearched = saleItemService.searchItemWithProductByBarCode(varCodeInput, saleCarActive.getId());
+                if (saleItemSearched != null) {
+                    System.out.println("saleItemSearched es diferente de NULL");
+                    System.out.println(saleItemSearched);
+                    int beforeQuantity = saleItemSearched.getQuantity();
+                    int afterQuantity = beforeQuantity + 1;
+                    saleItemSearched.setQuantity(afterQuantity);
+                    saleItemService.update(saleItemSearched);
                     saleItems = saleItemService.searchSaleItemBySaleId(saleCarActive.getId());
                 } else {
-                    saleItemService.save(new SaleItem(1, saleCarActive, p, INITIAL_PRODUCT_QUANTITY, p.getPrice()));
+                    addItemToSale(saleCarActive.getId(), productSearched.getId(), productSearched.getPrice());
                     saleItems = saleItemService.searchSaleItemBySaleId(saleCarActive.getId());
                 }
             } else {
                 createSaleCarInitial();
                 // Busca un item que tenga el producto antes ya consultado
-                si = saleItemService.searchItemWithProductByBarCode(varCodeInput);
-                if (si != null) {
-                    saleItemService.modifiedQuantity(si.getId());
+                saleItemSearched = saleItemService.searchItemWithProductByBarCode(varCodeInput, saleCarActive.getId());
+                if (saleItemSearched != null) {
+                    System.out.println("saleItemSearched es diferente de NULL");
+                    System.out.println(saleItemSearched);
+                    int beforeQuantity = saleItemSearched.getQuantity();
+                    int afterQuantity = beforeQuantity + 1;
+                    saleItemSearched.setQuantity(afterQuantity);
+                    saleItemService.update(saleItemSearched);
                     saleItems = saleItemService.searchSaleItemBySaleId(saleCarActive.getId());
                 } else {
-                    saleItemService.save(new SaleItem(1, saleCarActive, p, INITIAL_PRODUCT_QUANTITY, p.getPrice()));
+                    System.out.println("saleItemSearched es igual a NULL");
+                    addItemToSale(saleCarActive.getId(), productSearched.getId(), productSearched.getPrice());
                     saleItems = saleItemService.searchSaleItemBySaleId(saleCarActive.getId());
                 }
             }
         }
+    }
+
+//    public void addItemToSale(int saleId, int productId, double productPrice, int quantity) {
+//        Product p = new Product();
+//        p.setId(productId);
+//        Sale s = new Sale();
+//        s.setId(saleId);
+//        
+//        SaleItem saleItem = new SaleItem();
+//        saleItem.setSale(s);
+//        saleItem.setProduct(p);
+//        saleItem.setQuantity(quantity);
+//        saleItem.setTotal(productPrice * quantity);
+//        // Guarda el saleItem
+//        saleItem = saleItemService.save(saleItem);
+//        System.out.println("Item:::::::" + saleItem);
+//    }
+    public void addItemToSale(int saleId, int productId, double productPrice) {
+        saleItemService.saveNativeSql(saleId, productId, productPrice);
     }
 
     public void createSaleCarInitial() {
@@ -187,6 +217,7 @@ public class SaleCarBean implements Serializable {
             System.err.println("No se ha seleccionado ningun Customer");
         }
         saleCarActive = saleService.save(new Sale(0, 0.0, new Date(), session.getUserInSession(), customerSelected, ticketSelected, payMethodSelected, null));
+        System.out.println("Venta generada: " + saleCarActive);
     }
 
     public void trashSaleCar() {
