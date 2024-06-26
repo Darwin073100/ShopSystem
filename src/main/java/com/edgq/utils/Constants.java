@@ -6,4 +6,5 @@ package com.edgq.utils;
  */
 public class Constants {
     public final static String PERSISTENCE_UNIT = "shop_system_unit";
+    public final static double IVA = 0.16;
 }

@@ -15,11 +15,14 @@ import com.edgq.shopsystem.entity.Ticket;
 import com.edgq.shopsystem.entity.PayMethod;
 import java.util.Objects;
 import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.OneToMany;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 /**
  *
@@ -31,13 +34,25 @@ import lombok.NoArgsConstructor;
 @Table(name = "sale")
 @NoArgsConstructor
 @AllArgsConstructor
+@EqualsAndHashCode
+@ToString
 public class Sale {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
+    @Column(name = "sub_total", nullable = true)
+    private Double subTotal;
+    @Column(name = "iva", nullable = true)
+    private Double iva;
+    @Column(name = "pay_quantity", nullable = true)
+    private Double payQuantity;
+    @Column(name = "change_amount", nullable = true)
+    private Double changeAmount;
+    @Column(name = "total")
     private Double total;
     @Temporal(TemporalType.DATE)
+    @Column(name = "date")
     private Date date;
     @OneToOne
     @JoinColumn(name = "employee_id", referencedColumnName = "id")
@@ -55,57 +70,11 @@ public class Sale {
     @OneToMany(mappedBy = "sale", cascade = CascadeType.ALL, orphanRemoval = false)
     private List<SaleItem> items;
 
-    @Override
-    public int hashCode() {
-        int hash = 5;
-        hash = 61 * hash + Objects.hashCode(this.id);
-        hash = 61 * hash + Objects.hashCode(this.total);
-        hash = 61 * hash + Objects.hashCode(this.date);
-        hash = 61 * hash + Objects.hashCode(this.employee);
-        hash = 61 * hash + Objects.hashCode(this.customer);
-        hash = 61 * hash + Objects.hashCode(this.ticket);
-        hash = 61 * hash + Objects.hashCode(this.payMethod);
-        return hash;
+    public Sale(Double subTotal, Double iva, Double payQuantity, Double changeAmount, Double total) {
+        this.subTotal = subTotal;
+        this.iva = iva;
+        this.payQuantity = payQuantity;
+        this.changeAmount = changeAmount;
+        this.total = total;
     }
-
-    @Override
-    public boolean equals(Object obj) {
-        if (this == obj) {
-            return true;
-        }
-        if (obj == null) {
-            return false;
-        }
-        if (getClass() != obj.getClass()) {
-            return false;
-        }
-        final Sale other = (Sale) obj;
-        if (!Objects.equals(this.id, other.id)) {
-            return false;
-        }
-        if (!Objects.equals(this.total, other.total)) {
-            return false;
-        }
-        if (!Objects.equals(this.date, other.date)) {
-            return false;
-        }
-        if (!Objects.equals(this.employee, other.employee)) {
-            return false;
-        }
-        if (!Objects.equals(this.customer, other.customer)) {
-            return false;
-        }
-        if (!Objects.equals(this.ticket, other.ticket)) {
-            return false;
-        }
-        return Objects.equals(this.payMethod, other.payMethod);
-    }
-
-    @Override
-    public String toString() {
-        return "Sale{" + "id=" + id + ", total=" + total + ", date=" + date + ", employee=" + employee + ", customer=" + customer + ", ticked=" + ticket + ", pay_method=" + payMethod + '}';
-    }
-
-    
-    
 }

@@ -223,31 +223,34 @@
                         </div>
                     </div>
                 </h:form>  
-                <h:form class="sale-general-detail">
+                <h:form id="saleGeneralDetail" class="sale-general-detail">
                     <div class="sale-item-detail">
                         <span>SubTotal</span>
-                        <span>$1000</span>
+                        <span>$#{saleCarBean.saleCarActive.subTotal}</span>
                     </div>
                     <div class="sale-item-detail">
                         <span>IVA %</span>
-                        <span>$160</span>
+                        <span>$#{saleCarBean.saleCarActive.iva}</span>
                     </div>
                     <div class="sale-item-detail">
                         <span>Total</span>
-                        <span>$1160</span>
+                        <span>$#{saleCarBean.saleCarActive.total}</span>
                     </div>
                     <div class="sale-item-detail">
                         <span>Pagó</span>
-                        <p:inputNumber placeholder="Ingresa la cantidad" value="1200"/>
+                        <p:inputNumber placeholder="Ingresa la cantidad" value="#{saleCarBean.saleCarActive.payQuantity}" 
+                                       valueChangeListener="#{saleCarBean.setInputPayQuantity}" >
+                            <f:ajax event="change" execute="saleGeneralDetail:changeAmount" rendered="saleGeneralDetail:changeAmount" />
+                        </p:inputNumber>
                     </div>
-                    <div class="sale-item-detail">
+                    <div id="changeAmount" class="sale-item-detail">
                         <span>Cambio</span>
-                        <span>$40</span>
+                        <span>${saleCarBean.saleCarActive.changeAmount}</span>
                     </div>
                     <div>
                         <p:commandButton value="Cancelar venta" styleClass="ui-button-danger" update="saleCarItemList:saleCarList"
                                          icon="pi pi-trash" style="margin-right: 8px;" />
-                        <p:commandButton value="Realizar venta" icon="pi pi-check" action="#{saleCarBean.createSaleCarInitial()}"/>
+                        <p:commandButton value="Realizar venta" icon="pi pi-check" action="#{saleCarBean.finishSale()}"/>
                     </div>
                 </h:form>
             </div>
@@ -257,7 +260,7 @@
                     <div class="sale-car-options-search-product-shearch-input">
                         <h:commandLink class="search-button" action="${saleCarBean.findProductByVarCode()}">
                             <i class="pi pi-search"></i>
-                            <f:ajax execute="@form" render="@form" />
+                            <f:ajax execute="@form" render="@form saleGeneralDetail" />
                         </h:commandLink>
                         <h:inputText id="inputSearch" value="${saleCarBean.varCodeInput}" 
                                      valueChangeListener="${saleCarBean.setInputVarCode}">
@@ -271,8 +274,8 @@
                                 <h:graphicImage library="assets" name="fanta.png"/>
                                 <div class="sale-car-detail-body-product-detail">
                                     <div class="sale-car-product-name">
-                                        <span><strong>${item.product.name}</strong></span>
-                                        <span class="class">${item.product.price}$</span>
+                                        <span><strong>#{item.product.name}</strong></span>
+                                        <span class="class">$#{item.product.price}</span>
                                     </div>
                                     <div class="sale-car-product-dinamic-info">
                                         <div class="sale-ca-counter-products">
@@ -284,7 +287,7 @@
                                                 <i class="pi pi-plus"></i>
                                             </h:commandLink>
                                         </div>
-                                        <span class="class">#{item.total}$</span>
+                                        <span class="class">$#{item.total}</span>
                                     </div>
                                 </div>
                             </div>

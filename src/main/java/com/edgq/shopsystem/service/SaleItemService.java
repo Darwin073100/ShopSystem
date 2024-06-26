@@ -17,27 +17,25 @@ public class SaleItemService extends GenericPersistence<SaleItem> {
     }
 
     public int saveNativeSql(int saleId, int productId, double productPrice) {
-        System.out.println("Entra:::::::saveNativeSql");
-        int quantity = 1;
-        int saleItemId = 0;
-//        String insertQuery = "INSERT INTO sale_item(id, sale_id, product_id, quantity, total) "
-//                + "VALUES(DEFAULT," + saleId + "," + productId + "," + quantity + "," + productPrice + ");";
+        int defaultQuantity = 1;
+        int response = 0;
+        
         String insertQuery = "INSERT INTO sale_item(sale_id, product_id, quantity, total) VALUES(?,?,?,?);";
-
         try {
             em.createNativeQuery(insertQuery)
                     .setParameter(1, saleId)
                     .setParameter(2, productId)
-                    .setParameter(3, quantity)
+                    .setParameter(3, defaultQuantity)
                     .setParameter(4, productPrice)
                     .executeUpdate();
             
-            saleItemId = ((Number) em.createNativeQuery("SELECT LAST_INSERT_ID();")
-                    .getSingleResult()).intValue();
+//            saleItemId = ((Number) em.createNativeQuery("SELECT LAST_INSERT_ID();")
+//                    .getSingleResult()).intValue();
+            response = 1;
         } catch (Exception e) {
             System.err.println(e);
         }
-        return saleItemId;
+        return response;
     }
 
     // Buscar un item de algun producto por su codigo de barra

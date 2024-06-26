@@ -99,19 +99,23 @@ INSERT INTO ticket (`id`, `method`, `detail`)
 VALUEs(DEFAULT, 'E', 'Correo electrónico');
 
 CREATE TABLE sale(
-    id INT AUTO_INCREMENT NOT NULL,
-    employee_id INT NOT NULL,
-    customer_id INT NULL,
-    total DOUBLE NOT NULL,
-    paymethod_id INT NOT NULL,
-    ticket_id INT NOT NULL,
-    date DATETIME DEFAULT CURRENT_TIMESTAMP NOT NULL,
+    `id` INT AUTO_INCREMENT NOT NULL,
+    `sub_total` DOUBLE NULL,
+    `iva` DOUBLE NULL,
+    `pay_quantity` DOUBLE NULL,
+    `change_amount` DOUBLE NULL,
+    `total` DOUBLE NOT NULL,
+    `employee_id` INT NOT NULL,
+    `customer_id` INT NULL,
+    `paymethod_id` INT NOT NULL,
+    `ticket_id` INT NOT NULL,
+    `date` DATETIME DEFAULT CURRENT_TIMESTAMP NOT NULL,
     CONSTRAINT pk_sale_id PRIMARY KEY (id),
     CONSTRAINT fk_sale_employee_id FOREIGN KEY (employee_id) 
         REFERENCES employee (id),
     CONSTRAINT fk_sale_customer_id FOREIGN KEY (customer_id)
         REFERENCES customer (id),
-	CONSTRAINT fk_sale_pay_method_id FOREIGN KEY (pay_method_id)
+	CONSTRAINT fk_sale_pay_method_id FOREIGN KEY (paymethod_id)
 		REFERENCES pay_method (id),
 	CONSTRAINT fk_sale_ticket_id FOREIGN KEY (ticket_id)
 		REFERENCES ticket (id)

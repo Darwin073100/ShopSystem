@@ -1,7 +1,6 @@
 package com.edgq.shopsystem.controller;
 
 import com.edgq.shopsystem.entity.Customer;
-import com.edgq.shopsystem.entity.Employee;
 import com.edgq.shopsystem.entity.PayMethod;
 import com.edgq.shopsystem.entity.Product;
 import com.edgq.shopsystem.entity.Sale;
@@ -54,6 +53,8 @@ public class SaleCarBean implements Serializable {
     @Getter
     @Setter
     private Sale saleCarActive;
+    
+    private double payQuantity = 0.0;
 
     @Getter
     @Setter
@@ -102,7 +103,7 @@ public class SaleCarBean implements Serializable {
         findAllCustomer();
         findAllTickets();
         findAllPayMethods();
-
+        saleCarActive = new Sale(0.0, 0.0, 0.0, 0.0, 0.0);
     }
 
     public void findAllCustomer() {
@@ -144,6 +145,16 @@ public class SaleCarBean implements Serializable {
         varCodeInput = event.getNewValue().toString();
         System.err.println(varCodeInput);
     }
+    
+    public void setInputPayQuantity(ValueChangeEvent event){
+        double payQuantity = Double.parseDouble(event.getNewValue().toString());
+        System.out.println(payQuantity);
+        double changeAmount = 0;
+        changeAmount = saleService.calculateChange(saleCarActive.getTotal(), payQuantity);
+        saleCarActive.setPayQuantity(payQuantity);
+        saleCarActive.setChangeAmount(changeAmount);
+        System.out.println(saleCarActive);
+    } 
 
     public void findProductByVarCode() {
         Product productSearched = null;
@@ -155,7 +166,7 @@ public class SaleCarBean implements Serializable {
         if (productSearched != null) {
             
             // Si hay una venta se agrega el item a esa venta, caso contrario se crea la venta y se agrega el item
-            if (saleCarActive != null) {
+            if (saleCarActive.getId() != null) {
                 addItemToSale(saleItemSearched, productSearched);
             } else {
                 createSaleCarInitial();
@@ -173,27 +184,13 @@ public class SaleCarBean implements Serializable {
             saleItemSearched.setQuantity(afterQuantity);
             saleItemService.update(saleItemSearched);
             saleItems = saleItemService.searchSaleItemBySaleId(saleCarActive.getId());
+            saleCarActive = saleService.recalculateSale(saleCarActive, saleItems);
         } else {
             saleItemService.saveNativeSql(saleCarActive.getId(), productSearched.getId(), productSearched.getPrice());
             saleItems = saleItemService.searchSaleItemBySaleId(saleCarActive.getId());
+            saleCarActive = saleService.recalculateSale(saleCarActive, saleItems);
         }
     }
-    
-//    public void addItemToSale(int saleId, int productId, double productPrice, int quantity) {
-//        Product p = new Product();
-//        p.setId(productId);
-//        Sale s = new Sale();
-//        s.setId(saleId);
-//        
-//        SaleItem saleItem = new SaleItem();
-//        saleItem.setSale(s);
-//        saleItem.setProduct(p);
-//        saleItem.setQuantity(quantity);
-//        saleItem.setTotal(productPrice * quantity);
-//        // Guarda el saleItem
-//        saleItem = saleItemService.save(saleItem);
-//        System.out.println("Item:::::::" + saleItem);
-//    }
 
     public void createSaleCarInitial() {
         if (customerIdSelected > 0 && ticketIdSelected > 0 && payMethodIdSelected > 0) {
@@ -203,13 +200,22 @@ public class SaleCarBean implements Serializable {
         } else {
             System.err.println("No se ha seleccionado ningun Customer");
         }
-        saleCarActive = saleService.save(new Sale(0, 0.0, new Date(), session.getUserInSession(), customerSelected, ticketSelected, payMethodSelected, null));
+        saleCarActive = saleService.save(new Sale(0, 0.0, 0.0, 0.0, 0.0, 0.0, new Date(), session.getUserInSession(), customerSelected, ticketSelected, payMethodSelected, null));
         System.out.println("Venta generada: " + saleCarActive);
+    }
+    
+    public String finishSale(){
+        try {
+            saleService.updateQueryNative(saleCarActive);
+            return "/pages/SaleFinish.xhtml?faces-redirect=true";
+        } catch (Exception e) {
+            return null;
+        }
     }
 
     public void trashSaleCar() {
         System.out.println("------------CLEAN SALE CAR-------------");
-        init();
+
         System.out.println("---------------------------------------");
     }
 
