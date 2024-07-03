@@ -27,6 +27,12 @@
             <p:dataTable value="#{productsBean.products}" var="product" >
                 <p:column>
                     <f:facet name="header">
+                        <h:outputText value="Cod. Barra"/>
+                    </f:facet>
+                    <h:outputText value="#{product.varCode}"/>
+                </p:column>
+                <p:column>
+                    <f:facet name="header">
                         <h:outputText value="Nombre"/>
                     </f:facet>
                     <h:outputText value="#{product.getName()}"/>

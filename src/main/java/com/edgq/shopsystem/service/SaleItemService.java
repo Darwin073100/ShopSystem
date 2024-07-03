@@ -40,13 +40,16 @@ public class SaleItemService extends GenericPersistence<SaleItem> {
 
     // Buscar un item de algun producto por su codigo de barra
     public SaleItem searchItemWithProductByBarCode(String barCode, int saleId) {
+        System.out.println("::::::::searchItemWithProductByBarCode:::::::::::::::");
         try {
+            System.out.println("Try");
             return (SaleItem) em.createQuery("SELECT si FROM SaleItem si "
                     + "WHERE (si.product.varCode = :barCode AND si.sale.id = :saleId) ", SaleItem.class)
                     .setParameter("barCode", barCode)
                     .setParameter("saleId", saleId)
                     .getSingleResult();
         } catch (Exception e) {
+            System.out.println(e);
             return null;
         }
     }
@@ -68,7 +71,7 @@ public class SaleItemService extends GenericPersistence<SaleItem> {
             entity.setTotal(newTotal);
             em.merge(entity);
         } catch (Exception e) {
-            e.printStackTrace();
+            System.out.println(e);
         }
     }
 

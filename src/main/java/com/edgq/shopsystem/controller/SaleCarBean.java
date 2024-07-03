@@ -162,15 +162,18 @@ public class SaleCarBean implements Serializable {
         
         // Busca un producto y se asigna a una referencia (productSearched)
         productSearched = productService.findProductByVarCode(varCodeInput);
-
+        System.out.println("::::::productSearched: " + productSearched);
         if (productSearched != null) {
             
             // Si hay una venta se agrega el item a esa venta, caso contrario se crea la venta y se agrega el item
             if (saleCarActive.getId() != null) {
+                System.out.println("::::::saleItemSearched: "+ saleItemSearched);
                 addItemToSale(saleItemSearched, productSearched);
             } else {
                 createSaleCarInitial();
+                System.out.println("::::::saleItemSearched: "+ saleItemSearched);
                 addItemToSale(saleItemSearched, productSearched);
+                
             }
         }
     }

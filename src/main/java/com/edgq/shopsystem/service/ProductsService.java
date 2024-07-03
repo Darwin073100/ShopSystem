@@ -30,12 +30,14 @@ public class ProductsService extends GenericPersistence<Product> {
     public Product findProductByVarCode(String varCode){
         Product product = null;
         try{
-            return em.createQuery("SELECT p FROM Product p WHERE p.varCode = " + varCode, Product.class)
+            product = em.createQuery("SELECT p FROM Product p WHERE(p.varCode = :barCode)", Product.class)
+                    .setParameter("barCode", varCode)
                     .getResultList()
                     .get(0);
         } catch (Exception ex){
-            return product;
+            System.out.println(ex);
         }
+        return product;
     }
     
     /**

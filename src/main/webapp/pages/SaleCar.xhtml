@@ -138,6 +138,10 @@
                 flex-direction: column;
                 gap: 8px;
             }
+
+            .sale-item-detail-total{
+                font-size: 40px;
+            }
             .sale-item-detail{
                 display: flex;
                 width: 100%;
@@ -145,85 +149,175 @@
                 align-items: center;
                 color: white;
                 /*background: var(--color-primary-2);*/
-                background: #03AED2;
+                background: var(--color-primary-1);
                 border-radius: 4px;
-                padding: 2px;
+                padding: 4px;
             }
 
             .sale-item-detail span:nth-child(2){
                 background: #FDDE55;
                 color: var(--color-dark-1);
                 padding: 4px;
-                border-radius: 12px;
+                border-radius: 6px;
             }
 
-            .sale-item-detail:nth-child(4) span:nth-child(2){
-                background: transparent;
+            /*c*/
+            .sale-car-options-search-product-options{
+                margin-top: 20px;
+                width: 100%;
+                display: grid;
+                gap:20px;
+                grid-template-columns: repeat(auto-fill, 180px);
+                justify-content: center;
+                align-items: center;
+            }
+
+            .sale-car-details{
+                border-radius: 4px;
+                padding: 20px;
+            }
+
+            .sale-option-item{
+                width: 100%;
+                height: 100px;
+                padding: 10px;
+                border-radius: 4px;
+                display: flex;
+                gap: 10px;
+                flex-direction: column;
+                justify-content: center;
+                align-item: center;
+                color: var(--color--dark-3);
+                text-decoration: none;
+                text-align: center;
+                transition: background 0.3s;
+                i, span{
+                    color:var(--color-dark-2);
+                }
+            }
+            .sale-option-item:hover{
+                background-color: var(--color-primary-2);
+                i, span{
+                    color:white;
+                }
+            }
+            /*c*/
+            /*-------------Estilos modal de pago-------------*/
+            .pay-sale-car-detail{
+                display: flex;
+                align-items: center;
+            }
+
+            .pay-sale-car-detail-img img{
+                width: 170px;
+                height: 170px;
+            }
+            .detail-mount-item-total{
+                font-size: 40px;
+            }
+            .detail-mount-item-sniva,
+            .detail-mount-item-iva{
+                font-size: 25px;
+            }
+            .detail-mount-item span:nth-child(1){
+                /*color: var(--color-dark-1);*/
+
+            }
+            .detail-mount-item span:nth-child(2){
+                color: var(--color-primary-1);
+            }
+
+            .pay-sale-car-mount-item{
+                font-size: 25px;
+            }
+            .pay-sale-car-actions{
+                margin-top: 10px;
+                display: flex;
+                gap: 10px;
+            }
+
+            /*-------------Estilos modal de pago-------------*/
+
+            /*c*/
+            .sale-car-detail-body-customer-group{
+                display: flex;
+                align-items: center;
+                gap:10px;
+            }
+            .sale-car-detail-body-customer-detail span{
+                display: block;
+                opacity: 70%;
+            }
+            .sale-car-detail-body-customer{
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                gap: 10px;
+                width: 100%;
+            }
+            .sale-car-detail-body-customer img{
+                width: 40px;
+                height: 40px;
+                border-radius: 50%;
             }
         </style>
     </ui:define>
     <ui:define name="body-page">
         <div class="sale">
             <div class=" sale-item sale-details">
-                <h3>Detalle de la venta</h3>
                 <h:form class="sale-details-inputs">
                     <div class="sale-detail-input">
-                        <div id="formCarCustomer" class="field col-12 md:col-4">
-                            <p:outputLabel for="selectOneMenuIconCustomer" value="Cliente:" />
-                            <div id="selectCustomer" styleClass="ui-inputgroup">
+
+                        <div class="field col-12 md:col-4">
+                            <!--<p:outputLabel for="selectOneMenuIconCustomer" value="Cliente:" />-->
+                            <h:panelGroup styleClass="ui-inputgroup">
                                 <h:panelGroup id="iconCostumer" styleClass="ui-inputgroup-addon">
                                     <i class="pi pi-user"/>
                                 </h:panelGroup>
-                                <p:selectOneMenu id="selectOneMenuIconCustomer" value="${saleCarBean.customerIdSelected}" style="width: 80%">
+                                <p:selectOneMenu id="selectOneMenuIconCustomer" value="#{saleCarBean.customerIdSelected}" style="width: 80%">
                                     <f:selectItems value="#{saleCarBean.customers}" var="item" itemLabel="${item.name}"
                                                    itemValue="${item.id}" />
-                                    <p:column><i class="pi pi-user" /> ${item.name} </p:column>
+                                    <p:column><i class="pi" /> ${item.name} </p:column>
 
-                                    <f:ajax execute="selectOneMenuIconCustomer" />
+                                    <f:ajax execute="selectOneMenuIconCustomer" render="costumerTest" />
                                 </p:selectOneMenu>
+                            </h:panelGroup>
+                        </div>
+                        <div class="sale-car-detail-body-customer field col-12 md:col-4" style="width: 100%;">
+                            <div class="sale-car-detail-body-customer-group" style="width: 100%;">
+                                <h:graphicImage library="assets" name="user.svg"/>
+                                <div class="sale-car-detail-body-customer-detail" style="width: 100%;">
+                                    <span><strong style="font-size: 20px">${sessionBean.userInSession.name} ${sessionBean.userInSession.surname}</strong></span>
+                                    <span class="class">Lo atiende</span>
+                                </div>
                             </div>
                         </div>
-
-                        <div class="field col-12 md:col-4">
-                            <p:outputLabel value="Lo atiende:" />
-                            <div class="frm-input"><strong style="font-size: 24px">${sessionBean.userInSession.name} ${sessionBean.userInSession.surname}</strong></div>
-                        </div>
                     </div>
-                    <div class="sale-detail-input">
-                        <div class="field col-12 md:col-4">
-                            <p:outputLabel for="selectOneMenuIconPayMethod" value="Metodo de pago:" />
-                            <h:panelGroup styleClass="ui-inputgroup">
-                                <h:panelGroup id="icon1" styleClass="ui-inputgroup-addon">
-                                    <i class="pi pi-credit-card"/>
-                                </h:panelGroup>
-                                <p:selectOneMenu id="selectOneMenuIconPayMethod" value="${saleCarBean.payMethodIdSelected}" var="item" style="width: 80%">
-                                    <f:selectItems value="#{saleCarBean.payMethods}" var="item" itemLabel="${item.detail}"
-                                                   itemValue="${item.id}" />
-                                    <p:column><i class="pi" /> ${item.detail} </p:column>
+                </h:form>
+                <div class="sale-car-options-search-product-options">
+                    <h:commandLink class="sale-option-item">
+                        <i class="pi pi-plus" style="font-size: 1.5rem"></i>
+                        <span>Agregar producto</span>
+                    </h:commandLink>
+                    <h:commandLink class="sale-option-item">
+                        <i class="pi pi-search" style="font-size: 1.5rem"></i>
+                        <span>Buscar producto</span>
+                    </h:commandLink>
+                    <h:commandLink class="sale-option-item">
+                        <i class="pi pi-user-plus" style="font-size: 1.5rem" ></i>
+                        <span>Agregar cliente</span>
+                    </h:commandLink>
+                    <h:commandLink class="sale-option-item">
+                        <i class="pi pi-print" style="font-size: 1.5rem" ></i>
+                        <span>Checar impresora</span>
+                    </h:commandLink>
+                </div>
 
-                                    <f:ajax execute="selectOneMenuIconPayMethod" />
-                                </p:selectOneMenu>
-                            </h:panelGroup>
-                        </div>
-
-                        <div class="field col-12 md:col-4">
-                            <p:outputLabel for="selectOneMenuIconTicked" value="Comprobante:" />
-                            <h:panelGroup styleClass="ui-inputgroup">
-                                <h:panelGroup id="iconTicked" styleClass="ui-inputgroup-addon">
-                                    <i class="pi pi-print"/>
-                                </h:panelGroup>
-                                <p:selectOneMenu id="selectOneMenuIconTicked" value="#{saleCarBean.ticketIdSelected}" style="width: 80%">
-                                    <f:selectItems value="#{saleCarBean.tickets}" var="item" itemLabel="${item.detail}"
-                                                   itemValue="${item.id}" />
-                                    <p:column><i class="pi" /> ${item.detail} </p:column>
-
-                                    <f:ajax execute="selectOneMenuIconTicked" render="costumerTest" />
-                                </p:selectOneMenu>
-                            </h:panelGroup>
-                        </div>
-                    </div>
-                </h:form>  
                 <h:form id="saleGeneralDetail" class="sale-general-detail">
+                    <div class="sale-item-detail sale-item-detail-total">
+                        <span>Total</span>
+                        <span>$#{saleCarBean.saleCarActive.total}</span>
+                    </div>
                     <div class="sale-item-detail">
                         <span>SubTotal</span>
                         <span>$#{saleCarBean.saleCarActive.subTotal}</span>
@@ -232,35 +326,23 @@
                         <span>IVA %</span>
                         <span>$#{saleCarBean.saleCarActive.iva}</span>
                     </div>
-                    <div class="sale-item-detail">
-                        <span>Total</span>
-                        <span>$#{saleCarBean.saleCarActive.total}</span>
-                    </div>
-                    <div class="sale-item-detail">
-                        <span>Pagó</span>
-                        <p:inputNumber placeholder="Ingresa la cantidad" value="#{saleCarBean.saleCarActive.payQuantity}" 
-                                       valueChangeListener="#{saleCarBean.setInputPayQuantity}" >
-                            <f:ajax event="change" execute="saleGeneralDetail:changeAmount" rendered="saleGeneralDetail:changeAmount" />
-                        </p:inputNumber>
-                    </div>
-                    <div id="changeAmount" class="sale-item-detail">
-                        <span>Cambio</span>
-                        <span>${saleCarBean.saleCarActive.changeAmount}</span>
-                    </div>
+
                     <div>
                         <p:commandButton value="Cancelar venta" styleClass="ui-button-danger" update="saleCarItemList:saleCarList"
                                          icon="pi pi-trash" style="margin-right: 8px;" />
-                        <p:commandButton value="Realizar venta" icon="pi pi-check" action="#{saleCarBean.finishSale()}"/>
+                        <p:commandButton value="Realizar venta" icon="pi pi-check"  
+                                         oncomplete="PF('paySaleCar').show();" process="@this"/>
                     </div>
                 </h:form>
             </div>
             <h:form id="saleCarItemList" class="sale-item sale-car">
-                <h3>Productos</h3>
+                <h3 style="opacity: 70%;"><h:outputText value="Productos"/></h3>
+
                 <div class="sale-car-options-search-product-shearch">
                     <div class="sale-car-options-search-product-shearch-input">
                         <h:commandLink class="search-button" action="${saleCarBean.findProductByVarCode()}">
                             <i class="pi pi-search"></i>
-                            <f:ajax execute="@form" render="@form saleGeneralDetail" />
+                            <f:ajax execute="@form" render="@form saleGeneralDetail formPaySaleCar" />
                         </h:commandLink>
                         <h:inputText id="inputSearch" value="${saleCarBean.varCodeInput}" 
                                      valueChangeListener="${saleCarBean.setInputVarCode}">
@@ -300,6 +382,82 @@
                     </ui:repeat>
                 </div>
             </h:form>
+
+            <p:dialog header="Detalles del monto a pagar" widgetVar="paySaleCar" modal="true">
+                <h:form id="formPaySaleCar">
+                    <div class="sale-detail-input">
+                        <div class="field col-12 md:col-4">
+                            <p:outputLabel for="selectOneMenuIconPayMethod" value="Metodo de pago:" />
+                            <h:panelGroup styleClass="ui-inputgroup">
+                                <h:panelGroup id="icon1" styleClass="ui-inputgroup-addon">
+                                    <i class="pi pi-credit-card"/>
+                                </h:panelGroup>
+                                <p:selectOneMenu id="selectOneMenuIconPayMethod" value="${saleCarBean.payMethodIdSelected}" var="item" style="width: 80%">
+                                    <f:selectItems value="#{saleCarBean.payMethods}" var="item" itemLabel="${item.detail}"
+                                                   itemValue="${item.id}" />
+                                    <p:column><i class="pi" /> ${item.detail} </p:column>
+
+                                    <f:ajax execute="selectOneMenuIconPayMethod" />
+                                </p:selectOneMenu>
+                            </h:panelGroup>
+                        </div>
+
+                        <div class="field col-12 md:col-4">
+                            <p:outputLabel for="selectOneMenuIconTicked" value="Comprobante:" />
+                            <h:panelGroup styleClass="ui-inputgroup">
+                                <h:panelGroup id="iconTicked" styleClass="ui-inputgroup-addon">
+                                    <i class="pi pi-print"/>
+                                </h:panelGroup>
+                                <p:selectOneMenu id="selectOneMenuIconTicked" value="#{saleCarBean.ticketIdSelected}" style="width: 80%">
+                                    <f:selectItems value="#{saleCarBean.tickets}" var="item" itemLabel="${item.detail}"
+                                                   itemValue="${item.id}" />
+                                    <p:column><i class="pi" /> ${item.detail} </p:column>
+
+                                    <f:ajax execute="selectOneMenuIconTicked" render="costumerTest" />
+                                </p:selectOneMenu>
+                            </h:panelGroup>
+                        </div>
+                    </div>
+                    <div class="pay-sale-car-detail">
+                        <div class="pay-sale-car-detail-img">
+                            <h:graphicImage library="assets" name="payCash.svg" alt="money"/>
+                        </div>
+                        <div class="pay-sale-car-detail-mount">
+                            <div class="detail-mount-item detail-mount-item-total">
+                                <span>Total:</span>
+                                <span>$#{saleCarBean.saleCarActive.getTotal()}</span>
+                            </div>
+                            <div class="detail-mount-item detail-mount-item-sniva">
+                                <span>Subtotal:</span>
+                                <span>$#{saleCarBean.saleCarActive.getSubTotal()}</span>
+                            </div>
+                            <div class="detail-mount-item detail-mount-item-iva">
+                                <span>IVA:</span>
+                                <span>$#{saleCarBean.saleCarActive.getIva()}</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="pay-sale-car-mount">
+                        <div class="pay-sale-car-mount-item">
+                            <span>Pagó con $:</span>
+                            <p:inputNumber value="150000" style="font-size: 30px; margin-right: 4px;"/>
+                            <p:commandButton icon="pi pi-dollar" styleClass="ui-button-danger"/>
+                        </div>
+                        <div class="pay-sale-car-mount-item">
+                            <span>Cambio $:</span>
+                            <span style="color: var(--color-primary-1)">
+                                <h:outputText value="50000">
+                                    <f:convertNumber />
+                                </h:outputText>
+                            </span>
+                        </div>
+                    </div>
+                    <div class="pay-sale-car-actions">
+                        <p:commandButton value="Cerrar" icon="pi pi-times" styleClass="ui-button-secondary"/>
+                        <p:commandButton value="Realizar pago" icon="pi pi-check" />
+                    </div>
+                </h:form>
+            </p:dialog>
         </div>
 
         <script>
