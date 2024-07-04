@@ -98,6 +98,7 @@ public class SaleService extends GenericPersistence<Sale> {
                     .setParameter(9, sale.getId())
                     .executeUpdate();
         } catch (Exception e) {
+            System.out.println(e);
             return 0;
         }
     }

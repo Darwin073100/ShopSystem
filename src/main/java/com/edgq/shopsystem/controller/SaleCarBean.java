@@ -24,6 +24,7 @@ import javax.inject.Inject;
 import javax.inject.Named;
 import lombok.Getter;
 import lombok.Setter;
+import org.primefaces.PrimeFaces;
 
 /**
  *
@@ -54,6 +55,8 @@ public class SaleCarBean implements Serializable {
     @Setter
     private Sale saleCarActive;
     
+    @Getter
+    @Setter
     private double payQuantity = 0.0;
 
     @Getter
@@ -162,16 +165,13 @@ public class SaleCarBean implements Serializable {
         
         // Busca un producto y se asigna a una referencia (productSearched)
         productSearched = productService.findProductByVarCode(varCodeInput);
-        System.out.println("::::::productSearched: " + productSearched);
         if (productSearched != null) {
             
             // Si hay una venta se agrega el item a esa venta, caso contrario se crea la venta y se agrega el item
             if (saleCarActive.getId() != null) {
-                System.out.println("::::::saleItemSearched: "+ saleItemSearched);
                 addItemToSale(saleItemSearched, productSearched);
             } else {
                 createSaleCarInitial();
-                System.out.println("::::::saleItemSearched: "+ saleItemSearched);
                 addItemToSale(saleItemSearched, productSearched);
                 
             }
@@ -189,7 +189,10 @@ public class SaleCarBean implements Serializable {
             saleItems = saleItemService.searchSaleItemBySaleId(saleCarActive.getId());
             saleCarActive = saleService.recalculateSale(saleCarActive, saleItems);
         } else {
-            saleItemService.saveNativeSql(saleCarActive.getId(), productSearched.getId(), productSearched.getPrice());
+            //saleItemService.saveNativeSql(saleCarActive.getId(), productSearched.getId(), productSearched.getPrice());
+            saleItemSearched.getSale().setId(saleCarActive.getId());
+            saleItemSearched
+            saleItemService.save(saleItemSearched);
             saleItems = saleItemService.searchSaleItemBySaleId(saleCarActive.getId());
             saleCarActive = saleService.recalculateSale(saleCarActive, saleItems);
         }
@@ -207,13 +210,22 @@ public class SaleCarBean implements Serializable {
         System.out.println("Venta generada: " + saleCarActive);
     }
     
-    public String finishSale(){
+    public void finishSale(){
         try {
+            System.out.println(saleCarActive);
             saleService.updateQueryNative(saleCarActive);
-            return "/pages/SaleFinish.xhtml?faces-redirect=true";
+            PrimeFaces current = PrimeFaces.current();
+            current.executeScript("PF('paySaleCar').hide();");
         } catch (Exception e) {
-            return null;
+
         }
+    }
+    
+    public void calculateChange(){
+        double change;
+        change = saleService.calculateChange(saleCarActive.getTotal(), getPayQuantity());
+        saleCarActive.setPayQuantity(getPayQuantity());
+        saleCarActive.setChangeAmount(change);
     }
 
     public void trashSaleCar() {

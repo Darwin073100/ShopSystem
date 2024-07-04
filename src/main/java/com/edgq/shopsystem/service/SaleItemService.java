@@ -16,6 +16,19 @@ public class SaleItemService extends GenericPersistence<SaleItem> {
         super(SaleItem.class);
     }
 
+    @Override
+    public SaleItem save(SaleItem entity) {
+        try {
+            em.persist(entity);
+            return entity;
+        } catch (Exception e) {
+            System.out.println(e);
+            return null;
+        }
+    }
+    
+    
+    
     public int saveNativeSql(int saleId, int productId, double productPrice) {
         int defaultQuantity = 1;
         int response = 0;

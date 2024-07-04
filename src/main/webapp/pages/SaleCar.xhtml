@@ -260,9 +260,17 @@
                 height: 40px;
                 border-radius: 50%;
             }
+
+            @media (min-width: 1500px){
+
+                .sale-item:nth-child(1){
+                    width: 726px;
+                }
+            }
         </style>
     </ui:define>
     <ui:define name="body-page">
+        <p:messages id="saleCarMessages" showDetail="true" closable="true"/>
         <div class="sale">
             <div class=" sale-item sale-details">
                 <h:form class="sale-details-inputs">
@@ -294,8 +302,8 @@
                         </div>
                     </div>
                 </h:form>
-                <div class="sale-car-options-search-product-options">
-                    <h:commandLink class="sale-option-item">
+                <h:form class="sale-car-options-search-product-options">
+                    <h:commandLink class="sale-option-item" action="Products.xhtml?faces-redirect=true">
                         <i class="pi pi-plus" style="font-size: 1.5rem"></i>
                         <span>Agregar producto</span>
                     </h:commandLink>
@@ -311,7 +319,7 @@
                         <i class="pi pi-print" style="font-size: 1.5rem" ></i>
                         <span>Checar impresora</span>
                     </h:commandLink>
-                </div>
+                </h:form>
 
                 <h:form id="saleGeneralDetail" class="sale-general-detail">
                     <div class="sale-item-detail sale-item-detail-total">
@@ -440,22 +448,29 @@
                     <div class="pay-sale-car-mount">
                         <div class="pay-sale-car-mount-item">
                             <span>Pagó con $:</span>
-                            <p:inputNumber value="150000" style="font-size: 30px; margin-right: 4px;"/>
-                            <p:commandButton icon="pi pi-dollar" styleClass="ui-button-danger"/>
+                            <p:inputNumber value="#{saleCarBean.payQuantity}" style="font-size: 30px; margin-right: 4px;"/>
+                            <p:commandButton icon="pi pi-dollar" styleClass="ui-button-danger" action="#{saleCarBean.calculateChange()}"
+                                             update="changeAmount"/>
                         </div>
                         <div class="pay-sale-car-mount-item">
                             <span>Cambio $:</span>
                             <span style="color: var(--color-primary-1)">
-                                <h:outputText value="50000">
+                                <h:outputText id="changeAmount" value="${saleCarBean.saleCarActive.getChangeAmount()}">
                                     <f:convertNumber />
                                 </h:outputText>
                             </span>
                         </div>
                     </div>
                     <div class="pay-sale-car-actions">
-                        <p:commandButton value="Cerrar" icon="pi pi-times" styleClass="ui-button-secondary"/>
-                        <p:commandButton value="Realizar pago" icon="pi pi-check" />
+                        <p:commandButton value="Cerrar" icon="pi pi-times" styleClass="ui-button-secondary" 
+                                         oncomplete="PF('paySaleCar').hide();"/>
+                        <p:commandButton value="Realizar pago" icon="pi pi-check" action="#{saleCarBean.finishSale()}" type="submit"/>
                     </div>
+                </h:form>
+            </p:dialog>
+            <p:dialog header="Buscar producto" widgetVar="searchProductDialog" modal="true">
+                <h:form id="formSearchProduct">
+                    
                 </h:form>
             </p:dialog>
         </div>
