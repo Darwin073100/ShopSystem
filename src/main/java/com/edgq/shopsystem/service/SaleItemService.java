@@ -49,8 +49,8 @@ public class SaleItemService extends GenericPersistence<SaleItem> {
             System.err.println(e);
         }
         return response;
-    }
-
+    }   
+    
     // Buscar un item de algun producto por su codigo de barra
     public SaleItem searchItemWithProductByBarCode(String barCode, int saleId) {
         System.out.println("::::::::searchItemWithProductByBarCode:::::::::::::::");

@@ -1,5 +1,6 @@
-package com.edgq.shopsystem.controller;
+package com.edgq.shopsystem.controller.sale;
 
+import com.edgq.shopsystem.controller.SessionBean;
 import com.edgq.shopsystem.entity.Customer;
 import com.edgq.shopsystem.entity.PayMethod;
 import com.edgq.shopsystem.entity.Product;
@@ -161,7 +162,6 @@ public class SaleCarBean implements Serializable {
 
     public void findProductByVarCode() {
         Product productSearched = null;
-        SaleItem saleItemSearched = null;
         
         // Busca un producto y se asigna a una referencia (productSearched)
         productSearched = productService.findProductByVarCode(varCodeInput);
@@ -169,16 +169,18 @@ public class SaleCarBean implements Serializable {
             
             // Si hay una venta se agrega el item a esa venta, caso contrario se crea la venta y se agrega el item
             if (saleCarActive.getId() != null) {
-                addItemToSale(saleItemSearched, productSearched);
+                addItemToSale(productSearched);
             } else {
                 createSaleCarInitial();
-                addItemToSale(saleItemSearched, productSearched);
+                addItemToSale(productSearched);
                 
             }
         }
     }
 
-    public void addItemToSale(SaleItem saleItemSearched, Product productSearched) {
+    public void addItemToSale(Product productSearched) {
+        SaleItem saleItemSearched;
+        System.out.println("g: "+saleCarActive);
         // Busca un item que tenga el producto antes ya consultado
         saleItemSearched = saleItemService.searchItemWithProductByBarCode(varCodeInput, saleCarActive.getId());
         if (saleItemSearched != null) {
@@ -189,10 +191,7 @@ public class SaleCarBean implements Serializable {
             saleItems = saleItemService.searchSaleItemBySaleId(saleCarActive.getId());
             saleCarActive = saleService.recalculateSale(saleCarActive, saleItems);
         } else {
-            //saleItemService.saveNativeSql(saleCarActive.getId(), productSearched.getId(), productSearched.getPrice());
-            saleItemSearched.getSale().setId(saleCarActive.getId());
-            saleItemSearched
-            saleItemService.save(saleItemSearched);
+            saleItemService.saveNativeSql(saleCarActive.getId(), productSearched.getId(), productSearched.getPrice());
             saleItems = saleItemService.searchSaleItemBySaleId(saleCarActive.getId());
             saleCarActive = saleService.recalculateSale(saleCarActive, saleItems);
         }
@@ -216,6 +215,7 @@ public class SaleCarBean implements Serializable {
             saleService.updateQueryNative(saleCarActive);
             PrimeFaces current = PrimeFaces.current();
             current.executeScript("PF('paySaleCar').hide();");
+            trashSaleCar();
         } catch (Exception e) {
 
         }
@@ -230,7 +230,9 @@ public class SaleCarBean implements Serializable {
 
     public void trashSaleCar() {
         System.out.println("------------CLEAN SALE CAR-------------");
-
+        varCodeInput = null;
+        saleItems = null;
+        saleCarActive = new Sale(0.0, 0.0, 0.0, 0.0, 0.0);
         System.out.println("---------------------------------------");
     }
 
