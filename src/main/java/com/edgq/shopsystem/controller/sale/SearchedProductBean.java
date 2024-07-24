@@ -6,6 +6,7 @@ import com.edgq.shopsystem.service.SaleItemService;
 import java.io.Serializable;
 import java.util.List;
 import javax.annotation.PostConstruct;
+import javax.faces.event.AjaxBehaviorEvent;
 import javax.faces.event.ValueChangeEvent;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
@@ -49,8 +50,15 @@ public class SearchedProductBean implements Serializable{
     
     // Captura en tiempo real el value del input para 
     // buscar un producto por su codigo de barra
-    public void setInputVarCode(ValueChangeEvent event) {
+    public void setInputVarCode2(ValueChangeEvent event) {
         productInputToSearch = event.getNewValue().toString();
+        filterProducts();
+        System.err.println(productInputToSearch);
+    }
+    
+    // Captura en tiempo real el value del input para 
+    // buscar un producto por su codigo de barra
+    public void setInputVarCode(AjaxBehaviorEvent event) {
         filterProducts();
         System.err.println(productInputToSearch);
     }

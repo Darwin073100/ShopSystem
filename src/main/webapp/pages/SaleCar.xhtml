@@ -349,14 +349,16 @@
                         <div class="searched-product-dialog">
                             <h:commandLink class="search-button" action="${searchedProductBean.filterProducts()}">
                                 <i class="pi pi-search"></i>
-                                <f:ajax execute="@form" render="@form saleGeneralDetail formPaySaleCar" />
+                                <f:ajax  render="@form saleGeneralDetail formPaySaleCar" />
                             </h:commandLink>
-                            <h:inputText id="inputSearch2" value="${searchedProductBean.productInputToSearch}" 
-                                         valueChangeListener="${searchedProductBean.setInputVarCode}">
-                                <f:ajax event="change" rendered="formSearchedProduct"  />
+
+                            <h:inputText id="inputSearch2" value="${searchedProductBean.productInputToSearch}" >
+                                <p:ajax event="keyup" listener="#{searchedProductBean.setInputVarCode}" 
+                                        update="@form" oncomplete="document.getElementById('formSearchedProduct:inputSearch2').focus();" />
+                                <p:ajax event="keypress" onstart="if (event.keyCode == 13) { event.preventDefault(); var eventKeyUp = document.createEvent('Event'); eventKeyUp.initEvent('keyup', true, true); event.target.dispatchEvent(eventKeyUp); }" />
                             </h:inputText>
                         </div>
-                        <div class="searched-product-body-dialog">
+                        <div id="fldsk" class="searched-product-body-dialog">
                             <ui:repeat id="saleCarList" value="${searchedProductBean.productsInDialog}" var="item">
                                 <h:commandLink class="sale-car-detail-body-product button-item-product">
                                     <div class="sale-car-detail-body-product-group">
@@ -408,6 +410,7 @@
                         <h:inputText id="inputSearch1" value="${saleCarBean.varCodeInput}"
                                      valueChangeListener="${saleCarBean.setInputVarCode}">
                             <f:ajax event="change" />
+                            <p:ajax event="keypress" onstart="if (event.keyCode == 13) { event.preventDefault(); var eventKeyUp = document.createEvent('Event'); eventKeyUp.initEvent('keyup', true, true); event.target.dispatchEvent(eventKeyUp); }" />
                         </h:inputText>
                     </h:panelGrid>
 

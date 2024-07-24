@@ -87,12 +87,12 @@ public class ProductsService extends GenericPersistence<Product> {
     public List<Product> findProductsByNameInApp(String partialName) {
         List<Product> products = em.createQuery("SELECT p FROM Product p", Product.class).getResultList();
         return products.stream()
-                .filter(p -> p.getName().toLowerCase().contains(partialName.toLowerCase()))
+                .filter(p -> p.getName().toLowerCase().contains(partialName.toLowerCase()) && !partialName.equals(""))
                 .collect(Collectors.toList());
     }
 
     public List<Product> findProductsByNameInDB(String partialName) {
-        String jpql = "SELECT p FROM Product p WHERE p.name LIKE :partialName";
+        String jpql = "SELECT p FROM Product p WHERE p.name LIKE :partialName AND :partial != ''";
         TypedQuery<Product> query = em.createQuery(jpql, Product.class);
         query.setParameter("partialName", "%" + partialName + "%");
         return query.getResultList();
