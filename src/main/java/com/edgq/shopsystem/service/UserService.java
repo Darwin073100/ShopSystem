@@ -35,5 +35,9 @@ public class UserService extends GenericPersistence<User>{
     public Employee findEmployeeWithUserByEmail(String email) throws Exception{
         return employeeService.findByEmail(email);
     }
+    
+    public Employee findEmployeeWithUserByUserName(String userName) throws Exception{
+        return employeeService.findByUserName(userName);
+    }
 
 }

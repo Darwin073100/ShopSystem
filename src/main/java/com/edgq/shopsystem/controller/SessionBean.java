@@ -17,7 +17,8 @@ import lombok.Setter;
  */
 @Named
 @SessionScoped
-public class SessionBean implements Serializable{
+public class SessionBean implements Serializable {
+
     private static final String INCORRECTS_DATA = "¡Email o contraseña incorrecta!";
     @Getter
     private Employee userInSession = null;
@@ -27,16 +28,16 @@ public class SessionBean implements Serializable{
     @Getter
     @Setter
     private String email;
-    
+
     @Inject
     private UserService service;
-    
-    public String login(){
+
+    public String login() {
         Employee e = null;
         try {
             e = service.findEmployeeWithUserByEmail(email);
-            if(e != null){
-                if(password.equals(e.getUser().getUserPassword())){
+            if (e != null) {
+                if (password.equals(e.getUser().getUserPassword())) {
                     System.out.println("SessionBean.......");
                     userInSession = e;
                     return "/pages/Home.xhtml?faces-redirect=true";
@@ -45,24 +46,37 @@ public class SessionBean implements Serializable{
                     FacesUtils.messageError(INCORRECTS_DATA, null);
                 }
             } else {
-                System.out.println("El usuario es null");
-                FacesUtils.messageError(INCORRECTS_DATA, null);
+                e = service.findEmployeeWithUserByUserName(email);
+
+                if (e != null) {
+                    if (password.equals(e.getUser().getUserPassword())) {
+                        System.out.println("SessionBean.......");
+                        userInSession = e;
+                        return "/pages/Home.xhtml?faces-redirect=true";
+                    } else {
+                        System.out.println("Contraseña incorrecta");
+                        FacesUtils.messageError(INCORRECTS_DATA, null);
+                    }
+                } else {
+                    System.out.println("Contraseña incorrecta");
+                    FacesUtils.messageError(INCORRECTS_DATA, null);
+                }
             }
-        }catch (Exception ex) {
+        } catch (Exception ex) {
             System.out.println("Error--bean--");
             System.out.println(ex.getMessage());
             System.out.println(ex.getClass().getName());
         }
         return null;
     }
-    
-    public String logout(){
+
+    public String logout() {
         FacesContext.getCurrentInstance().getExternalContext().invalidateSession();
         return "/Login.xhtml?faces-redirect=true";
     }
-    
-    public boolean isLogged(){
-        return userInSession != null ? true: false;
+
+    public boolean isLogged() {
+        return userInSession != null ? true : false;
     }
-    
+
 }

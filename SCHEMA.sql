@@ -14,6 +14,10 @@ CREATE TABLE administration(
 	`date` DATETIME NOT NULL,
     CONSTRAINT pk_id_administration PRIMARY KEY(`id`)
 );
+
+INSERT INTO administration(`id`, `enterprise`, `capital_mount`, `business_line`, `mission`, `vision`, `history`, `date`)
+	VALUES(DEFAULT, 'softedev', 0.0, 'Software Development', NULL, NULL, NULL, CURRENT_TIMESTAMP());
+    
 /*----Nueva al 06/08/2024---*/
 CREATE TABLE branch(
 	`id` INT AUTO_INCREMENT NOT NULL,
@@ -32,6 +36,9 @@ CREATE TABLE branch(
     CONSTRAINT fk_administration_id_branch FOREIGN KEY(`administration_id`)
 		REFERENCES administration(`id`)
 );
+
+INSERT INTO branch(`id`, `administration_id`, `capital_mount`, `phone_number`, `email`, `state`, `city`, `municipality`, `street`, `out_number`, `in_number`, `date`)
+	VALUES(DEFAULT, 1, 0.0, '1234567890', 'branch@domain.com', 'Guerrero', 'Ometepec', 'Ometepec', 'Juan Ruíz de Alarcon', 'S/N', '14', CURRENT_TIMESTAMP());
 
 CREATE TABLE product(
     `id` INT AUTO_INCREMENT NOT NULL,
@@ -111,6 +118,9 @@ CREATE TABLE user(
 		REFERENCES user_type(`id`)
 );
 
+INSERT INTO user(`id`, `user_type_id`, `user_name`, `user_password`)
+	VALUES(DEFAULT, 1, 'admin', 'admin');
+
 CREATE TABLE employee(
     `id` INT AUTO_INCREMENT NOT NULL,
     `user_id` INT NULL,
@@ -131,6 +141,9 @@ CREATE TABLE employee(
 		REFERENCES branch(`id`)
 );
 
+INSERT INTO employee(`id`, `user_id`, `branch_id`, `name`, `surname`, `salary`, `birthday`, `age`, `phone_number`, `email`, `address`, `active`)
+	VALUES(DEFAULT, 1, 1, 'admin', 'super', 100.0, CURRENT_DATE(), 18, '7411073337', 'initial@domain.com', 'Ometepec', TRUE);
+
 CREATE TABLE pay_method(
     `id` INT AUTO_INCREMENT NOT NULL,
     `method` CHAR(1) NOT NULL,
@@ -139,11 +152,11 @@ CREATE TABLE pay_method(
 );
 
 INSERT INTO pay_method (`id`, `method`, `detail`) 
-VALUES(DEFAULT, 'E', 'Efectivo');
+	VALUES(DEFAULT, 'E', 'Efectivo');
 INSERT INTO pay_method (`id`, `method`, `detail`) 
-VALUES(DEFAULT, 'D', 'Debito');
+	VALUES(DEFAULT, 'D', 'Debito');
 INSERT INTO pay_method (`id`, `method`, `detail`) 
-VALUES(DEFAULT, 'C', 'Credito');
+	VALUES(DEFAULT, 'C', 'Credito');
 
 CREATE TABLE ticket(
     `id` INT AUTO_INCREMENT NOT NULL,
@@ -153,11 +166,11 @@ CREATE TABLE ticket(
 );
 
 INSERT INTO ticket (`id`, `method`, `detail`) 
-VALUEs(DEFAULT, 'S', 'S/C');
+	VALUES(DEFAULT, 'S', 'S/C');
 INSERT INTO ticket (`id`, `method`, `detail`) 
-VALUEs(DEFAULT, 'I', 'Impreso');
+	VALUES(DEFAULT, 'I', 'Impreso');
 INSERT INTO ticket (`id`, `method`, `detail`) 
-VALUEs(DEFAULT, 'E', 'Correo electrónico');
+	VALUES(DEFAULT, 'E', 'Correo electrónico');
 
 /*----Nueva al 06/08/2024---*/
 CREATE TABLE register(

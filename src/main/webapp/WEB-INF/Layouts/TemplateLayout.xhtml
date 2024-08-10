@@ -126,7 +126,7 @@
                             <div class="user-information-session" >
                                 <h5 class="text-center">#{sessionBean.userInSession.name} #{sessionBean.userInSession.surname}</h5>
                                 <span>#{sessionBean.userInSession.user.userName} 
-                                    <span class="badge bg-danger">#{sessionBean.userInSession.user.type}</span> 
+                                    <span class="badge bg-danger">#{sessionBean.userInSession.user.userType.type}</span> 
                                 </span>
                             </div>
                         </div>
@@ -147,7 +147,7 @@
             </div>
             <div class="nav-bar-session">
                 <h:form>
-                    <spam> <i class="pi pi-user"></i> #{sessionBean.userInSession.user.userName} <span class="badge bg-secondary">${sessionBean.userInSession.user.type}</span> </spam>
+                    <spam> <i class="pi pi-user"></i> #{sessionBean.userInSession.user.userName} <span class="badge bg-secondary">${sessionBean.userInSession.user.userType.type}</span> </spam>
                     <p:commandButton icon="pi pi-sign-in" action="#{sessionBean.logout()}" styleClass="rounded-button"
                                      style="background-color: var(--color-purple-1); border: var(--color-purple-1) 1px solid;"/>
                 </h:form>
