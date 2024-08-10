@@ -9,11 +9,14 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import java.util.Date;
-import java.util.Objects;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 /**
  *
@@ -25,28 +28,38 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Entity
 @Table(name = "product")
-public class Product {
-
+@EqualsAndHashCode
+@ToString
+public class Product{
     @Id
-    @Column(name = "id")
+    @Column(name = "id", nullable = false)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-    @Column(name = "name")
+    @ManyToOne
+    @JoinColumn(name = "branch_id", referencedColumnName = "id", nullable = false, insertable = false, updatable = false)
+    private Branch branch;
+    @Column(name = "name", unique = true, nullable = false, length = 250)
     private String name;
-    @Column(name = "var_code")
+    @Column(name = "var_code", nullable = false, length = 100, unique = true)
     private String varCode;
-    @Column(name = "price")
-    private Double price;
-    @Column(name = "description")
+    @Column(name = "in_price", nullable = false)
+    private Double inPrice;
+    @Column(name = "out_price", nullable = false)
+    private Double outPrice;
+    @Column(name = "wholesale_price", nullable = false)
+    private Double wholesalePrice;
+    @Column(name = "description", nullable = true)
     private String description;
-    @Column(name = "stock")
+    @Column(name = "stock", nullable = false)
     private Integer stock;
-    @Column(name = "unit",length = 50)
+    @Column(name = "min_stock", nullable = false)
+    private Integer minStock;
+    @Column(name = "unit", nullable = false,length = 50)
     private String unit;
     @Column(name = "expiration_date", nullable = true)
     @Temporal(TemporalType.DATE)
     private Date expirationDate;
-    @Column(name = "active")
+    @Column(name = "active", nullable = false)
     private Boolean active;
     
     @OneToOne(mappedBy = "product")
@@ -55,57 +68,4 @@ public class Product {
     @OneToOne(mappedBy = "product")
     private PurchaseItem purchaseItem;
 
-    
-    @Override
-    public int hashCode() {
-        int hash = 5;
-        hash = 71 * hash + Objects.hashCode(this.id);
-        hash = 71 * hash + Objects.hashCode(this.name);
-        hash = 71 * hash + Objects.hashCode(this.price);
-        hash = 71 * hash + Objects.hashCode(this.stock);
-        hash = 71 * hash + Objects.hashCode(this.unit);
-        hash = 71 * hash + Objects.hashCode(this.expirationDate);
-        hash = 71 * hash + Objects.hashCode(this.active);
-        return hash;
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        if (this == obj) {
-            return true;
-        }
-        if (obj == null) {
-            return false;
-        }
-        if (getClass() != obj.getClass()) {
-            return false;
-        }
-        final Product other = (Product) obj;
-        if (!Objects.equals(this.name, other.name)) {
-            return false;
-        }
-        if (!Objects.equals(this.unit, other.unit)) {
-            return false;
-        }
-        if (!Objects.equals(this.id, other.id)) {
-            return false;
-        }
-        if (!Objects.equals(this.price, other.price)) {
-            return false;
-        }
-        if (!Objects.equals(this.stock, other.stock)) {
-            return false;
-        }
-        if (!Objects.equals(this.expirationDate, other.expirationDate)) {
-            return false;
-        }
-        return Objects.equals(this.active, other.active);
-    }
-
-    @Override
-    public String toString() {
-        return "Product{" + "id=" + id + ", name=" + name + ", price=" + price + ", stock=" + stock + ", unit=" + unit + ", expirationDate=" + expirationDate + ", active=" + active + '}';
-    }
-    
-    
 }

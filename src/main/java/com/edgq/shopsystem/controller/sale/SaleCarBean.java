@@ -1,9 +1,11 @@
 package com.edgq.shopsystem.controller.sale;
 
 import com.edgq.shopsystem.controller.SessionBean;
+import com.edgq.shopsystem.entity.Branch;
 import com.edgq.shopsystem.entity.Customer;
 import com.edgq.shopsystem.entity.PayMethod;
 import com.edgq.shopsystem.entity.Product;
+import com.edgq.shopsystem.entity.Register;
 import com.edgq.shopsystem.entity.Sale;
 import com.edgq.shopsystem.entity.SaleItem;
 import com.edgq.shopsystem.entity.Ticket;
@@ -191,7 +193,7 @@ public class SaleCarBean implements Serializable {
             saleItems = saleItemService.searchSaleItemBySaleId(saleCarActive.getId());
             saleCarActive = saleService.recalculateSale(saleCarActive, saleItems);
         } else {
-            saleItemService.saveNativeSql(saleCarActive.getId(), productSearched.getId(), productSearched.getPrice());
+            saleItemService.saveNativeSql(saleCarActive.getId(), productSearched.getId(), productSearched.getOutPrice());
             saleItems = saleItemService.searchSaleItemBySaleId(saleCarActive.getId());
             saleCarActive = saleService.recalculateSale(saleCarActive, saleItems);
         }
@@ -205,7 +207,7 @@ public class SaleCarBean implements Serializable {
         } else {
             System.err.println("No se ha seleccionado ningun Customer");
         }
-        saleCarActive = saleService.save(new Sale(0, 0.0, 0.0, 0.0, 0.0, 0.0, new Date(), session.getUserInSession(), customerSelected, ticketSelected, payMethodSelected, null));
+        saleCarActive = saleService.save(new Sale(0, 0.0, 0.0, 0.0, 0.0, 0.0, new Date(), session.getUserInSession(), customerSelected, ticketSelected, payMethodSelected,new Register(), null));
         System.out.println("Venta generada: " + saleCarActive);
     }
     

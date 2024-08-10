@@ -7,89 +7,41 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import java.util.Objects;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 /**
  *
  * @author edwin
  */
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
+@EqualsAndHashCode
+@ToString
 @Entity
 @Table(name = "provider")
 public class Provider {
-    
     @Id
-    @Column(name = "id")
+    @Column(name = "id", nullable = false)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-    @Column(name = "name",length = 100)
+    @Column(name = "name",length = 100, nullable = false)
     private String name;
-    @Column(name = "surname",length = 150)
+    @Column(name = "surname",length = 150, nullable = false)
     private String surname;
-    @Column(name = "age")
+    @Column(name = "age", nullable = true)
     private Integer age;
-    @Column(name = "phone_number", length = 20)
+    @Column(name = "phone_number", length = 20, nullable = true)
     private String phoneNumber;
-    @Column(name = "email",unique = true)
+    @Column(name = "email",unique = true, nullable = true)
     private String email;
-    @Column(name = "company")
+    @Column(name = "company", nullable = true)
     private String company;
-    @Column(name = "active")
+    @Column(name = "active", nullable = false)
     private Boolean active;
-
-    @Override
-    public int hashCode() {
-        int hash = 7;
-        hash = 71 * hash + Objects.hashCode(this.id);
-        hash = 71 * hash + Objects.hashCode(this.name);
-        hash = 71 * hash + Objects.hashCode(this.surname);
-        hash = 71 * hash + Objects.hashCode(this.age);
-        hash = 71 * hash + Objects.hashCode(this.phoneNumber);
-        hash = 71 * hash + Objects.hashCode(this.email);
-        hash = 71 * hash + Objects.hashCode(this.company);
-        hash = 71 * hash + Objects.hashCode(this.active);
-        return hash;
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        if (this == obj) {
-            return true;
-        }
-        if (obj == null) {
-            return false;
-        }
-        if (getClass() != obj.getClass()) {
-            return false;
-        }
-        final Provider other = (Provider) obj;
-        if (!Objects.equals(this.name, other.name)) {
-            return false;
-        }
-        if (!Objects.equals(this.surname, other.surname)) {
-            return false;
-        }
-        if (!Objects.equals(this.phoneNumber, other.phoneNumber)) {
-            return false;
-        }
-        if (!Objects.equals(this.email, other.email)) {
-            return false;
-        }
-        if (!Objects.equals(this.company, other.company)) {
-            return false;
-        }
-        if (!Objects.equals(this.id, other.id)) {
-            return false;
-        }
-        if (!Objects.equals(this.age, other.age)) {
-            return false;
-        }
-        return Objects.equals(this.active, other.active);
-    }
-
-    @Override
-    public String toString() {
-        return "Provider{" + "id=" + id + ", name=" + name + ", surname=" + surname + ", age=" + age + ", phoneNumber=" + phoneNumber + ", email=" + email + ", company=" + company + ", active=" + active + '}';
-    }
     
 }

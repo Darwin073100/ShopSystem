@@ -7,5 +7,5 @@ package com.edgq.shopsystem.enums;
 public enum Type {
     SUPERADMIN,
     ADMIN,
-    EMPLOYEE
+    REGISTER
 }

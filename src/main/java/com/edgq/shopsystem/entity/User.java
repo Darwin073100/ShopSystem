@@ -1,131 +1,44 @@
 package com.edgq.shopsystem.entity;
 
-import com.edgq.shopsystem.enums.Type;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
-import java.util.Objects;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 /**
  *
  * @author edwin
  */
+@Data
 @Entity
 @Table(name = "user")
+@AllArgsConstructor
+@NoArgsConstructor
+@EqualsAndHashCode
+@ToString
 public class User {
-    
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
+    @Column(name = "id", nullable = false)
     private Integer id;
-    @Column(name = "user_name", length = 50)
+    @Column(name = "user_name", length = 50, nullable = false, unique = true)
     private String userName;
-    @Column(name = "user_password", length = 100)
+    @Column(name = "user_password", length = 100, nullable = false)
     private String userPassword;
-    @Column(name = "type", length = 50)
-    @Enumerated(EnumType.STRING)
-    private Type type;
+    @OneToOne
+    @JoinColumn(name = "user_type_id", referencedColumnName = "id", insertable = false, updatable = false)
+    private UserType userType;
     
     @OneToOne(mappedBy = "user")
     private Employee employee;
 
-    public User() {
-    }
-
-    public User(Integer id, String userName, String userPassword, Type type, Employee employee) {
-        this.id = id;
-        this.userName = userName;
-        this.userPassword = userPassword;
-        this.type = type;
-        this.employee = employee;
-    }
-
-    
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public String getUserName() {
-        return userName;
-    }
-
-    public void setUserName(String userName) {
-        this.userName = userName;
-    }
-
-    public String getUserPassword() {
-        return userPassword;
-    }
-
-    public void setUserPassword(String userPassword) {
-        this.userPassword = userPassword;
-    }
-
-    public Type getType() {
-        return type;
-    }
-
-    public void setType(Type type) {
-        this.type = type;
-    }
-
-    public Employee getEmployee() {
-        return employee;
-    }
-
-    public void setEmployee(Employee employee) {
-        this.employee = employee;
-    }
-
-    
-    @Override
-    public int hashCode() {
-        int hash = 7;
-        hash = 97 * hash + Objects.hashCode(this.id);
-        hash = 97 * hash + Objects.hashCode(this.userName);
-        hash = 97 * hash + Objects.hashCode(this.userPassword);
-        hash = 97 * hash + Objects.hashCode(this.type);
-        return hash;
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        if (this == obj) {
-            return true;
-        }
-        if (obj == null) {
-            return false;
-        }
-        if (getClass() != obj.getClass()) {
-            return false;
-        }
-        final User other = (User) obj;
-        if (!Objects.equals(this.userName, other.userName)) {
-            return false;
-        }
-        if (!Objects.equals(this.userPassword, other.userPassword)) {
-            return false;
-        }
-        if (!Objects.equals(this.id, other.id)) {
-            return false;
-        }
-        return this.type == other.type;
-    }
-
-    @Override
-    public String toString() {
-        return "User{" + "id=" + id + ", userName=" + userName + ", userPassword=" + userPassword + ", type=" + type + '}';
-    }
-    
 }

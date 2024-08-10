@@ -80,7 +80,7 @@ public class SaleItemService extends GenericPersistence<SaleItem> {
     @Override
     public void update(SaleItem entity){
         try {
-            double newTotal = entity.getQuantity() * entity.getProduct().getPrice();
+            double newTotal = entity.getQuantity() * entity.getProduct().getOutPrice();
             entity.setTotal(newTotal);
             em.merge(entity);
         } catch (Exception e) {

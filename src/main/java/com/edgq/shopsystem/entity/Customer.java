@@ -8,8 +8,16 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 import java.util.Date;
 import java.util.Objects;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 /**
  *
@@ -18,96 +26,39 @@ import lombok.Data;
 @Data
 @Entity
 @Table(name = "customer")
+@AllArgsConstructor
+@NoArgsConstructor
+@EqualsAndHashCode
+@ToString
 public class Customer {
-    
     @Id
-    @Column(name = "id")
+    @Column(name = "id", nullable = false)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-    @Column(name = "name",length = 100)
+    @ManyToOne
+    @JoinColumn(name = "branch_id", referencedColumnName = "id", insertable = false, updatable = false, nullable = false)
+    private Branch branch;
+    @Column(name = "name",length = 100, nullable = false)
     private String name;
-    @Column(name = "surname", length = 150)
+    @Column(name = "surname", length = 150, nullable = false)
     private String surname;
-    @Column(name = "birthday")
+    @Temporal(TemporalType.DATE)
+    @Column(name = "birthday", nullable = false)
     private Date birthday;
-    @Column(name = "age")
+    @Column(name = "age", nullable = true)
     private Integer age;
-    @Column(name = "phone_number", length = 20)
+    @Column(name = "phone_number", length = 20, nullable = true, unique = true)
     private String phoneNumber;
-    @Column(name = "email", unique = true)
+    @Column(name = "email", unique = true, nullable = true, length = 250 )
     private String email;
-    @Column(name = "address")
+    @Column(name = "address", nullable = true)
     private String address;
-    @Column(name = "no_sales")
+    @Column(name = "no_sales", nullable = true)
     private Integer noSales;
-    @Column(name = "active")
+    @Column(name = "active", nullable = false)
     private Boolean active;
     
     @OneToOne(mappedBy = "customer")
     private Sale sale;
-    
-    @Override
-    public int hashCode() {
-        int hash = 7;
-        hash = 79 * hash + Objects.hashCode(this.id);
-        hash = 79 * hash + Objects.hashCode(this.name);
-        hash = 79 * hash + Objects.hashCode(this.surname);
-        hash = 79 * hash + Objects.hashCode(this.birthday);
-        hash = 79 * hash + Objects.hashCode(this.age);
-        hash = 79 * hash + Objects.hashCode(this.phoneNumber);
-        hash = 79 * hash + Objects.hashCode(this.email);
-        hash = 79 * hash + Objects.hashCode(this.address);
-        hash = 79 * hash + Objects.hashCode(this.noSales);
-        hash = 79 * hash + Objects.hashCode(this.active);
-        return hash;
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        if (this == obj) {
-            return true;
-        }
-        if (obj == null) {
-            return false;
-        }
-        if (getClass() != obj.getClass()) {
-            return false;
-        }
-        final Customer other = (Customer) obj;
-        if (!Objects.equals(this.name, other.name)) {
-            return false;
-        }
-        if (!Objects.equals(this.surname, other.surname)) {
-            return false;
-        }
-        if (!Objects.equals(this.phoneNumber, other.phoneNumber)) {
-            return false;
-        }
-        if (!Objects.equals(this.email, other.email)) {
-            return false;
-        }
-        if (!Objects.equals(this.address, other.address)) {
-            return false;
-        }
-        if (!Objects.equals(this.id, other.id)) {
-            return false;
-        }
-        if (!Objects.equals(this.birthday, other.birthday)) {
-            return false;
-        }
-        if (!Objects.equals(this.age, other.age)) {
-            return false;
-        }
-        if (!Objects.equals(this.noSales, other.noSales)) {
-            return false;
-        }
-        return Objects.equals(this.active, other.active);
-    }
-
-    @Override
-    public String toString() {
-        return "Customer{" + "id=" + id + ", name=" + name + ", surname=" + surname + ", birthday=" + birthday + ", age=" + age + ", phoneNumber=" + phoneNumber + ", email=" + email + ", address=" + address + ", noSales=" + noSales + ", active=" + active + '}';
-    }
-    
     
 }

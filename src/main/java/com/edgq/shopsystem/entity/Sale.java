@@ -13,9 +13,9 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import com.edgq.shopsystem.entity.Ticket;
 import com.edgq.shopsystem.entity.PayMethod;
-import java.util.Objects;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
 import lombok.AllArgsConstructor;
@@ -37,35 +37,39 @@ import lombok.ToString;
 @EqualsAndHashCode
 @ToString
 public class Sale {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id", nullable = false)
     private Integer id;
-    @Column(name = "sub_total", nullable = true)
+    @Column(name = "sub_total", nullable = false)
     private Double subTotal;
-    @Column(name = "iva", nullable = true)
+    @Column(name = "iva", nullable = false)
     private Double iva;
-    @Column(name = "pay_quantity", nullable = true)
+    @Column(name = "pay_quantity", nullable = false)
     private Double payQuantity;
-    @Column(name = "change_amount", nullable = true)
+    @Column(name = "change_amount", nullable = false)
     private Double changeAmount;
-    @Column(name = "total")
+    @Column(name = "total", nullable = false)
     private Double total;
-    @Temporal(TemporalType.DATE)
-    @Column(name = "date")
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "date", nullable = false)
     private Date date;
+    
     @OneToOne
-    @JoinColumn(name = "employee_id", referencedColumnName = "id")
+    @JoinColumn(name = "employee_id", referencedColumnName = "id", nullable = false, insertable = false, updatable = false)
     private Employee employee;
     @OneToOne
-    @JoinColumn(name = "customer_id", referencedColumnName = "id")
+    @JoinColumn(name = "customer_id", referencedColumnName = "id", nullable = true, insertable = false, updatable = false)
     private Customer customer;
     @OneToOne
-    @JoinColumn(name="ticket_id", referencedColumnName = "id")
+    @JoinColumn(name="ticket_id", referencedColumnName = "id", nullable = false, insertable = false, updatable = false)
     private Ticket ticket;
     @OneToOne
-    @JoinColumn(name = "paymethod_id", referencedColumnName = "id")
-    private PayMethod payMethod; 
+    @JoinColumn(name = "paymethod_id", referencedColumnName = "id", nullable = false, insertable = false, updatable = false)
+    private PayMethod payMethod;
+    @ManyToOne
+    @JoinColumn(name = "register_id", referencedColumnName = "id", nullable = false, insertable = false, updatable = false)
+    private Register register;
     
     @OneToMany(mappedBy = "sale", cascade = CascadeType.ALL, orphanRemoval = false)
     private List<SaleItem> items;

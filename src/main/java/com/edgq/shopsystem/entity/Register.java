@@ -2,7 +2,6 @@ package com.edgq.shopsystem.entity;
 
 import java.util.Date;
 import java.util.List;
-import java.util.Objects;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -11,7 +10,6 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -23,36 +21,34 @@ import lombok.ToString;
 
 /**
  *
- * @author edwin
+ * @author Edwin
  */
 @Data
+@Entity
+@Table(name = "register")
 @AllArgsConstructor
 @NoArgsConstructor
 @EqualsAndHashCode
 @ToString
-@Entity
-@Table(name = "purchase")
-public class Purchase {
+public class Register {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
     private Integer id;
     @ManyToOne
-    @JoinColumn(name = "branch_id", referencedColumnName = "id", nullable = false, insertable = false, updatable = false)
+    @JoinColumn(name = "branch_id", referencedColumnName = "id", insertable = false, updatable = false,nullable = false)
     private Branch branch;
-    @OneToOne
-    @JoinColumn(name = "employee_id", nullable = false, insertable = false, updatable = false, referencedColumnName = "id")
-    private Employee employee;
-    @OneToOne
-    @JoinColumn(name = "provider_id", nullable = false, insertable = false, updatable = false, referencedColumnName = "id")
-    private Provider provider;
-    @Column(name = "total", nullable = false)
-    private Double total;
+    @Column(name = "initial_mount", nullable = false)
+    private Double initialMount;
+    @Column(name = "initial_date", nullable = false)
     @Temporal(TemporalType.TIMESTAMP)
-    @Column(name = "date", nullable = false)
-    private Date date;
+    private Date initialDate;
+    @Column(name = "close_mount", nullable = false)
+    private Double closeMount;
+    @Column(name = "close_date", nullable = false)
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date closeDate;
     
-    @OneToMany(mappedBy = "purchase")
-    private List<PurchaseItem> items; 
-    
+    @OneToMany(mappedBy = "register")
+    private List<Sale> sales;
 }
