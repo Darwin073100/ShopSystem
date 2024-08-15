@@ -18,6 +18,11 @@
             .product-options > *{
                 width: 50%;
             }
+            
+            #formSaveProduct input{
+                width: 100%;
+            }
+
         </style>
     </ui:define>
     <ui:define name="body-page">
@@ -25,6 +30,12 @@
             <p:commandButton icon="pi pi-plus" value="Agregar" type="button" onclick="PF('saveProduct').show()"/>
             <p:messages id="messages" showSummary="true" closable="true" />
             <p:dataTable value="#{productsBean.products}" var="product" >
+                <p:column>
+                    <f:facet name="header">
+                        <h:outputText value="Sucursal" />
+                    </f:facet>
+                    <h:outputText value="#{product.branch}" />
+                </p:column>
                 <p:column>
                     <f:facet name="header">
                         <h:outputText value="Cod. Barra"/>
@@ -35,13 +46,25 @@
                     <f:facet name="header">
                         <h:outputText value="Nombre"/>
                     </f:facet>
-                    <h:outputText value="#{product.getName()}"/>
+                    <h:outputText value="#{product.name}"/>
                 </p:column>
                 <p:column>
                     <f:facet name="header">
-                        <h:outputText value="Precio" />
+                        <h:outputText value="Precio compra" />
                     </f:facet>
-                    <h:outputText value="#{product.getPrice()}" />
+                    <h:outputText value="#{product.outPrice}" />
+                </p:column>
+                <p:column>
+                    <f:facet name="header">
+                        <h:outputText value="Precio mayoreo" />
+                    </f:facet>
+                    <h:outputText value="#{product.wholesalePrice}" />
+                </p:column>
+                <p:column>
+                    <f:facet name="header">
+                        <h:outputText value="Precio venta" />
+                    </f:facet>
+                    <h:outputText value="#{product.inPrice}" />
                 </p:column>
                 <p:column>
                     <f:facet name="header">
@@ -87,36 +110,38 @@
         </h:form>
         
         <!-- Modal para registrar productos-->
-        <p:dialog header="Registro de productos" widgetVar="saveProduct" modal="true">
+        <p:dialog header="Registro de productos" widgetVar="saveProduct" modal="true" width="600px">
             <h:form id="formSaveProduct">
-                <h:panelGrid columns="2" >
-                        <h:outputLabel value="Nombre"/>
-                        <p:inputText style="margin: 10px" value="${productsBean.product.name}" label="Nombre" required="true"/>
+                <h:panelGrid columns="2" width="100%" >
+                        <p:inputText style="margin: 10px" value="${productsBean.product.name}" label="Nombre" 
+                                     required="true" placeholder="Nombre" />
                         
-                        <h:outputLabel value="Codigo de barra"/>
-                        <p:inputText style="margin: 10px" value="${productsBean.product.varCode}" label="Codigo de barra" required="true"/>
+                        <p:inputText style="margin: 10px" value="${productsBean.product.varCode}" label="Codigo de barra" 
+                                     required="true" placeholder="Codigo de barra"/>
 
-                        <h:outputLabel value="Precio"/>
                         <p:inputNumber style="margin: 10px;" required="true" label="Precio"
-                                       value="${productsBean.product.price}">
+                                       value="${productsBean.product.inPrice}" placeholder="Precio de compra">
                             <f:converter converterId="javax.faces.Double" />
                          </p:inputNumber>
                         
-                        <h:outputLabel value="Descripción"/>
-                        <p:inputText style="margin: 10px" value="${productsBean.product.description}" label="Descripción"/>
+                        <p:inputNumber style="margin: 10px;" required="true" label="Precio"
+                                       value="${productsBean.product.outPrice}" placeholder="Precio de venta">
+                            <f:converter converterId="javax.faces.Double" />
+                         </p:inputNumber>
+                        
+                        <p:inputText style="margin: 10px" value="${productsBean.product.description}" 
+                                     label="Descripción" placeholder="Descripción"/>
 
-
-                        <h:outputLabel value="Existencias"/>
                         <p:inputText style="margin: 10px;" required="true" label="Existencias"
-                                       value="${productsBean.product.stock}">
+                                     value="${productsBean.product.stock}" placeholder="Existencias" >
                             <f:converter converterId="javax.faces.Integer" />
                         </p:inputText>
 
-                        <h:outputLabel value="Unidad"/>
-                        <p:inputText style="margin: 10px" value="${productsBean.product.unit}" label="Unidad"/>
+                        <p:inputText style="margin: 10px" value="${productsBean.product.unit}" label="Unidad" 
+                                     placeholder="Unidad"/>
 
-                        <h:outputLabel value="Caducidad"/>
-                        <p:calendar style="margin: 10px" value="${productsBean.product.expirationDate}" label="Caducidad" pattern="yyyy/MM/dd">
+                        <p:calendar style="margin: 10px" value="${productsBean.product.expirationDate}" label="Caducidad" 
+                                    pattern="yyyy/MM/dd" placeholder="Caducidad">
                             <f:convertDateTime pattern="yyyy/MM/dd"/>
                         </p:calendar>
 

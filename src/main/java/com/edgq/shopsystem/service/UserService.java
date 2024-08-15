@@ -39,5 +39,5 @@ public class UserService extends GenericPersistence<User>{
     public Employee findEmployeeWithUserByUserName(String userName) throws Exception{
         return employeeService.findByUserName(userName);
     }
-
+    
 }

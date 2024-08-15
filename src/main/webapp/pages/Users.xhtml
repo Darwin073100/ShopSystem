@@ -6,10 +6,191 @@
     <ui:define name="title-page">Users</ui:define>
     <ui:define name="head-page">
         <style>
+            .new-employee-container{
+                display: grid;
+                grid-template-columns: repeat(auto-fill, 380px);
+                justify-content: space-between;
+                gap: 8px;
+                input, span{
+                    width: 100%;
+                }
+                .new-employee-item{
+                    margin: 4px;
+                }
+            }
             
         </style>
+        <h:outputScript library="scripts" name="DateUtil.js" />
     </ui:define>
     <ui:define name="body-page">
-        Seccion de usuarios
+        <div class="user-contend card crud-demo">
+            <h:form id="form">
+                <p:growl id="messages" showDetail="true" />
+
+                <p:toolbar>
+                    <p:toolbarGroup>
+                        <p:commandButton value="Nuevo" icon="pi pi-plus" oncomplete="PF('manageEmployeeDialog').show()"
+                                         styleClass="ui-button-success" style="margin-right: .5rem"/>
+                        <p:commandButton id="delete-employees-button" value="Eliminar"
+                                         icon="pi pi-trash" styleClass="ui-button-danger" disabled="#{!userBean.hasSelectedEmployee()}" update="@this">
+                            <p:confirm header="Confirmation" message="¿Eliminar empleado seleccionado?"
+                                       icon="pi pi-exclamation-triangle" />
+                        </p:commandButton>
+                    </p:toolbarGroup>
+                    <p:toolbarGroup align="right">
+                        <p:fileUpload mode="simple" skinSimple="true" label="Import" chooseIcon="pi pi-download" />
+                        <p:commandButton value="Export" icon="pi pi-upload" styleClass="ui-button-help" ajax="false">
+                            <p:dataExporter type="pdf" target="dt-employees" fileName="employees" />
+                        </p:commandButton>
+                    </p:toolbarGroup>
+                </p:toolbar>
+
+                <p:dataTable id="dt-employees" widgetVar="dtEmployees" var="employee" value="#{userBean.employees}"
+                             reflow="true" styleClass="employees-table" selection="#{userBean.selectedEmployes}"
+                             rowKey="#{employee.id}" paginator="true" rows="10" selectionRowMode="add" paginatorPosition="bottom">
+                    <f:facet name="header">
+                        <div class="employees-table-header">
+                            <span style="font-weight: bold">Empleados</span>
+                            <span class="filter-container ui-input-icon-left"> <i class="pi pi-search"></i>
+                                <p:inputText id="globalFilter" onkeyup="PF('dtEmployees').filter()" placeholder="Buscar" />
+                            </span>
+                        </div>
+                    </f:facet>
+
+                    <p:ajax event="rowSelect" update=":form:delete-employees-button" />
+                    <p:ajax event="rowUnselect" update=":form:delete-employees-button" />
+                    <p:ajax event="rowSelectCheckbox" update=":form:delete-employees-button" />
+                    <p:ajax event="rowUnselectCheckbox" update=":form:delete-employees-button" />
+                    <p:ajax event="toggleSelect" update=":form:delete-employees-button" />
+                    
+                    <p:column selectionMode="multiple" exportable="false" visible="false"></p:column>
+                    
+                    <p:column headerText="Sucursal" sortBy="#{employee.branch.name}" filterBy="#{employee.branch.name}">
+                        <h:outputText value="#{employee.branch.name}" />
+                    </p:column>
+                    <p:column headerText="Nombre" sortBy="#{employee.name}" filterBy="#{employee.name}">
+                        <h:outputText value="#{employee.name}" />
+                    </p:column>
+                    <p:column headerText="Apellidos" sortBy="#{employee.surname}" filterBy="#{employee.surname}">
+                        <h:outputText value="#{employee.surname}" />
+                    </p:column>
+                    <p:column headerText="Correo" sortBy="#{employee.email}" filterBy="#{employee.email}">
+                        <h:outputText value="#{employee.email}" />
+                    </p:column>
+                    <p:column headerText="Usuario" sortBy="#{employee.user.userName}" filterBy="#{employee.user.userName}">
+                        <h:outputText value="#{employee.user.userName}" />
+                    </p:column>
+                    <p:column headerText="Telefono" sortBy="#{employee.phoneNumber}" filterBy="#{employee.phoneNumber}">
+                        <h:outputText value="#{employee.phoneNumber}" />
+                    </p:column>
+                    <p:column headerText="Salario" sortBy="#{employee.salary}" filterBy="#{employee.salary}">
+                        <h:outputText value="#{employee.salary}" style="font-weight: 700">
+                            <f:convertNumber currencySymbol="$" type="currency" />
+                        </h:outputText>
+                    </p:column>
+                    <p:column headerText="Opciones" exportable="false" ariaHeaderText="Actions">
+                        <p:commandButton icon="pi pi-user"
+                                         oncomplete="PF('manageEmployeeDialog').show()" style="margin-right: 4px;"
+                                         styleClass="edit-button rounded-button ui-button-primary" process="@this"/>
+                        <p:commandButton icon="pi pi-pencil"
+                                         oncomplete="PF('manageEmployeeDialog').show()" style="margin-right: 4px;"
+                                         styleClass="edit-button rounded-button ui-button-success" process="@this"/>
+                        <p:commandButton class="ui-button-warning rounded-button" icon="pi pi-trash"
+                                         process="@this" action="#{userBean.setSelectedEmployee(employee)}"
+                                         oncomplete="PF('deleteEmployeeDialog').show()" update="formDeleteEmployee"/>
+                    </p:column>
+
+                </p:dataTable>
+            </h:form>
+
+            <p:dialog header="Alta de empleados" showEffect="fade" modal="true" widgetVar="manageEmployeeDialog"
+                      responsive="true" >
+                <h:form id="newEmployee" >
+                    <p:outputPanel id="manage-employee-content" style="width: 800px">
+                        <div class="new-employee">
+                            <div class="new-employee-container">
+                                <div class="new-employee-item">
+                                    <p:inputText placeholder="Nombre" required="true" label="Nombre" value="#{userBean.newEmployee.name}"/>
+                                </div>
+                                <div class="new-employee-item">
+                                    <p:inputText placeholder="Apellidos" required="true" label="Apellidos" value="#{userBean.newEmployee.surname}"/>
+                                </div>
+                            </div>
+                            <div class="new-employee-container">
+                                <div class="new-employee-item">
+                                    <p:inputNumber placeholder="Salario" required="true" label="Salario" value="#{userBean.newEmployee.salary}"/>
+                                </div>
+                                <div class="new-employee-item">
+                                    <p:datePicker id="navigator" 
+                                                  placeholder="Fecha nacimiento"
+                                                  monthNavigator="true" 
+                                                  yearNavigator="true"
+                                                  label="Fecha de nacimiento"
+                                                  showWeek="true"
+                                                  pattern="yyyy/MM/dd"
+                                                  value="#{userBean.newEmployee.birthday}"
+                                                  yearRange="1950:#{userBean.currentYear()}"/>
+
+                                </div>
+                            </div>
+                            <div class="new-employee-container">
+                                <div class="new-employee-item">
+                                    <p:inputNumber placeholder="Edad" decimalPlaces="0" label="Salario" value="#{userBean.newEmployee.age}"/>
+                                </div>
+                                <div class="new-employee-item">
+                                    <p:inputText placeholder="Numero tel." label="Telefono" value="#{userBean.newEmployee.phoneNumber}"/>
+                                </div>
+                            </div>
+                            <div class="new-employee-container">
+                                <div class="new-employee-item">
+                                    <p:inputText placeholder="Dirección" label="Dirección" value="#{userBean.newEmployee.address}"/>
+                                </div>
+                                <div class="new-employee-item">
+                                    <p:inputText placeholder="Correo" label="Correo" value="#{userBean.newEmployee.email}"/>
+                                </div>
+                            </div>
+                            <div class="new-employee-container">
+                                <div class="new-employee-item">
+                                    <p:selectOneMenu id="option" value="#{userBean.selectedBranchId}" label="Sucursal" required="true" style="width: 100%">
+                                        <f:selectItem itemLabel="Sucursal" itemValue=""/>
+                                        <f:selectItems value="#{userBean.branches}" var="item" itemLabel="#{item.name}"
+                                                       itemValue="#{item.id}"/>
+                                        <f:facet name="footer">
+                                            <p:divider styleClass="mt-0" />
+                                            <h:outputText value="#{userBean.branches.size()} sucursales" style="font-weight:bold;"/>
+                                        </f:facet>
+                                        <f:ajax execute="@this" render="employeeTest"/>
+                                    </p:selectOneMenu>
+                                </div>
+                            </div>
+                        </div>
+                    </p:outputPanel>
+
+                    <div class="options-new-employee">
+                        <p:commandButton value="Save" icon="pi pi-check" action="#{userBean.savedEmployee()}"
+                                         update="@this :form" oncomplete="PF('manageEmployeeDialog').hide()" style="margin: 4px 8px 0 0; "/>
+                        <p:commandButton value="Cancel" icon="pi pi-times" onclick="PF('manageEmployeeDialog').hide()"
+                                         class="ui-button-secondary" type="button" />
+                    </div>
+                </h:form>
+            </p:dialog>
+
+            <p:confirmDialog widgetVar="deleteEmployeeDialog" showEffect="fade" width="300"
+                             message="¿Desea eliminar al empleado?" header="Confirmar" severity="warn">
+                <h:form id="formDeleteEmployee">
+                    <p:commandButton value="Si" icon="pi pi-check" action="#{userBean.delete()}"
+                                     process="@this" update="@this :form:delete-employees-button :form"
+                                     oncomplete="PF('deleteEmployeeDialog').hide()" />
+                    <p:commandButton value="No" type="button" styleClass="ui-button-secondary" icon="pi pi-times"
+                                     onclick="PF('deleteEmployeeDialog').hide()" />
+                </h:form>
+            </p:confirmDialog>
+
+            <p:confirmDialog global="true" showEffect="fade" width="300">
+                <p:commandButton value="Yes" type="button" styleClass="ui-confirmdialog-yes" icon="pi pi-check" />
+                <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no ui-button-secondary"
+                                 icon="pi pi-times" />
+            </p:confirmDialog>
+        </div>
     </ui:define>
 </ui:composition>

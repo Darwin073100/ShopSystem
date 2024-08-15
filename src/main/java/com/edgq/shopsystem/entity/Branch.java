@@ -42,6 +42,8 @@ public class Branch {
     private Double capitalMount;
     @Column(name = "phone_number", nullable = true, length = 50)
     private String phoneNumber;
+    @Column(name = "name", length = 250, nullable = false)
+    private String name;
     @Column(name = "email", unique = true, length = 200, nullable = true)
     private String email;
     @Column(name = "state", nullable = false, length = 100)

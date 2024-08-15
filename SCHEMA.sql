@@ -24,6 +24,7 @@ CREATE TABLE branch(
     `administration_id` INT NOT NULL,
     `capital_mount` DOUBLE NOT NULL,
     `phone_number` VARCHAR(50) NULL,
+    `name` VARCHAR(250) NOT NULL,
     `email` VARCHAR(200) UNIQUE NULL,
     `state` VARCHAR(100) NOT NULL,
     `city` VARCHAR(250) NOT NULL,
@@ -76,8 +77,8 @@ CREATE TABLE customer(
 		REFERENCES branch(`id`)
 );
 
-/*INSERT INTO customer(`id`, `name`, `surname`, `birthday`, `age`, `phone_number`, `email`, `address`, `no_sales`, `active`) 
-VALUES(DEFAULT, 'All', 'Generic', '2000-07-31', null, null, null, null, 0, DEFAULT);*/
+INSERT INTO customer(`id`, `branch_id`, `name`, `surname`, `birthday`, `age`, `phone_number`, `email`, `address`, `no_sales`, `active`) 
+	VALUES(DEFAULT, 1, 'All', 'Generic', '2000-07-31', null, null, null, null, 0, DEFAULT);
 
 CREATE TABLE provider(
     `id` INT AUTO_INCREMENT NOT NULL,
